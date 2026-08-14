@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mr. Rajesh Verma 💐 | Teacher's Day</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-theme="verma">
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
 
   <nav class="navbar">
     <a class="brand" href="index.html">Teacher's Day 💐</a>
@@ -16,28 +19,49 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="teachers.html" class="active">Our Teachers</a></li>
       <li><a href="message.html">Special Message</a></li>
+      <li><a href="wall.html">Gratitude Wall</a></li>
     </ul>
   </nav>
 
-  <div style="padding-top: 30px;">
-    <a class="back-link" href="teachers.html">← Back to all teachers</a>
+  <a class="back-link" href="teachers.html">← Back to all teachers</a>
+
+  <div style="padding: 20px 6vw 0;">
+    <div class="gold-banner" id="goldBanner">🏆 All 4 secrets found! Verma Sir calculates: probability of a better class = exactly 0. 📐</div>
   </div>
 
   <section class="profile fade-up">
-    <div class="photo-frame float">
-      <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
+    <div class="photo-side">
+      <span class="float-emoji" style="top:-30px; left:10%;">➗</span>
+      <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;">📐</span>
+      <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;">🧮</span>
+      <div class="photo-frame" id="photoFrame">
+        <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
+      </div>
+      <span class="sticker s1">🧮</span>
+      <span class="sticker s2">📐</span>
+      <span class="sticker s3">🧮</span>
+      <span class="sticker s4">❤️</span>
+      <span class="sticker s5">✨</span>
+      <p class="photo-hint">(psst… some photos like being tapped five times)</p>
     </div>
+
     <div>
       <h1>Mr. Rajesh Verma</h1>
       <span class="subject-tag">➗ Mathematics</span>
-      <div class="wish-card">
-        Dear Sir, you took a subject that scared half the class and turned it into a puzzle
-        we actually wanted to solve. Your "there's always another way to solve it" attitude
-        taught us more about life than about equations. Thank you for never giving up on us,
-        even when our answers were way off!
-        <p class="quote">"You proved that (hard work)² = success. Happy Teacher's Day, Sir! 🙌"</p>
+      <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
+      <p class="only-for">This page, its letter and its voice note were made only for Verma Sir. Nobody else's message lives here. 💝</p>
+
+      <button class="btn btn-primary" id="openLetter">💌 Open Your Sealed Letter, Sir</button>
+      <div class="letter" id="letter">
+        <p class="ps">P.S. — Fine. We admit it. We should have shown ALL the steps. Every single time. 😅</p>
       </div>
-      <a class="btn btn-primary" href="message.html">Read Our Special Message 💌</a>
+
+      <div>
+        <button class="btn btn-ghost" data-fun="equation">🧮 Solve For Joy</button>
+        <button class="btn btn-ghost" data-fun="pi">🥧 The Pi Button</button>
+        <button class="btn btn-gold" id="voiceNote">🎧 Play Your Voice Note</button>
+      </div>
+      <div class="fun-stage" id="funStage"></div>
     </div>
   </section>
 
@@ -45,8 +69,34 @@
     <p class="made-by">Made by Pavit Singh and the Whole Cabinet Members</p>
     <p class="visit">Visit <a href="https://psdfolio.vercel.app" target="_blank" rel="noopener">psdfolio.vercel.app</a> to get one for you</p>
     <p class="hearts">💐 ❤️ 📚 ✨</p>
+    <button class="giftbox" aria-label="A mysterious little gift">🎁</button><br />
+    <span class="hidden-ink">psst… invisible ink says: Sir secretly keeps our best test papers. He will never admit it. 🤫</span>
   </footer>
 
+  <script>
+    window.TEACHER = {
+      id: 'verma',
+      shortName: "Verma Sir",
+      audio: 'assets/audio/verma.mp3',
+      letter: [
+        "Dear Verma Sir, we still remember the day you carried that whole stack of puzzle books into the library and said maths is just a mystery that likes company. You turned the scariest subject in school into the one we secretly look forward to.",
+        "Your glasses do that little flash right before you say 'observe carefully' — and we've started saying it to each other before every single test. That's not a habit, Sir. That's a legacy.",
+        "Thank you for never letting us say 'I can't do maths' in your class. You made us show our steps in equations and in life: be patient, be honest, and always check your work. This page is proved, Sir — Q.E.D., just for you. 🙌"
+      ],
+      equation: [
+        "Let x = your patience",
+        "Let y = our silliest mistakes",
+        "Given: y → ∞",
+        "To prove: x > y, always",
+        "Proof: you smiled again today. ∎",
+        "Q.E.D. — Thank you, Sir! 🙌"
+      ],
+      piNote: "…still shorter than the list of steps you make us write. 😄",
+      giftJoke: "🎁 Inside the box: one (1) protractor, pre-apologised for being used as a cake cutter in the canteen.",
+      poem: [], shuffleLines: [], pepTalks: [], reactions: [], element: null
+    };
+  </script>
   <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

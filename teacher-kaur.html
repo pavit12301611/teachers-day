@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ms. Simran Kaur 💐 | Teacher's Day</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-theme="kaur">
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
 
   <nav class="navbar">
     <a class="brand" href="index.html">Teacher's Day 💐</a>
@@ -16,28 +19,49 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="teachers.html" class="active">Our Teachers</a></li>
       <li><a href="message.html">Special Message</a></li>
+      <li><a href="wall.html">Gratitude Wall</a></li>
     </ul>
   </nav>
 
-  <div style="padding-top: 30px;">
-    <a class="back-link" href="teachers.html">← Back to all teachers</a>
+  <a class="back-link" href="teachers.html">← Back to all teachers</a>
+
+  <div style="padding: 20px 6vw 0;">
+    <div class="gold-banner" id="goldBanner">🏆 All 4 secrets found! Kaur Ma'am's final result: curiosity — 100/100, passed with distinction! 🧪</div>
   </div>
 
   <section class="profile fade-up">
-    <div class="photo-frame float">
-      <img src="assets/teacher3.jpg" alt="Ms. Simran Kaur" />
+    <div class="photo-side">
+      <span class="float-emoji" style="top:-30px; left:10%;">🔬</span>
+      <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;">⚗️</span>
+      <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;">🧬</span>
+      <div class="photo-frame" id="photoFrame">
+        <img src="assets/teacher3.jpg" alt="Ms. Simran Kaur" />
+      </div>
+      <span class="sticker s1">🧪</span>
+      <span class="sticker s2">⭐</span>
+      <span class="sticker s3">🔬</span>
+      <span class="sticker s4">❤️</span>
+      <span class="sticker s5">✨</span>
+      <p class="photo-hint">(psst… some photos like being tapped five times)</p>
     </div>
+
     <div>
       <h1>Ms. Simran Kaur</h1>
       <span class="subject-tag">🔬 Science</span>
-      <div class="wish-card">
-        Dear Ma'am, every experiment in your lab felt like an adventure. You turned
-        "why does this happen?" into the most exciting question in the world. Thank you
-        for encouraging our curiosity, for letting us make (small!) messes in the lab,
-        and for showing us that science is everywhere around us.
-        <p class="quote">"You're the catalyst behind all our reactions of success! Happy Teacher's Day! ⚗️"</p>
+      <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
+      <p class="only-for">This page, its letter and its voice note were made only for Kaur Ma'am. Nobody else's message lives here. 💝</p>
+
+      <button class="btn btn-primary" id="openLetter">💌 Open Your Sealed Letter, Ma'am</button>
+      <div class="letter" id="letter">
+        <p class="ps">P.S. — That "small mess" in the lab was 100% intentional science. We stand by it. 🧪</p>
       </div>
-      <a class="btn btn-primary" href="message.html">Read Our Special Message 💌</a>
+
+      <div>
+        <button class="btn btn-ghost" data-fun="element">🧪 Your Element</button>
+        <button class="btn btn-ghost" data-fun="bubbles">⚗️ Mix A Reaction</button>
+        <button class="btn btn-gold" id="voiceNote">🎧 Play Your Voice Note</button>
+      </div>
+      <div class="fun-stage" id="funStage"></div>
     </div>
   </section>
 
@@ -45,8 +69,37 @@
     <p class="made-by">Made by Pavit Singh and the Whole Cabinet Members</p>
     <p class="visit">Visit <a href="https://psdfolio.vercel.app" target="_blank" rel="noopener">psdfolio.vercel.app</a> to get one for you</p>
     <p class="hearts">💐 ❤️ 📚 ✨</p>
+    <button class="giftbox" aria-label="A mysterious little gift">🎁</button><br />
+    <span class="hidden-ink">psst… invisible ink says: Ma'am's favourite element is the one we haven't discovered yet. 🤫</span>
   </footer>
 
+  <script>
+    window.TEACHER = {
+      id: 'kaur',
+      shortName: "Kaur Ma'am",
+      audio: 'assets/audio/kaur.mp3',
+      letter: [
+        "Dear Kaur Ma'am, your lab is the only place in school where 'what happens if…?' is celebrated instead of scolded. You turned curiosity into our favourite habit and the periodic table into our treasure map.",
+        "We still hear you say 'hypothesis first, then the fun' before every experiment. And yes, Ma'am, our hypothesis for today is this: you will smile while reading this page. (Conclusion: confirmed. ✅)",
+        "Thank you for the fizz, the flames (the safe ones!), the diagrams we actually remember, and for showing us that science is not a subject — it's a way of looking at the world. This little lab corner of the internet is yours. Only yours. ⚗️"
+      ],
+      element: {
+        num: '1',
+        sym: 'Ku',
+        name: 'Kaurium',
+        mass: '∞',
+        note: 'Discovered in Lab 2. Property: turns curiosity into confidence. Highly stable in our hearts. No known side effects except excessive smiling.'
+      },
+      reactions: [
+        "curiosity + courage → a confident you! (and a little foam) 🫧",
+        "doubt + your patience → clarity, every single time ✨",
+        "one spark of 'why?' → a lifetime of questions worth asking 🔥"
+      ],
+      giftJoke: "🎁 Inside the box: one (1) extra-safe beaker, certified mess-friendly by the entire class.",
+      poem: [], shuffleLines: [], equation: [], pepTalks: []
+    };
+  </script>
   <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

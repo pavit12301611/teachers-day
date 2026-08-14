@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mr. Arjun Singh 💐 | Teacher's Day</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-theme="singh">
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
 
   <nav class="navbar">
     <a class="brand" href="index.html">Teacher's Day 💐</a>
@@ -16,28 +19,49 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="teachers.html" class="active">Our Teachers</a></li>
       <li><a href="message.html">Special Message</a></li>
+      <li><a href="wall.html">Gratitude Wall</a></li>
     </ul>
   </nav>
 
-  <div style="padding-top: 30px;">
-    <a class="back-link" href="teachers.html">← Back to all teachers</a>
+  <a class="back-link" href="teachers.html">← Back to all teachers</a>
+
+  <div style="padding: 20px 6vw 0;">
+    <div class="gold-banner" id="goldBanner">🏆 All 4 secrets found! Coach Singh blows the final whistle: full-time score — Class 1, Doubts 0! 📣</div>
   </div>
 
   <section class="profile fade-up">
-    <div class="photo-frame float">
-      <img src="assets/teacher4.jpg" alt="Mr. Arjun Singh" />
+    <div class="photo-side">
+      <span class="float-emoji" style="top:-30px; left:10%;">🏆</span>
+      <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;">🏃</span>
+      <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;">🥇</span>
+      <div class="photo-frame" id="photoFrame">
+        <img src="assets/teacher4.jpg" alt="Mr. Arjun Singh" />
+      </div>
+      <span class="sticker s1">🏅</span>
+      <span class="sticker s2">⭐</span>
+      <span class="sticker s3">🏆</span>
+      <span class="sticker s4">❤️</span>
+      <span class="sticker s5">✨</span>
+      <p class="photo-hint">(psst… some photos like being tapped five times)</p>
     </div>
+
     <div>
       <h1>Mr. Arjun Singh</h1>
       <span class="subject-tag">🏆 Physical Education</span>
-      <div class="wish-card">
-        Dear Sir, you taught us that losing a match hurts less than not trying at all.
-        On the field you pushed us to run one more lap, and in life you taught us to
-        never quit. Thank you for the early morning drills, the pep talks, and for
-        celebrating every small win like it was a world cup.
-        <p class="quote">"You're the real MVP of our school. Happy Teacher's Day, Coach! 🏅"</p>
+      <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
+      <p class="only-for">This page, its letter and its voice note were made only for Singh Sir. Nobody else's message lives here. 💝</p>
+
+      <button class="btn btn-primary" id="openLetter">💌 Open Your Sealed Letter, Sir</button>
+      <div class="letter" id="letter">
+        <p class="ps">P.S. — That one lap we complained about? It's the reason we never give up now. Please don't tell anyone we admitted it. 🤫</p>
       </div>
-      <a class="btn btn-primary" href="message.html">Read Our Special Message 💌</a>
+
+      <div>
+        <button class="btn btn-ghost" data-fun="whistle">📣 Blow The Whistle</button>
+        <button class="btn btn-ghost" data-fun="pep">💪 Pep Talk</button>
+        <button class="btn btn-gold" id="voiceNote">🎧 Play Your Voice Note</button>
+      </div>
+      <div class="fun-stage" id="funStage"></div>
     </div>
   </section>
 
@@ -45,8 +69,31 @@
     <p class="made-by">Made by Pavit Singh and the Whole Cabinet Members</p>
     <p class="visit">Visit <a href="https://psdfolio.vercel.app" target="_blank" rel="noopener">psdfolio.vercel.app</a> to get one for you</p>
     <p class="hearts">💐 ❤️ 📚 ✨</p>
+    <button class="giftbox" aria-label="A mysterious little gift">🎁</button><br />
+    <span class="hidden-ink">psst… invisible ink says: Sir still remembers every student's personal best. Every. Single. One. 🤫</span>
   </footer>
 
+  <script>
+    window.TEACHER = {
+      id: 'singh',
+      shortName: "Singh Sir",
+      audio: 'assets/audio/singh.mp3',
+      letter: [
+        "Dear Singh Sir, your whistle is the most honest alarm clock in this school. One blast and we know: it's time to run, time to try, time to become a little stronger than yesterday.",
+        "You taught us that 'one more lap' was never about the track. It was about the little voice in our head that says quit — and how to politely show it the exit. We hear your pep talks in every hard moment now.",
+        "Thank you for the sunset drills, the water breaks that felt like victory parades, and for celebrating our smallest wins like world cups. This page is your home ground, Sir. Home ground only. 🏅"
+      ],
+      pepTalks: [
+        "Champions are made in practice — but today, the champion is YOU, Coach. 🏆",
+        "Rest if you must, but never quit. (You said that. We lived it.) 💪",
+        "The whole class runs behind you, Sir. Always. 🏃",
+        "Gold medal for the teacher who made us unbreakable. 🥇"
+      ],
+      giftJoke: "🎁 Inside the box: one (1) golden whistle, for the coach who never needed one to lead.",
+      poem: [], shuffleLines: [], equation: [], reactions: [], element: null
+    };
+  </script>
   <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
