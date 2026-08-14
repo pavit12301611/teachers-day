@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mrs. Anjali Sharma 💐 | Teacher's Day</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body data-theme="sharma">
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
 
   <nav class="navbar">
     <a class="brand" href="index.html">Teacher's Day 💐</a>
@@ -16,28 +19,49 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="teachers.html" class="active">Our Teachers</a></li>
       <li><a href="message.html">Special Message</a></li>
+      <li><a href="wall.html">Gratitude Wall</a></li>
     </ul>
   </nav>
 
-  <div style="padding-top: 30px;">
-    <a class="back-link" href="teachers.html">← Back to all teachers</a>
+  <a class="back-link" href="teachers.html">← Back to all teachers</a>
+
+  <div style="padding: 20px 6vw 0;">
+    <div class="gold-banner" id="goldBanner">🏆 You found all 4 secrets! Sharma Ma'am whispers: "You were always my favourite chapter." 📖</div>
   </div>
 
   <section class="profile fade-up">
-    <div class="photo-frame float">
-      <img src="assets/teacher1.jpg" alt="Mrs. Anjali Sharma" />
+    <div class="photo-side">
+      <span class="float-emoji" style="top:-30px; left:10%;">📖</span>
+      <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;">✍️</span>
+      <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;">💐</span>
+      <div class="photo-frame" id="photoFrame">
+        <img src="assets/teacher1.jpg" alt="Mrs. Anjali Sharma" />
+      </div>
+      <span class="sticker s1">💐</span>
+      <span class="sticker s2">⭐</span>
+      <span class="sticker s3">📖</span>
+      <span class="sticker s4">❤️</span>
+      <span class="sticker s5">✨</span>
+      <p class="photo-hint">(psst… some photos like being tapped five times)</p>
     </div>
+
     <div>
       <h1>Mrs. Anjali Sharma</h1>
       <span class="subject-tag">📖 English · Class Teacher</span>
-      <div class="wish-card">
-        Dear Ma'am, you didn't just teach us grammar and literature — you taught us how
-        to find our own voice. Your classes made even the toughest poems feel like stories
-        told by a friend. Thank you for your endless patience, your warm smile at the door
-        every morning, and for believing in every single one of us.
-        <p class="quote">"You made words feel like magic. Happy Teacher's Day, Ma'am! 💐"</p>
+      <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
+      <p class="only-for">This page, its letter and its voice note were made only for Sharma Ma'am. Nobody else's message lives here. 💝</p>
+
+      <button class="btn btn-primary" id="openLetter">💌 Open Your Sealed Letter, Ma'am</button>
+      <div class="letter" id="letter">
+        <p class="ps">P.S. — Yes, we noticed you read the last line of our essays first. Your secret is safe with us. 😄</p>
       </div>
-      <a class="btn btn-primary" href="message.html">Read Our Special Message 💌</a>
+
+      <div>
+        <button class="btn btn-ghost" data-fun="poem">📜 A Poem, Just For You</button>
+        <button class="btn btn-ghost" data-fun="shuffle">✨ Compliment Shuffle</button>
+        <button class="btn btn-gold" id="voiceNote">🎧 Play Your Voice Note</button>
+      </div>
+      <div class="fun-stage" id="funStage"></div>
     </div>
   </section>
 
@@ -45,8 +69,39 @@
     <p class="made-by">Made by Pavit Singh and the Whole Cabinet Members</p>
     <p class="visit">Visit <a href="https://psdfolio.vercel.app" target="_blank" rel="noopener">psdfolio.vercel.app</a> to get one for you</p>
     <p class="hearts">💐 ❤️ 📚 ✨</p>
+    <button class="giftbox" aria-label="A mysterious little gift">🎁</button><br />
+    <span class="hidden-ink">psst… invisible ink says: Ma'am's favourite bookmark is the class register. 🤫</span>
   </footer>
 
+  <script>
+    window.TEACHER = {
+      id: 'sharma',
+      shortName: "Sharma Ma'am",
+      audio: 'assets/audio/sharma.mp3',
+      letter: [
+        "Dear Sharma Ma'am, the board still says 'Welcome Students' in your handwriting, and honestly, that one line is the reason half of us walk in smiling on Monday mornings. You don't just teach English — you read it aloud like the whole classroom is holding its breath for a story.",
+        "We know your red pen by heart. But those little notes in our margins — 'nice thought!', 'try again, you can do better' — were never corrections. They were tiny letters from you to us, and we kept every single one of them.",
+        "Thank you for the poems that became adventures, for the grammar that became games, and for believing in our words before we did. This page, this letter, this whole corner of the internet — it is yours, Ma'am. Only yours. 💐"
+      ],
+      poem: [
+        "A — Always the first smile at the classroom door,",
+        "N — Never a doubt left unanswered,",
+        "J — Joy, quietly hidden in every single period,",
+        "A — All our margins full of your little letters,",
+        "L — Literature that came alive in your voice,",
+        "I — Incredible, Ma'am. Simply incredible. 💐"
+      ],
+      shuffleLines: [
+        "Your board handwriting is officially better than our entire notebooks. ✍️",
+        "You make Shakespeare feel like gossip between friends. 🎭",
+        "The maroon saree with the gold border? Iconic. Always. 💛",
+        "One 'well done' from you = a whole week of motivation. ⭐"
+      ],
+      giftJoke: "🎁 Inside the box: one (1) coupon for an error-free essay, hand-delivered by the class. Terms & conditions: we will try very, very hard.",
+      pepTalks: [], reactions: [], equation: [], element: null
+    };
+  </script>
   <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

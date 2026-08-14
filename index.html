@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Teacher's Day 💐 | A Tribute From Us</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
 
   <nav class="navbar">
     <a class="brand" href="index.html">Teacher's Day 💐</a>
@@ -16,34 +19,83 @@
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="teachers.html">Our Teachers</a></li>
       <li><a href="message.html">Special Message</a></li>
+      <li><a href="wall.html">Gratitude Wall</a></li>
     </ul>
   </nav>
 
   <header class="hero fade-up">
+    <span class="hero-emo" style="top:18%; left:8%;">🎈</span>
+    <span class="hero-emo" style="top:30%; right:9%; animation-delay:-2s;">🍎</span>
+    <span class="hero-emo" style="bottom:22%; left:14%; animation-delay:-1s;">✏️</span>
+    <span class="hero-emo" style="bottom:16%; right:16%; animation-delay:-3s;">📚</span>
     <span class="eyebrow">🎉 5th September · Teacher's Day 🎉</span>
     <h1>Happy Teacher's Day!</h1>
     <p class="sub">
       To the ones who turn classrooms into worlds of wonder, who believe in us
       even when we don't believe in ourselves — this little corner of the internet
-      is our thank-you card to you. 💜
+      is our thank-you card to you. Four teachers, four sealed letters, sixteen hidden
+      surprises. 💜
     </p>
-    <a class="btn btn-primary" href="teachers.html">Meet Our Teachers 👩‍🏫</a>
-    <a class="btn btn-ghost" href="message.html">Read Our Special Message 💌</a>
+    <a class="btn btn-primary" href="teachers.html">Meet Our Teachers 👩‍</a>
+    <a class="btn btn-ghost" href="wall.html">Leave A Note On The Wall 💛</a>
   </header>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>THANK YOU ✦</span><span>धन्यवाद ✦</span><span>SHUKRIYA ✦</span><span>NANDRI ✦</span><span>DANYAVAAD ✦</span><span>GURU VANDANA ✦</span>
+      <span>THANK YOU ✦</span><span>धन्यवाद ✦</span><span>SHUKRIYA ✦</span><span>NANDRI ✦</span><span>DANYAVAAD ✦</span><span>GURU VANDANA ✦</span>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2 class="section-title">Today, In Numbers</h2>
+    <p class="section-sub">A scientific* measurement of our gratitude. (*Science approved by Kaur Ma'am.)</p>
+    <div class="stats">
+      <div class="stat reveal"><b data-count="4">0</b><span>Teachers Celebrated</span></div>
+      <div class="stat reveal"><b data-count="16">0</b><span>Hidden Secrets To Find</span></div>
+      <div class="stat reveal"><b>∞</b><span>Memories Made</span></div>
+      <div class="stat reveal"><b data-count="100">0</b><span>% From The Heart</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">How To Enjoy This Site</h2>
+    <p class="section-sub">It's more than a website — it's a little treasure hunt made with love.</p>
+    <div class="steps">
+      <div class="step-card reveal">
+        <div class="num">1</div>
+        <div class="big">🧑‍🏫</div>
+        <h3>Pick Your Teacher</h3>
+        <p>Every teacher has their own personal page, their own colours, and a message written only for them.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="num">2</div>
+        <div class="big">💌</div>
+        <h3>Break The Seal</h3>
+        <p>Open the sealed letter and watch their personalised wish write itself, word by word. Then press the golden voice-note button. 🎧</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="num">3</div>
+        <div class="big">🕵️</div>
+        <h3>Hunt The Secrets</h3>
+        <p>Each teacher's page hides 4 surprises — tap the photo, inspect the footer, try old-school cheat codes, and look for invisible ink…</p>
+      </div>
+    </div>
+  </section>
 
   <section class="section">
     <h2 class="section-title">Words That Say It Best</h2>
     <p class="section-sub">A few lines that remind us why teachers are the real superheroes — no capes, just chalk.</p>
     <div class="quotes-strip">
-      <div class="quote-card fade-up">
+      <div class="quote-card reveal">
         "A teacher takes a hand, opens a mind, and touches a heart."
         <span class="who">— Unknown</span>
       </div>
-      <div class="quote-card fade-up">
+      <div class="quote-card reveal">
         "The best teachers teach from the heart, not from the book."
         <span class="who">— Unknown</span>
       </div>
-      <div class="quote-card fade-up">
+      <div class="quote-card reveal">
         "Teaching is the one profession that creates all other professions."
         <span class="who">— Unknown</span>
       </div>
@@ -56,7 +108,8 @@
       Every mark you corrected, every doubt you cleared, every extra minute you stayed
       after the bell — we noticed. And today, we celebrate YOU.
     </p>
-    <a class="btn btn-primary" href="teachers.html">See The Wishes →</a>
+    <a class="btn btn-primary" href="teachers.html">Open The Wishes →</a>
+    <a class="btn btn-ghost" href="message.html">Read Our Special Message 💌</a>
   </section>
 
   <footer class="footer">
@@ -66,5 +119,6 @@
   </footer>
 
   <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
