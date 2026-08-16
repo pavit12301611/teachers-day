@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Farewell Assembly placeholder">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d99a06"/>
+      <stop offset="1" stop-color="#2c2446"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <circle cx="140" cy="120" r="140" fill="#ffffff" opacity="0.07"/>
+  <circle cx="680" cy="480" r="190" fill="#ffffff" opacity="0.07"/>
+  <circle cx="400" cy="300" r="230" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2" stroke-dasharray="6 10"/>
+  <text x="400" y="320" font-size="150" text-anchor="middle">🎓</text>
+  <text x="400" y="440" font-size="34" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif">Farewell Assembly</text>
+  <text x="400" y="482" font-size="20" text-anchor="middle" fill="#ffffff" opacity="0.6" font-family="sans-serif">add your photo here</text>
+</svg>

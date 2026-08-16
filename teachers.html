@@ -3,99 +3,140 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Our Teachers 👩‍🏫 | Teacher's Day</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
+  <title>Our Teachers 👩‍🏫 | Teachers' Day</title>
+  <meta name="description" content="Meet the four teachers we're celebrating this Teachers' Day — each with a personal page, a sealed letter, a voice note and hidden surprises." />
+  <meta name="theme-color" content="#2c2446" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Our Teachers 💐" />
+  <meta property="og:description" content="Four teachers, four personal pages, four sealed letters — made with love by their students." />
+  <meta property="og:image" content="assets/teacher1.jpg" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="bg-blob b1"></div>
   <div class="bg-blob b2"></div>
 
-  <nav class="navbar">
-    <a class="brand" href="index.html">Teacher's Day 💐</a>
-    <ul class="nav-links">
+  <nav class="navbar" aria-label="Main navigation">
+    <a class="brand" href="index.html">Teachers' Day 💐</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="teachers.html" class="active">Our Teachers</a></li>
+      <li><a href="teachers.html" class="active" aria-current="page">Our Teachers</a></li>
+      <li><a href="memories.html">Memories</a></li>
       <li><a href="message.html">Special Message</a></li>
       <li><a href="wall.html">Gratitude Wall</a></li>
     </ul>
   </nav>
 
-  <section class="section fade-up">
-    <h2 class="section-title">Our Amazing Teachers</h2>
-    <p class="section-sub">
-      Each card opens a page made for one teacher only — their own colours, their own sealed
-      letter, their own voice note, and 4 hidden secrets to discover. 💌
-    </p>
+  <main id="main-content">
+    <section class="section fade-up">
+      <div class="section-head">
+        <h2 class="section-title">Our Amazing Teachers</h2>
+        <p class="section-sub">
+          Each card opens a page made for one teacher only — their own colours, their own sealed
+          letter, their own voice note, and 4 hidden secrets to discover. 💌
+        </p>
+      </div>
 
-    <div class="teacher-grid">
-      <a class="teacher-card reveal" style="--c1:#be185d; --c2:#d97706;" href="teacher-sharma.html">
-        <div class="photo-wrap">
-          <img src="assets/teacher1.jpg" alt="Mrs. Anjali Sharma" />
-          <span class="theme-emoji">📖</span>
-        </div>
-        <div class="info">
-          <h3>Mrs. Anjali Sharma</h3>
-          <p class="subject">English · Class Teacher</p>
-          <p class="tap">Tap to open her personal page →</p>
-          <span class="secret-badge" data-badge="sharma">🕵️ Secrets found: 0/4</span>
-        </div>
-      </a>
+      <div class="teacher-grid">
+        <a class="teacher-card reveal" style="--c1:#b7196b; --c2:#d97706;" href="teacher-sharma.html">
+          <div class="photo-wrap">
+            <img src="assets/teacher1.jpg" alt="Mrs. Anjali Sharma" />
+            <span class="theme-emoji">📖</span>
+          </div>
+          <div class="info">
+            <h3>Mrs. Anjali Sharma</h3>
+            <p class="subject">English · Class Teacher</p>
+            <p class="note">"You made Shakespeare feel like gossip between friends, and every margin note a tiny letter back to us."</p>
+            <p class="tap">Tap to open her personal page →</p>
+            <span class="secret-badge" data-badge="sharma">🕵️ Secrets found: 0/4</span>
+          </div>
+        </a>
 
-      <a class="teacher-card reveal" style="--c1:#1d4ed8; --c2:#0ea5e9;" href="teacher-verma.html">
-        <div class="photo-wrap">
-          <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
-          <span class="theme-emoji">➗</span>
-        </div>
-        <div class="info">
-          <h3>Mr. Rajesh Verma</h3>
-          <p class="subject">Mathematics</p>
-          <p class="tap">Tap to open his personal page →</p>
-          <span class="secret-badge" data-badge="verma">🕵️ Secrets found: 0/4</span>
-        </div>
-      </a>
+        <a class="teacher-card reveal" style="--c1:#1d4ed8; --c2:#0ea5e9;" href="teacher-verma.html">
+          <div class="photo-wrap">
+            <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
+            <span class="theme-emoji">➗</span>
+          </div>
+          <div class="info">
+            <h3>Mr. Rajesh Verma</h3>
+            <p class="subject">Mathematics</p>
+            <p class="note">"You turned the scariest subject in school into the one we secretly look forward to."</p>
+            <p class="tap">Tap to open his personal page →</p>
+            <span class="secret-badge" data-badge="verma">🕵️ Secrets found: 0/4</span>
+          </div>
+        </a>
 
-      <a class="teacher-card reveal" style="--c1:#0f766e; --c2:#ea580c;" href="teacher-kaur.html">
-        <div class="photo-wrap">
-          <img src="assets/teacher3.jpg" alt="Ms. Simran Kaur" />
-          <span class="theme-emoji">🔬</span>
-        </div>
-        <div class="info">
-          <h3>Ms. Simran Kaur</h3>
-          <p class="subject">Science</p>
-          <p class="tap">Tap to open her personal page →</p>
-          <span class="secret-badge" data-badge="kaur">🕵️ Secrets found: 0/4</span>
-        </div>
-      </a>
+        <a class="teacher-card reveal" style="--c1:#0f766e; --c2:#ea580c;" href="teacher-kaur.html">
+          <div class="photo-wrap">
+            <img src="assets/teacher3.jpg" alt="Ms. Simran Kaur" />
+            <span class="theme-emoji">🔬</span>
+          </div>
+          <div class="info">
+            <h3>Ms. Simran Kaur</h3>
+            <p class="subject">Science</p>
+            <p class="note">"You celebrated every 'what happens if…?' and turned curiosity into our favourite habit."</p>
+            <p class="tap">Tap to open her personal page →</p>
+            <span class="secret-badge" data-badge="kaur">🕵️ Secrets found: 0/4</span>
+          </div>
+        </a>
 
-      <a class="teacher-card reveal" style="--c1:#15803d; --c2:#f97316;" href="teacher-singh.html">
-        <div class="photo-wrap">
-          <img src="assets/teacher4.jpg" alt="Mr. Arjun Singh" />
-          <span class="theme-emoji">🏆</span>
-        </div>
-        <div class="info">
-          <h3>Mr. Arjun Singh</h3>
-          <p class="subject">Physical Education</p>
-          <p class="tap">Tap to open his personal page →</p>
-          <span class="secret-badge" data-badge="singh">🕵️ Secrets found: 0/4</span>
-        </div>
-      </a>
-    </div>
+        <a class="teacher-card reveal" style="--c1:#15803d; --c2:#f97316;" href="teacher-singh.html">
+          <div class="photo-wrap">
+            <img src="assets/teacher4.jpg" alt="Mr. Arjun Singh" />
+            <span class="theme-emoji">🏆</span>
+          </div>
+          <div class="info">
+            <h3>Mr. Arjun Singh</h3>
+            <p class="subject">Physical Education</p>
+            <p class="note">"You taught us that 'one more lap' was never about the track — it was about never giving up."</p>
+            <p class="tap">Tap to open his personal page →</p>
+            <span class="secret-badge" data-badge="singh">🕵️ Secrets found: 0/4</span>
+          </div>
+        </a>
+      </div>
 
-    <div class="rumour-box reveal">
-      <b> Rumours around the school corridor:</b><br />
-      Some photos <b>like being tapped</b> a few times · a <b>gift</b> is hidden somewhere in every footer ·
-      an <b>old-school cheat code</b> still works on this site · and some ink in the footer is
-      <b>invisible</b>… until you select it. Find all 4 secrets on a teacher's page for a golden surprise. 🏆
-    </div>
-  </section>
+      <div class="rumour-box reveal">
+        <b>Rumours around the school corridor:</b><br />
+        Some photos <b>like being tapped</b> a few times · a <b>gift</b> is hidden somewhere in every footer ·
+        an <b>old-school cheat code</b> still works on this site · and some ink in the footer is
+        <b>invisible</b>… until you select it. Find all 4 secrets on a teacher's page for a golden surprise. 🏆
+      </div>
+    </section>
+  </main>
 
   <footer class="footer">
-    <p class="made-by">Made by Pavit Singh and the Whole Cabinet Members</p>
-    <p class="visit">Visit <a href="https://psdfolio.vercel.app" target="_blank" rel="noopener">psdfolio.vercel.app</a> to get one for you</p>
-    <p class="hearts">💐 ❤️ 📚 ✨</p>
+    <div class="footer-inner">
+      <div>
+        <p class="closing">Thank you, teachers. 💐</p>
+        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="memories.html">Memories</a></li>
+          <li><a href="message.html">Special Message</a></li>
+          <li><a href="wall.html">Gratitude Wall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Made with love</h3>
+        <p class="credit">
+          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
+          <b>[Your School Name]</b> · Class of 2026
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Happy Teachers' Day — today, and every day.</p>
+      <p class="hearts">💐 ❤️ 📚 ✨</p>
+    </div>
   </footer>
 
   <script src="js/confetti.js"></script>

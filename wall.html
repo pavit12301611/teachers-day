@@ -3,46 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gratitude Wall 💛 | Teacher's Day</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
+  <title>Gratitude Wall 💛 | Teachers' Day</title>
+  <meta name="description" content="Sticky notes from the whole school — read them, smile at them, and stick your own thank-you note on the wall." />
+  <meta name="theme-color" content="#2c2446" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="The Gratitude Wall 💛" />
+  <meta property="og:description" content="Sticky notes from the whole school — add your own thank-you note." />
+  <meta property="og:image" content="assets/teacher1.jpg" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="bg-blob b1"></div>
   <div class="bg-blob b2"></div>
 
-  <nav class="navbar">
-    <a class="brand" href="index.html">Teacher's Day 💐</a>
-    <ul class="nav-links">
+  <nav class="navbar" aria-label="Main navigation">
+    <a class="brand" href="index.html">Teachers' Day 💐</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="teachers.html">Our Teachers</a></li>
+      <li><a href="memories.html">Memories</a></li>
       <li><a href="message.html">Special Message</a></li>
-      <li><a href="wall.html" class="active">Gratitude Wall</a></li>
+      <li><a href="wall.html" class="active" aria-current="page">Gratitude Wall</a></li>
     </ul>
   </nav>
 
-  <section class="section fade-up">
-    <h2 class="section-title">The Wall of Gratitude 💛</h2>
-    <p class="section-sub">
-      Sticky notes from the whole school. Read them, smile at them — and stick your own
-      on the wall. It stays right here in your browser, like a real note on a real wall.
-    </p>
+  <main id="main-content">
+    <section class="section fade-up" aria-labelledby="wall-title">
+      <div class="section-head">
+        <h2 class="section-title" id="wall-title">The Wall of Gratitude 💛</h2>
+        <p class="section-sub">
+          Sticky notes from the whole school. Read them, smile at them — and stick your own
+          on the wall. It stays right here in your browser, like a real note on a real wall.
+        </p>
+      </div>
 
-    <div class="wall-grid" id="wallGrid"></div>
+      <div class="wall-grid" id="wallGrid"></div>
 
-    <form class="wall-form reveal" id="wallForm">
-      <input type="text" maxlength="40" placeholder="Your name (or 'a secret admirer')" />
-      <textarea rows="3" maxlength="220" placeholder="Write a tiny thank-you note for any teacher…"></textarea>
-      <button class="btn btn-primary" type="submit">📌 Stick It On The Wall</button>
-    </form>
-  </section>
+      <form class="wall-form reveal" id="wallForm">
+        <h3>📌 Stick Your Note</h3>
+        <div class="field">
+          <label for="wallName">Your name</label>
+          <input type="text" id="wallName" maxlength="40" placeholder="e.g. Riya, 10-B (or leave blank)" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="wallNote">Your thank-you note</label>
+          <textarea id="wallNote" rows="3" maxlength="220" placeholder="Write a tiny thank-you note for any teacher…" required></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">📌 Stick It On The Wall</button>
+      </form>
+    </section>
+  </main>
 
   <footer class="footer">
-    <p class="made-by">Made by Pavit Singh and the Whole Cabinet Members</p>
-    <p class="visit">Visit <a href="https://psdfolio.vercel.app" target="_blank" rel="noopener">psdfolio.vercel.app</a> to get one for you</p>
-    <p class="hearts">💐 ❤️ 📚 ✨</p>
+    <div class="footer-inner">
+      <div>
+        <p class="closing">Thank you, teachers. 💐</p>
+        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="memories.html">Memories</a></li>
+          <li><a href="message.html">Special Message</a></li>
+          <li><a href="wall.html">Gratitude Wall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Made with love</h3>
+        <p class="credit">
+          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
+          <b>[Your School Name]</b> · Class of 2026
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Happy Teachers' Day — today, and every day.</p>
+      <p class="hearts">💐 ❤️ 📚 ✨</p>
+    </div>
   </footer>
 
   <script>

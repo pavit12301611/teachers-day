@@ -3,21 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mr. Rajesh Verma 💐 | Teacher's Day</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
+  <title>Mr. Rajesh Verma 💐 | Teachers' Day</title>
+  <meta name="description" content="A personal Teachers' Day tribute to Mr. Rajesh Verma — a sealed letter, a joyful proof and a voice note made only for him." />
+  <meta name="theme-color" content="#1d4ed8" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Mr. Rajesh Verma 💐" />
+  <meta property="og:description" content="A page made only for Verma Sir — with a sealed letter, a joyful proof and a voice note." />
+  <meta property="og:image" content="assets/teacher2.jpg" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body data-theme="verma">
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="bg-blob b1"></div>
   <div class="bg-blob b2"></div>
 
-  <nav class="navbar">
-    <a class="brand" href="index.html">Teacher's Day 💐</a>
-    <ul class="nav-links">
+  <nav class="navbar" aria-label="Main navigation">
+    <a class="brand" href="index.html">Teachers' Day 💐</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="teachers.html" class="active">Our Teachers</a></li>
+      <li><a href="teachers.html" class="active" aria-current="page">Our Teachers</a></li>
+      <li><a href="memories.html">Memories</a></li>
       <li><a href="message.html">Special Message</a></li>
       <li><a href="wall.html">Gratitude Wall</a></li>
     </ul>
@@ -25,52 +37,75 @@
 
   <a class="back-link" href="teachers.html">← Back to all teachers</a>
 
-  <div style="padding: 20px 6vw 0;">
-    <div class="gold-banner" id="goldBanner">🏆 All 4 secrets found! Verma Sir calculates: probability of a better class = exactly 0. 📐</div>
-  </div>
-
-  <section class="profile fade-up">
-    <div class="photo-side">
-      <span class="float-emoji" style="top:-30px; left:10%;">➗</span>
-      <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;">📐</span>
-      <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;">🧮</span>
-      <div class="photo-frame" id="photoFrame">
-        <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
-      </div>
-      <span class="sticker s1">🧮</span>
-      <span class="sticker s2">📐</span>
-      <span class="sticker s3">🧮</span>
-      <span class="sticker s4">❤️</span>
-      <span class="sticker s5">✨</span>
-      <p class="photo-hint">(psst… some photos like being tapped five times)</p>
+  <main id="main-content">
+    <div class="gold-banner-wrap">
+      <div class="gold-banner" id="goldBanner">🏆 All 4 secrets found! Verma Sir calculates: probability of a better class = exactly 0. 📐</div>
     </div>
 
-    <div>
-      <h1>Mr. Rajesh Verma</h1>
-      <span class="subject-tag">➗ Mathematics</span>
-      <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
-      <p class="only-for">This page, its letter and its voice note were made only for Verma Sir. Nobody else's message lives here. 💝</p>
-
-      <button class="btn btn-primary" id="openLetter">💌 Open Your Sealed Letter, Sir</button>
-      <div class="letter" id="letter">
-        <p class="ps">P.S. — Fine. We admit it. We should have shown ALL the steps. Every single time. 😅</p>
+    <section class="profile fade-up" aria-labelledby="teacher-name">
+      <div class="photo-side">
+        <span class="float-emoji" style="top:-30px; left:10%;">➗</span>
+        <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;">📐</span>
+        <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;">🧮</span>
+        <div class="photo-frame" id="photoFrame">
+          <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
+        </div>
+        <span class="sticker s1">🧮</span>
+        <span class="sticker s2">📐</span>
+        <span class="sticker s3">🧮</span>
+        <span class="sticker s4">❤️</span>
+        <span class="sticker s5">✨</span>
+        <p class="photo-hint">(psst… some photos like being tapped five times)</p>
       </div>
 
       <div>
-        <button class="btn btn-ghost" data-fun="equation">🧮 Solve For Joy</button>
-        <button class="btn btn-ghost" data-fun="pi">🥧 The Pi Button</button>
-        <button class="btn btn-gold" id="voiceNote">🎧 Play Your Voice Note</button>
+        <h1 id="teacher-name">Mr. Rajesh Verma</h1>
+        <span class="subject-tag">➗ Mathematics</span>
+        <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
+        <p class="only-for">This page, its letter and its voice note were made only for Verma Sir. Nobody else's message lives here. 💝</p>
+
+        <button class="btn btn-primary" type="button" id="openLetter">💌 Open Your Sealed Letter, Sir</button>
+        <div class="letter" id="letter">
+          <p class="ps">P.S. — Fine. We admit it. We should have shown ALL the steps. Every single time. 😅</p>
+        </div>
+
+        <div>
+          <button class="btn btn-ghost" type="button" data-fun="equation">🧮 Solve For Joy</button>
+          <button class="btn btn-ghost" type="button" data-fun="pi">🥧 The Pi Button</button>
+          <button class="btn btn-gold" type="button" id="voiceNote">🎧 Play Your Voice Note</button>
+        </div>
+        <div class="fun-stage" id="funStage"></div>
       </div>
-      <div class="fun-stage" id="funStage"></div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer class="footer">
-    <p class="made-by">Made by Pavit Singh and the Whole Cabinet Members</p>
-    <p class="visit">Visit <a href="https://psdfolio.vercel.app" target="_blank" rel="noopener">psdfolio.vercel.app</a> to get one for you</p>
-    <p class="hearts">💐 ❤️ 📚 ✨</p>
-    <button class="giftbox" aria-label="A mysterious little gift">🎁</button><br />
-    <span class="hidden-ink">psst… invisible ink says: Sir secretly keeps our best test papers. He will never admit it. 🤫</span>
+    <div class="footer-inner">
+      <div>
+        <p class="closing">Thank you, teachers. 💐</p>
+        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="memories.html">Memories</a></li>
+          <li><a href="message.html">Special Message</a></li>
+          <li><a href="wall.html">Gratitude Wall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Made with love</h3>
+        <p class="credit">
+          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
+          <b>[Your School Name]</b> · Class of 2026
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Happy Teachers' Day — today, and every day.</p>
+      <p class="hearts">💐 ❤️ 📚 ✨</p>
+      <button class="giftbox" type="button" aria-label="A mysterious little gift">🎁</button><br />
+      <span class="hidden-ink">psst… invisible ink says: Sir secretly keeps our best test papers. He will never admit it. 🤫</span>
+    </div>
   </footer>
 
   <script>
