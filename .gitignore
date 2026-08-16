@@ -1,0 +1,7 @@
+# Dependencies (only needed for local QA tooling; the site itself is dependency-free)
+node_modules/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log

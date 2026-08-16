@@ -3,68 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Special Message 💌 | Teacher's Day</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💐</text></svg>" />
+  <title>Special Message 💌 | Teachers' Day</title>
+  <meta name="description" content="A heartfelt Teachers' Day message from the whole class — straight from the heart." />
+  <meta name="theme-color" content="#2c2446" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="A Special Message 💌" />
+  <meta property="og:description" content="From every one of us, straight from the heart." />
+  <meta property="og:image" content="assets/teacher1.jpg" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="bg-blob b1"></div>
   <div class="bg-blob b2"></div>
 
-  <nav class="navbar">
-    <a class="brand" href="index.html">Teacher's Day 💐</a>
-    <ul class="nav-links">
+  <nav class="navbar" aria-label="Main navigation">
+    <a class="brand" href="index.html">Teachers' Day 💐</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="teachers.html">Our Teachers</a></li>
-      <li><a href="message.html" class="active">Special Message</a></li>
+      <li><a href="memories.html">Memories</a></li>
+      <li><a href="message.html" class="active" aria-current="page">Special Message</a></li>
       <li><a href="wall.html">Gratitude Wall</a></li>
     </ul>
   </nav>
 
-  <section class="section fade-up">
-    <h2 class="section-title">A Special Message 💌</h2>
-    <p class="section-sub">From every one of us, straight from the heart. (And each teacher has an even more personal one waiting on their page!)</p>
-
-    <div class="message-wrap">
-      <div class="letter-static">
-        <p class="salute">Dear Teachers,</p>
-        <p>
-          Today isn't just another date on the calendar — it's the day we finally get to say
-          what we feel all year round. <strong>Thank you.</strong> Thank you for every lesson
-          that went beyond the textbook, for every "one more time, let me explain" when we
-          just weren't getting it, and for every smile that made a tough day easier.
-        </p>
-        <p>
-          You didn't just teach us subjects — you taught us patience, kindness, discipline,
-          and the courage to raise our hands even when we weren't sure of the answer.
-          You saw potential in us before we could see it in ourselves.
-        </p>
-        <p>
-          The chalk dust settles, the bell rings, the classes end — but what you've given us
-          stays forever. Wherever life takes us, a part of every success will always
-          belong to you.
-        </p>
-        <p>
-          Happy Teacher's Day! May your day be as wonderful as you make ours, every single day. 💐
-        </p>
-        <p class="signoff">— With love and gratitude,<br />Pavit Singh &amp; the Whole Cabinet</p>
+  <main id="main-content">
+    <section class="section fade-up" aria-labelledby="message-title">
+      <div class="section-head">
+        <h2 class="section-title" id="message-title">A Special Message 💌</h2>
+        <p class="section-sub">From every one of us, straight from the heart. (And each teacher has an even more personal one waiting on their page!)</p>
       </div>
 
-      <div style="text-align:center; margin-top: 34px;">
-        <a class="btn btn-primary" href="teachers.html">Open Each Teacher's Personal Wish →</a>
-        <a class="btn btn-ghost" href="wall.html">Add Your Line To The Wall 💛</a>
+      <div class="message-wrap">
+        <div class="letter-static">
+          <p class="salute">Dear Teachers,</p>
+          <p>
+            Today isn't just another date on the calendar — it's the day we finally get to say
+            what we feel all year round. <strong>Thank you.</strong> Thank you for every lesson
+            that went beyond the textbook, for every "one more time, let me explain" when we
+            just weren't getting it, and for every smile that made a tough day easier.
+          </p>
+          <p>
+            You didn't just teach us subjects — you taught us patience, kindness, discipline,
+            and the courage to raise our hands even when we weren't sure of the answer.
+            You saw potential in us before we could see it in ourselves.
+          </p>
+          <p>
+            The chalk dust settles, the bell rings, the classes end — but what you've given us
+            stays forever. Wherever life takes us, a part of every success will always
+            belong to you.
+          </p>
+          <p>
+            Happy Teachers' Day! May your day be as wonderful as you make ours, every single day. 💐
+          </p>
+          <p class="signoff">— With love and gratitude,<br />Pavit Singh &amp; the Whole Cabinet</p>
+        </div>
+
+        <div class="note-shuffle reveal">
+          <h3>Need the right words?</h3>
+          <p class="lead">Tap to see a thank-you note a classmate wrote.</p>
+          <button class="btn btn-primary" type="button" data-note-shuffle>🎲 Surprise Me</button>
+          <p class="note-output" data-note-output aria-live="polite"></p>
+        </div>
+
+        <div style="text-align:center; margin-top: 36px;">
+          <a class="btn btn-ghost" href="teachers.html">Open Each Teacher's Personal Wish →</a>
+          <a class="btn btn-ghost" href="wall.html">Add Your Line To The Wall 💛</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer class="footer">
-    <p class="made-by">Made by Pavit Singh and the Whole Cabinet Members</p>
-    <p class="visit">Visit <a href="https://psdfolio.vercel.app" target="_blank" rel="noopener">psdfolio.vercel.app</a> to get one for you</p>
-    <p class="hearts">💐 ❤️ 📚 ✨</p>
+    <div class="footer-inner">
+      <div>
+        <p class="closing">Thank you, teachers. 💐</p>
+        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="memories.html">Memories</a></li>
+          <li><a href="message.html">Special Message</a></li>
+          <li><a href="wall.html">Gratitude Wall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Made with love</h3>
+        <p class="credit">
+          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
+          <b>[Your School Name]</b> · Class of 2026
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Happy Teachers' Day — today, and every day.</p>
+      <p class="hearts">💐 ❤️ 📚 ✨</p>
+    </div>
   </footer>
 
+  <script>
+    // Predefined thank-you notes used by the "Surprise Me" shuffle above.
+    window.WISH_NOTES = [
+      { note: "Thank you for believing in us before we ever believed in ourselves.", by: "The Head Girl" },
+      { note: "You didn't just teach a subject — you taught us how to keep trying.", by: "Riya, 10-B" },
+      { note: "One 'well done' from you is worth a whole week of motivation.", by: "Aarav, 10-B" },
+      { note: "Thank you for the extra minutes after the bell. We noticed every one.", by: "Kabir, 9-A" },
+      { note: "Because of you, the classroom felt like a second home.", by: "The Science Squad" },
+      { note: "Teachers plant seeds that grow forever. Thank you for ours.", by: "The Whole Cabinet" },
+      { note: "Thank you for seeing the potential in us that we couldn't see ourselves.", by: "Ananya, 10-B" },
+      { note: "Every mark you corrected, every doubt you cleared — thank you for all of it.", by: "The Whole Cabinet" }
+    ];
+  </script>
   <script src="js/confetti.js"></script>
   <script src="js/app.js"></script>
 </body>
