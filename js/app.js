@@ -61,8 +61,26 @@
   }
 
   function imgSrc(t) {
-    // Watercolor AI avatars are used everywhere for a consistent, premium look.
+    // Hand-drawn watercolor portraits — never the plain staff photos.
     return t.avatar;
+  }
+
+  function darkenHex(hex, amount) {
+    hex = String(hex || '#3b2a28').replace('#', '');
+    if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    var n = parseInt(hex, 16);
+    if (isNaN(n)) return '#1f1412';
+    var r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    r = Math.round(r * (1 - amount));
+    g = Math.round(g * (1 - amount));
+    b = Math.round(b * (1 - amount));
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+
+  function cleanQual(q) {
+    q = String(q || '').replace(/\u200b/g, '').replace(/\s+/g, ' ').trim();
+    if (!q || q === '.' || /^iv class/i.test(q)) return '';
+    return q;
   }
 
   /* ------------------------------------------------------------------ 2. content builder
@@ -96,7 +114,7 @@
       'Combustion: your energy during a lesson \u2192 complete burning of our boredom. \uD83D\uDD25',
       'Respiration: breathe in courage, breathe out "I can\u2019t do it". You taught me that exchange. \uD83E\uDEC2',
       'Osmosis: your kindness moves from high concentration (you) to low (me) until we\u2019re all equal. \u2696\uFE0F',
-      'Evolution: I entered your class as a student and evolved into a curious human. Natural selection chose you. \uD83E\uDDEC'
+      'Evolution: a school with you in it evolves into a kinder place. Natural selection chose well. \uD83E\uDDEC'
     ],
     pep: [
       'Champions are made in practice \u2014 but today, the champion is YOU. \uD83C\uDFC6',
@@ -136,17 +154,19 @@
       'P.S. \u2014 If this page made you smile even a little, my job here is done. \uD83D\uDE0A'
     ],
     extra: [
-      '{first}, you make every day at school a little brighter. Thank you for being you. \u2728',
-      'Some people become teachers; you became the reason a student loves school. Thank you. \uD83D\uDC9B',
-      'I hope this Teachers\u2019 Day brings you even half the joy you have given us. You deserve it all. \uD83D\uDC90',
-      'Every lesson you taught, every doubt you cleared, every extra minute you stayed \u2014 I noticed, and I am grateful. \uD83D\uDE4F',
-      'If gratitude could be measured, our school would overflow with it \u2014 and a large part of that would be for you. \uD83C\uDFC6',
-      'Thank you for making our school feel like a second home. You are a huge part of that feeling. \uD83C\uDFE0'
+      '{first}, thank you for the work you do at St. Mary\u2019s Academy. Our school is better because you are in it. \u2728',
+      'Happy Teachers\u2019 Day, {first}. Even if I am not in your class, I see how much you give this school. \uD83D\uDC9B',
+      'From Class IX-B, with respect: you deserve a day that is as kind as you are to this place. \uD83D\uDC90',
+      'Some people just work at a school. You help it feel like a family. Thank you. \uD83D\uDE4F',
+      'If gratitude could be measured, St. Mary\u2019s Academy would overflow with it \u2014 and a large part of that would be for you. \uD83C\uDFC6',
+      'Thank you for making our school feel like a second home. You are a huge part of that feeling. \uD83C\uDFE0',
+      '{first}, I may not sit in your classroom, but I still want you to know you are appreciated today. \u2728',
+      'A school is only as warm as its people. Thank you for being one of ours. \uD83C\uDFE0'
     ],
     notes: [
-      'You probably don\u2019t remember every small kindness, but I remember all of mine. Thank you for every single one.',
-      'The way you explain things twice without ever sighing is a superpower. I admire it.',
-      'You saw potential in me before I saw it myself. That changed everything.'
+      'I may not be one of your students, but I still notice the care you bring to this school. Thank you.',
+      'Your work happens in rooms I may never sit in \u2014 and it still makes St. Mary\u2019s Academy a better place.',
+      'Today is for every person who keeps this school going. That includes you, completely.'
     ],
     poem: [
       'T \u2014 To {first}, who makes learning a joy,',
@@ -160,28 +180,28 @@
   };
 
   var ROLE = {
-    'Principal': 'as the heart of our whole school, you are the reason every morning here begins with a smile. From the gate to the last classroom, your presence is felt everywhere',
+    'Principal': 'as the Principal of St. Mary\u2019s Academy, you are the heart of this whole school. From the gate to the last classroom, your presence is felt everywhere',
     'Manager': 'as our respected Manager, you quietly make sure every single part of this school runs like a well-oiled machine',
-    'P.G.T.': 'as one of our senior teachers, you have taught generations of students, and every one of us carries a little piece of your wisdom',
-    'T.G.T.': 'as one of our middle-school teachers, you were there at exactly the age when we needed someone to believe in us',
-    'P.R.T.': 'as one of our primary teachers, you were among the first people who made school feel safe and fun',
-    'PRE-PRIMARY': 'as one of our pre-primary teachers, you taught the littlest ones \u2014 including the very first letters and numbers we ever learned',
-    'Office Staff': 'as part of our office staff, you keep the whole school running behind the scenes \u2014 records, routines, everything',
-    'Assistant Librarian': 'as our assistant librarian, you guard the shelves of stories that so many of us escaped into',
-    'Supporting Staff': 'as part of our supporting staff, you do the quiet, tireless work that keeps our school clean, safe and cheerful'
+    'P.G.T.': 'as one of our senior teachers, your profession shapes the older classes of this school, and your work is felt far beyond one timetable',
+    'T.G.T.': 'as one of our middle-school teachers, your profession is to guide students through the years when school starts to feel like a bigger world',
+    'P.R.T.': 'as one of our primary teachers, your profession is to make the first years of school feel safe, kind and full of wonder',
+    'PRE-PRIMARY': 'as one of our pre-primary teachers, your profession is to teach the littlest ones their very first letters, numbers and school-day smiles',
+    'Office Staff': 'as part of our office staff, your profession is the quiet work that keeps records, routines and the whole school running',
+    'Assistant Librarian': 'as our assistant librarian, your profession is to guard the shelves of stories so many students escape into',
+    'Supporting Staff': 'as part of our supporting staff, your profession is the tireless work that keeps our school clean, safe and cheerful'
   };
 
   var SUBJECT = {
-    english: 'Thank you for the poems that became adventures and the stories that made us fall in love with words. You taught us that a well-written sentence can change a mood, and a well-read book can change a life.',
-    maths: 'Thank you for making numbers feel less scary and more like puzzles waiting to be solved. You taught us to show our steps, check our work, and never give up until the answer appears.',
-    science: 'Thank you for celebrating every "what happens if\u2026?" and turning curiosity into a habit. You showed us that the world is one big experiment and questions are the best equipment.',
-    computer: 'Thank you for teaching us the language of machines. You showed us that with logic and a little patience, we can build almost anything.',
-    social: 'Thank you for taking us around the world and back through time. You taught us that history is full of stories, and geography is full of reasons to be curious.',
-    hindi: 'Thank you for teaching us our mother tongue with so much love. You made every poem and every story in Hindi feel like home.',
-    sanskrit: 'Thank you for sharing the oldest language of our land. You taught us that some words carry thousands of years of wisdom.',
-    music: 'Thank you for filling our school with music. You taught us that a song can say what words alone cannot.',
-    pe: 'Thank you for the whistle, the laps, and the pep talks. You taught us that the body and the mind grow stronger together \u2014 and that quitting is never an option.',
-    'default': 'Thank you for the lessons that went beyond the textbook. You taught us patience, kindness and the courage to keep trying \u2014 and that is something no exam can ever measure.'
+    english: 'Your profession is in English \u2014 poems, stories and the art of saying what we mean. This school is richer because that is the field you chose.',
+    maths: 'Your profession is in Mathematics \u2014 numbers, proofs and the patience to try one more step. This school is sharper because that is the field you chose.',
+    science: 'Your profession is in Science \u2014 questions, experiments and every "what happens if\u2026?". This school is more curious because that is the field you chose.',
+    computer: 'Your profession is in Computers \u2014 logic, code and the language of machines. This school is more future-ready because that is the field you chose.',
+    social: 'Your profession is in Social Studies \u2014 history, geography and the stories of the world. This school is wider because that is the field you chose.',
+    hindi: 'Your profession is in Hindi \u2014 our mother tongue, its poems and its stories. This school feels more like home because that is the field you chose.',
+    sanskrit: 'Your profession is in Sanskrit \u2014 the oldest language of our land, and the wisdom it still carries. This school is deeper because that is the field you chose.',
+    music: 'Your profession is in Music \u2014 songs that say what words alone cannot. This school is brighter because that is the field you chose.',
+    pe: 'Your profession is in Physical Education \u2014 the whistle, the laps and the courage not to quit. This school is stronger because that is the field you chose.',
+    'default': 'Whatever your profession is in this school, you do work that no exam can measure \u2014 patience, kindness and showing up every day. Thank you for that.'
   };
 
   var SUBJECT_LABEL = {
@@ -197,8 +217,27 @@
     return s;
   }
 
+  function honorific(t) {
+    var title = String(t.title || '').trim();
+    var name = String(t.name || '');
+    if (/^father$/i.test(title) || /^rev\.?\s*fr/i.test(name)) return 'Father';
+    if (/^sister$/i.test(title) || /^sr\./i.test(name)) return 'Sister';
+    if (/^ma/i.test(title)) return "Ma'am";
+    if (/^sir$/i.test(title)) return 'Sir';
+    if (/^kamal/i.test(name)) return "Ma'am";
+    if (/^tejaswi/i.test(name)) return 'Sir';
+    return 'Sir';
+  }
+
+  function honorName(t) {
+    var h = honorific(t);
+    if (h === 'Father') return 'Father ' + t.shortName;
+    if (h === 'Sister') return 'Sister ' + t.shortName;
+    return t.shortName + ' ' + h;
+  }
+
   function fill(tmpl, t) {
-    return tmpl.replace(/\{first\}/g, t.shortName).replace(/\{name\}/g, t.name);
+    return tmpl.replace(/\{first\}/g, honorName(t)).replace(/\{name\}/g, honorName(t));
   }
 
   function surname(t) {
@@ -210,16 +249,20 @@
     var roleLine = ROLE[t.designation] || ROLE['P.G.T.'];
     var subjLine = SUBJECT[t.subject] || SUBJECT['default'];
     t.letter = [
-      'Dear ' + t.name + ', ' + roleLine + '. Today is the day this whole school says thank you \u2014 loudly and from the heart.',
+      'Dear ' + honorName(t) + ', ' + roleLine + '. Today the whole of St. Mary\u2019s Academy says thank you \u2014 loudly and from the heart.',
       subjLine,
-      'This little page is my way of saying thank you, ' + t.shortName + '. From Pavit Singh \u2014 happy Teachers\u2019 Day, and may you always know how much you mean to this school. \uD83D\uDC90'
+      'I am Pavit Singh of Class IX-B (roll 9R01). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + honorName(t) + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
     ];
     t.psLines = POOL.ps.slice();
     t.moreMessages = POOL.extra.map(function (m) { return fill(m, t); });
+    var field = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
+    if (field) {
+      t.moreMessages.unshift('Your profession is in ' + field + '. I may not be your student, but I am still grateful you chose this work. \u2728');
+    }
     t.classNotes = POOL.notes.map(function (n) { return fill(n, t); });
     t.goldBanner = '\uD83C\uDFC6 All 4 secrets found! ' + t.name + ' is officially the most appreciated member of this school! \uD83C\uDF89';
-    t.giftJoke = '\uD83C\uDF81 Inside the box: a tiny token of gratitude for ' + t.shortName + ' \u2014 valid for unlimited smiles. No returns, no refunds, only feelings.';
-    t.ink = 'psst\u2026 invisible ink says: ' + t.shortName + ' is one of the reasons this school feels like home. \uD83E\uDD2B';
+    t.giftJoke = '\uD83C\uDF81 Inside the box: a tiny token of gratitude for ' + honorName(t) + ' \u2014 valid for unlimited smiles. No returns, no refunds, only feelings.';
+    t.ink = 'psst\u2026 invisible ink says: ' + honorName(t) + ' is one of the reasons this school feels like home. \uD83E\uDD2B';
 
     var shuffleFn = [
       { label: '\u2728 Compliment Shuffle', kind: 'shuffle' },
@@ -314,11 +357,11 @@
     var subjText = subj && SUBJECT_LABEL[t.subject] ? SUBJECT_LABEL[t.subject] : subj;
     var subjectLine = subjText ? t.designation + ' \u00B7 ' + subjText : t.designation;
     var note = subjText
-      ? 'You make ' + subjText.toLowerCase() + ' something we look forward to.'
-      : 'You make our school feel like home. Thank you.';
+      ? 'Your profession is in ' + subjText + '.'
+      : 'Your work helps this school feel like home.';
     return '' +
       '<div class="photo-wrap">' +
-        '<img src="' + imgSrc(t) + '" data-avatar="' + t.avatar + '" alt="' + t.name + '" loading="lazy" />' +
+        '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" />' +
         '<span class="theme-emoji">' + t.emoji + '</span>' +
       '</div>' +
       '<div class="info">' +
@@ -420,7 +463,7 @@
     frame.innerHTML = '';
     DATA.teachers.slice(0, 4).forEach(function (t) {
       var d = el('div', 'collage-img');
-      d.innerHTML = '<img src="' + imgSrc(t) + '" data-avatar="' + t.avatar + '" alt="" loading="lazy" />';
+      d.innerHTML = '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="" loading="lazy" />';
       frame.appendChild(d);
     });
   }
@@ -434,12 +477,12 @@
       btn.type = 'button';
       btn.setAttribute('data-lightbox', '');
       btn.setAttribute('data-lightbox-img', imgSrc(t, true));
-      btn.setAttribute('data-lightbox-avatar', t.avatar);
+      btn.setAttribute('data-lightbox-avatar', t.avatar || '');
       btn.setAttribute('data-lightbox-title', t.name);
       var subj = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
       btn.setAttribute('data-lightbox-sub', t.designation + (subj ? ' \u2014 ' + subj : ''));
       btn.innerHTML =
-        '<span class="thumb"><img src="' + imgSrc(t) + '" data-avatar="' + t.avatar + '" alt="' + t.name + '" loading="lazy" /></span>' +
+        '<span class="thumb"><img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" /></span>' +
         '<span class="cap">' +
           '<span class="cap-title">' + t.name + '</span>' +
           '<span class="cap-sub">' + t.designation + (subj ? ' \u00B7 ' + subj : '') + '</span>' +
@@ -456,15 +499,22 @@
   renderCollage();
   renderMemories();
 
-  /* Global image fallback chain: watercolor avatar jpg -> initial SVG -> hide. */
+  /* Image fallback: photo/thumb -> watercolor avatar -> initial SVG. */
   document.addEventListener('error', function (e) {
     var target = e.target;
-    if (!target || target.tagName !== 'IMG' || !target.dataset.avatar) return;
-    var cur = target.src;
-    var nxt = cur.replace('assets/avatars/', 'assets/staff-avatars/').replace(/\.jpg$/, '.svg');
-    if (nxt === cur) { target.removeAttribute('data-avatar'); return; }
-    target.dataset.avatar = nxt;
-    target.src = nxt;
+    if (!target || target.tagName !== 'IMG') return;
+    var step = target.dataset.fbStep || '0';
+    if (step === '0' && target.dataset.fallback) {
+      target.dataset.fbStep = '1';
+      target.src = target.dataset.fallback;
+      return;
+    }
+    var from = target.dataset.fallback || target.src;
+    var nxt = String(from).replace('assets/avatars/', 'assets/staff-avatars/').replace(/\.jpg$/i, '.svg');
+    if (step !== '2' && nxt && nxt !== target.src) {
+      target.dataset.fbStep = '2';
+      target.src = nxt;
+    }
   }, true);
 
   /* ------------------------------------------------------------------ 4. mobile nav */
@@ -542,7 +592,8 @@
 
     function openLightbox(trigger) {
       img.src = trigger.dataset.lightboxImg;
-      img.dataset.avatar = trigger.dataset.lightboxAvatar || '';
+      img.dataset.fallback = trigger.dataset.lightboxAvatar || '';
+      img.dataset.fbStep = '0';
       img.alt = trigger.dataset.lightboxTitle || '';
       capTitle.textContent = trigger.dataset.lightboxTitle || '';
       capSub.textContent = trigger.dataset.lightboxSub || '';
@@ -618,22 +669,67 @@
 
     document.body.setAttribute('data-theme', T.id);
     // Per-person theme colours (data.js), applied inline.
-    document.body.style.setProperty('--p1', T.theme.c1);
-    document.body.style.setProperty('--p2', T.theme.c2);
+    document.body.style.setProperty('--p1', darkenHex(T.theme.c1, 0.42));
+    document.body.style.setProperty('--p2', darkenHex(T.theme.c2, 0.45));
     document.body.style.setProperty('--psoft', T.theme.soft);
     document.title = T.name + ' \uD83D\uDC90 | Teachers\' Day';
 
     var photo = document.getElementById('teacherPhoto');
-    if (photo) { photo.src = imgSrc(T, true); photo.alt = T.name; }
+    if (photo) {
+      photo.src = imgSrc(T, true);
+      photo.alt = T.name;
+      if (T.avatar) photo.dataset.fallback = T.avatar;
+    }
     var name = document.getElementById('teacherName');
     if (name) name.textContent = T.name;
     var subject = document.getElementById('subjectTag');
     var subjLabel = SUBJECT_LABEL[T.subject] || cleanSubjectRaw(T);
     if (subject) subject.textContent = T.emoji + ' ' + T.designation + (subjLabel ? ' \u00B7 ' + subjLabel : '');
     var only = document.getElementById('onlyFor');
-    if (only) only.textContent = 'This page, its letter and its messages were made only for ' + T.name + '. Nobody else\u2019s message lives here. \uD83D\uDC9D';
+    if (only) only.textContent = 'This page, its letter and its messages were made only for ' + honorName(T) + '. Nobody else\u2019s message lives here. \uD83D\uDC9D';
     var openBtn = document.getElementById('openLetter');
-    if (openBtn) openBtn.textContent = '\uD83D\uDC8C Open Your Sealed Letter' + (T.title ? ', ' + T.title : '');
+    if (openBtn) openBtn.textContent = '\uD83D\uDC8C Open Your Sealed Letter, ' + honorName(T);
+
+    var forYou = document.getElementById('forYou');
+    if (forYou) forYou.textContent = 'a page sketched just for ' + honorName(T);
+    var polaroidCap = document.getElementById('polaroidCap');
+    if (polaroidCap) polaroidCap.textContent = honorName(T) + '  ·  Teachers\u2019 Day';
+
+    var facts = document.getElementById('factRow');
+    if (facts) {
+      facts.innerHTML = '';
+      function addFact(label, value) {
+        if (!value) return;
+        var li = el('li', 'fact');
+        li.innerHTML = '<span class="fact-k">' + label + '</span><span class="fact-v">' + value + '</span>';
+        facts.appendChild(li);
+      }
+      addFact('role', T.designation);
+      addFact('profession', subjLabel || cleanSubjectRaw(T));
+      addFact('studied', cleanQual(T.qualification));
+    }
+
+    var about = document.getElementById('aboutCard');
+    if (about) {
+      var roleLine = ROLE[T.designation] || ROLE['P.G.T.'];
+      about.innerHTML =
+        '<p class="about-kicker">a little about you</p>' +
+        '<p>' + honorName(T) + ', ' + roleLine + '.</p>';
+    }
+
+    var pager = document.getElementById('teacherPager');
+    if (pager && DATA.teachers.length) {
+      var idx = -1;
+      for (var pi = 0; pi < DATA.teachers.length; pi++) {
+        if (DATA.teachers[pi].id === T.id) { idx = pi; break; }
+      }
+      var prevT = DATA.teachers[(idx - 1 + DATA.teachers.length) % DATA.teachers.length];
+      var nextT = DATA.teachers[(idx + 1) % DATA.teachers.length];
+      pager.innerHTML =
+        '<a class="pager-link" href="' + teacherHref(prevT) + '">← ' + honorName(prevT) + '</a>' +
+        '<span class="pager-count">' + (idx + 1) + ' / ' + DATA.teachers.length + '</span>' +
+        '<a class="pager-link" href="' + teacherHref(nextT) + '">' + honorName(nextT) + ' →</a>';
+    }
 
     var floats = document.querySelectorAll('.float-emoji');
     ['\uD83C\uDF93', '\uD83D\uDCDA', '\uD83D\uDC90'].forEach(function (f, i) { if (floats[i]) floats[i].textContent = f; });
@@ -644,7 +740,7 @@
     if (gold) gold.textContent = T.goldBanner;
 
     var gift = document.querySelector('.giftbox');
-    if (gift) gift.setAttribute('aria-label', T.shortName + '\u2019s mysterious little gift');
+    if (gift) gift.setAttribute('aria-label', honorName(T) + '\u2019s mysterious little gift');
     var ink = document.querySelector('.hidden-ink');
     if (ink) ink.textContent = T.ink;
 
@@ -669,7 +765,7 @@
         ? (msgIdx + 1) % T.moreMessages.length
         : Math.floor(Math.random() * T.moreMessages.length);
       msgCard.innerHTML =
-        '<span class="msg-count">Message ' + (msgIdx + 1) + ' of ' + T.moreMessages.length + ' \u00B7 written only for ' + T.shortName + '</span>' +
+        '<span class="msg-count">Message ' + (msgIdx + 1) + ' of ' + T.moreMessages.length + ' \u00B7 written only for ' + honorName(T) + '</span>' +
         '<p class="msg-body">' + T.moreMessages[msgIdx] + '</p>' +
         '<span class="msg-by">\u2014 from Pavit Singh, with love \uD83D\uDC8C</span>';
       msgCard.classList.remove('pop'); void msgCard.offsetWidth;
@@ -719,7 +815,7 @@
       if (banner) banner.classList.add('show');
       if (!quiet) {
         window.confettiRain(160);
-        toast('\uD83C\uDFC6 ALL 4 SECRETS FOUND! You are officially ' + T.shortName + '\u2019s favourite detective!', 4200);
+        toast('\uD83C\uDFC6 ALL 4 SECRETS FOUND! You are officially ' + honorName(T) + '\u2019s favourite detective!', 4200);
       }
     }
 
@@ -743,7 +839,7 @@
     if (frame) {
       frame.setAttribute('role', 'button');
       frame.setAttribute('tabindex', '0');
-      frame.setAttribute('aria-label', T.shortName + '\u2019s photo. A little bird says it enjoys being tapped five times.');
+      frame.setAttribute('aria-label', honorName(T) + '\u2019s photo. A little bird says it enjoys being tapped five times.');
       function tapPhoto() {
         taps++;
         frame.classList.remove('wiggle');
@@ -798,7 +894,7 @@
       else if (h < 12) time = 'Good morning';
       else if (h < 17) time = 'Good afternoon';
       else time = 'Good evening';
-      return time + ', ' + (T.title || T.shortName) + ' \u2014 and welcome to your page. This letter types itself out because even I couldn\u2019t write it fast enough. \u2728';
+      return time + ', ' + honorName(T) + ' \u2014 and welcome to your page. This letter types itself out because even I couldn\u2019t write it fast enough. \u2728';
     }
 
     async function typeParagraphs(paras) {
@@ -818,7 +914,7 @@
       }
       var ps = letter.querySelector('.ps');
       if (ps) ps.classList.add('show');
-      toast('\uD83D\uDC8C Letter fully opened. Every word, only for ' + T.shortName + '.', 3400);
+      toast('\uD83D\uDC8C Letter fully opened. Every word, only for ' + honorName(T) + '.', 3400);
     }
 
     if (openBtn && letter) {
@@ -848,7 +944,7 @@
           if (audio.paused) {
             audio.play().then(function () {
               voiceBtn.textContent = '\u23F8\uFE0F Playing your voice note\u2026';
-              toast('\uD83C\uDFA7 A voice note recorded just for ' + T.shortName + '. Turn the volume up!', 3400);
+              toast('\uD83C\uDFA7 A voice note recorded just for ' + honorName(T) + '. Turn the volume up!', 3400);
             }).catch(function () {
               toast('\uD83D\uDD07 Hmm, audio needs a moment \u2014 try again!');
             });
@@ -984,7 +1080,7 @@
       },
       whistle: function () {
         playWhistle();
-        render('<div class="pop-line">\uD83D\uDCE3 PEEP-PEEP! Everyone gather round \u2014 it\u2019s ' + T.shortName + '\u2019s day!</div>');
+        render('<div class="pop-line">\uD83D\uDCE3 PEEP-PEEP! Everyone gather round \u2014 it\u2019s ' + honorName(T) + '\u2019s day!</div>');
         window.confettiBurst(window.innerWidth / 2, window.innerHeight / 2, 70);
       },
       pep: function () {

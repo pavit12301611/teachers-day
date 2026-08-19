@@ -1,7 +1,7 @@
 # teachers-day 💐
 
-A heartfelt, **fully data-driven** Teachers' Day tribute site — made by **Pavit Singh** for the
-teachers and staff of **St. Mary's Senior Secondary School, Saharanpur** (83 members).
+A heartfelt, **fully data-driven** Teachers' Day tribute site — made by **Pavit Singh**
+(Class **IX-B**, roll **9R01**) for the teachers and staff of **St. Mary's Academy** (83 members).
 No frameworks, no build step, no paid services: just HTML, CSS and a little JavaScript. Host it anywhere.
 
 ## Pages
