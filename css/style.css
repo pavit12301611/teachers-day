@@ -7,13 +7,13 @@
 
 /* ---------- 1. Design tokens ---------- */
 :root {
-  --navy: #5a3d4a;
-  --navy-2: #6d4a56;
-  --ink: #3b2a28;
-  --muted: #7a5c56;
-  --purple: #c45c7a;
-  --violet: #b48ad4;
-  --purple-deep: #8a3d5c;
+  --navy: #3f2a32;
+  --navy-2: #4a3038;
+  --ink: #1f1412;
+  --muted: #3f2a26;
+  --purple: #7a2844;
+  --violet: #5c3d86;
+  --purple-deep: #5a1e36;
   --gold: #e0a14a;
   --gold-2: #f0c36a;
   --gold-soft: #ffe7b8;
@@ -706,8 +706,8 @@ textarea:focus-visible,
 }
 
 .teacher-card .info { padding: 20px 22px 24px; text-align: center; flex: 1; display: flex; flex-direction: column; }
-.teacher-card h3 { font-size: 1.2rem; margin-bottom: 4px; font-family: var(--font-display); }
-.teacher-card .subject { color: var(--c1); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px; }
+.teacher-card h3 { font-size: 1.2rem; margin-bottom: 4px; font-family: var(--font-display); color: var(--ink); }
+.teacher-card .subject { color: var(--ink); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px; }
 .teacher-card .note {
   font-family: var(--font-hand);
   font-size: 1.18rem;

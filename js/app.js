@@ -65,6 +65,18 @@
     return t.avatar;
   }
 
+  function darkenHex(hex, amount) {
+    hex = String(hex || '#3b2a28').replace('#', '');
+    if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    var n = parseInt(hex, 16);
+    if (isNaN(n)) return '#1f1412';
+    var r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    r = Math.round(r * (1 - amount));
+    g = Math.round(g * (1 - amount));
+    b = Math.round(b * (1 - amount));
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+
   function cleanQual(q) {
     q = String(q || '').replace(/\u200b/g, '').replace(/\s+/g, ' ').trim();
     if (!q || q === '.' || /^iv class/i.test(q)) return '';
@@ -632,8 +644,8 @@
 
     document.body.setAttribute('data-theme', T.id);
     // Per-person theme colours (data.js), applied inline.
-    document.body.style.setProperty('--p1', T.theme.c1);
-    document.body.style.setProperty('--p2', T.theme.c2);
+    document.body.style.setProperty('--p1', darkenHex(T.theme.c1, 0.42));
+    document.body.style.setProperty('--p2', darkenHex(T.theme.c2, 0.45));
     document.body.style.setProperty('--psoft', T.theme.soft);
     document.title = T.name + ' \uD83D\uDC90 | Teachers\' Day';
 
