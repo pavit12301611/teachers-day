@@ -1,7 +1,7 @@
 # teachers-day 💐
 
-A polished, emotional, **fully data-driven** Teachers' Day tribute site — made by **Pavit Singh and the
-Whole Cabinet Members**. No frameworks, no build step, no paid services: just HTML, CSS and a little
+A polished, emotional, **fully data-driven** Teachers' Day tribute site — made by **Pavit Singh**.
+No frameworks, no build step, no paid services: just HTML, CSS and a little
 JavaScript. Host it anywhere.
 
 ## Pages
@@ -27,7 +27,7 @@ JavaScript. Host it anywhere.
   - `letter` — 4 paragraphs, typed out word-by-word
   - `psLines` — 4 rotating P.S. lines (a random one each time)
   - `moreMessages` — a **library of 8 fresh messages** cycled by the "Next Message" button
-  - `classNotes` — 6 sticky notes from named classmates
+  - `classNotes` — 6 notes from Pavit (memories about each teacher)
   - `fun` + themed minigame lines (poems, theorems, elements, pep talks…)
 - **Quotes, wish notes, wall notes, daily wishes** all live in `SITE_DATA` too.
 

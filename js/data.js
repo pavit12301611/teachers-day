@@ -59,12 +59,12 @@ window.SITE_DATA = {
       ],
 
       classNotes: [
-        { note: "The first time you returned our notebooks, the margins had more kindness than corrections. I kept mine.", by: "Riya, 10-B" },
-        { note: "You made us act out Shakespeare and I got to be Juliet. Best. Day. Ever.", by: "Ananya, 10-B" },
-        { note: "'Try again, you can do better' — the most famous quote in our class group. We even made a sticker of it.", by: "Aarav, 10-B" },
-        { note: "Ma'am, you remembered my birthday when I forgot mine. That's when I knew you were magic.", by: "Kabir, 9-A" },
-        { note: "Your 'one more paragraph' during writing practice is why I finish every exam paper early. Thank you for the stretch.", by: "Meera, 10-B" },
-        { note: "She corrects our grammar in WhatsApp messages too. And honestly? We love her for it.", by: "The Whole Cabinet" }
+        { note: "The first time you returned our notebooks, the margins had more kindness than corrections. I kept mine.", by: "Pavit Singh" },
+        { note: "You made us act out Shakespeare and I got to be Juliet. Best. Day. Ever.", by: "Pavit Singh" },
+        { note: "'Try again, you can do better' — the most famous quote in our class group. We even made a sticker of it.", by: "Pavit Singh" },
+        { note: "Ma'am, you remembered my birthday when I forgot mine. That's when I knew you were magic.", by: "Pavit Singh" },
+        { note: "Your 'one more paragraph' during writing practice is why I finish every exam paper early. Thank you for the stretch.", by: "Pavit Singh" },
+        { note: "She corrects our grammar in WhatsApp messages too. And honestly? We love her for it.", by: "Pavit Singh" }
       ],
 
       fun: [
@@ -141,12 +141,12 @@ window.SITE_DATA = {
       ],
 
       classNotes: [
-        { note: "Sir once asked who found the problem hard and half the class raised their hands. He smiled and said: 'Perfect. Now I know where to begin.'", by: "Aarav, 10-B" },
-        { note: "His 'one more time' is the most patient sentence in the history of sentences.", by: "Riya, 10-B" },
-        { note: "We solved 100 problems in one period as a challenge. Sir got emotional — he hid it behind the board, but we saw.", by: "Kabir, 9-A" },
-        { note: "He hands out 'star of the day' stickers for good steps. I have 12. Yes, I count.", by: "Meera, 10-B" },
-        { note: "His Pi Day stories are 3.14 times longer than anyone else's. We wouldn't trade a digit of them.", by: "Ananya, 10-B" },
-        { note: "Nobody in our class fears maths anymore. That's the biggest proof of all. Q.E.D.", by: "The Whole Cabinet" }
+        { note: "Sir once asked who found the problem hard and half the class raised their hands. He smiled and said: 'Perfect. Now I know where to begin.'", by: "Pavit Singh" },
+        { note: "His 'one more time' is the most patient sentence in the history of sentences.", by: "Pavit Singh" },
+        { note: "We solved 100 problems in one period as a challenge. Sir got emotional — he hid it behind the board, but we saw.", by: "Pavit Singh" },
+        { note: "He hands out 'star of the day' stickers for good steps. I have 12. Yes, I count.", by: "Pavit Singh" },
+        { note: "His Pi Day stories are 3.14 times longer than anyone else's. We wouldn't trade a digit of them.", by: "Pavit Singh" },
+        { note: "Nobody in our class fears maths anymore. That's the biggest proof of all. Q.E.D.", by: "Pavit Singh" }
       ],
 
       fun: [
@@ -216,12 +216,12 @@ window.SITE_DATA = {
       ],
 
       classNotes: [
-        { note: "Kaur Ma'am let me redo the experiment after our group's volcano flooded the table. I got it right the second time. She said that's how science works.", by: "Ananya, 10-B" },
-        { note: "She knows every student's name in every class she teaches. We tested. It's true.", by: "Kabir, 9-A" },
-        { note: "Her 'one more observation' before we write the conclusion changed how I see everything.", by: "Riya, 10-B" },
-        { note: "Ma'am brought her telescope to school for the night-sky session. We saw Saturn's ring — and her smile, which was bigger.", by: "Aarav, 10-B" },
-        { note: "The class garden was her idea, her seeds, her weekends. The plants grow because of her. So do we.", by: "Meera, 10-B" },
-        { note: "Lab 2 is the loudest, happiest, most 'dangerous' (safe) place in school. We love it.", by: "The Science Squad" }
+        { note: "Kaur Ma'am let me redo the experiment after our group's volcano flooded the table. I got it right the second time. She said that's how science works.", by: "Pavit Singh" },
+        { note: "She knows every student's name in every class she teaches. We tested. It's true.", by: "Pavit Singh" },
+        { note: "Her 'one more observation' before we write the conclusion changed how I see everything.", by: "Pavit Singh" },
+        { note: "Ma'am brought her telescope to school for the night-sky session. We saw Saturn's ring — and her smile, which was bigger.", by: "Pavit Singh" },
+        { note: "The class garden was her idea, her seeds, her weekends. The plants grow because of her. So do we.", by: "Pavit Singh" },
+        { note: "Lab 2 is the loudest, happiest, most 'dangerous' (safe) place in school. We love it.", by: "Pavit Singh" }
       ],
 
       fun: [
@@ -295,12 +295,12 @@ window.SITE_DATA = {
       ],
 
       classNotes: [
-        { note: "Sir knew I was nervous before inter-school tryouts and just said: 'Breathe. You've done this a hundred times.' I made the team.", by: "Kabir, 9-A" },
-        { note: "He high-fives everyone at the gate on sports day mornings. Everyone. For an hour.", by: "Riya, 10-B" },
-        { note: "'One more lap' is now a class inside joke. We say it before every hard thing. And it works.", by: "Aarav, 10-B" },
-        { note: "Coach made me captain when I wasn't the fastest. He said leaders aren't the fastest — they're the ones who turn back to check on the team.", by: "Meera, 10-B" },
-        { note: "He remembers our personal bests from two years ago. I don't remember what I ate yesterday.", by: "Ananya, 10-B" },
-        { note: "Our sports-day trophy shelf? His legacy. Our legs? Also his legacy.", by: "The Whole Cabinet" }
+        { note: "Sir knew I was nervous before inter-school tryouts and just said: 'Breathe. You've done this a hundred times.' I made the team.", by: "Pavit Singh" },
+        { note: "He high-fives everyone at the gate on sports day mornings. Everyone. For an hour.", by: "Pavit Singh" },
+        { note: "'One more lap' is now a class inside joke. We say it before every hard thing. And it works.", by: "Pavit Singh" },
+        { note: "Coach made me captain when I wasn't the fastest. He said leaders aren't the fastest — they're the ones who turn back to check on the team.", by: "Pavit Singh" },
+        { note: "He remembers our personal bests from two years ago. I don't remember what I ate yesterday.", by: "Pavit Singh" },
+        { note: "Our sports-day trophy shelf? His legacy. Our legs? Also his legacy.", by: "Pavit Singh" }
       ],
 
       fun: [
@@ -345,38 +345,38 @@ window.SITE_DATA = {
 
   /* ---------------------------------------- thank-you notes (message page) */
   wishNotes: [
-    { note: "Thank you for believing in us before we ever believed in ourselves.", by: "The Head Girl" },
-    { note: "You didn't just teach a subject — you taught us how to keep trying.", by: "Riya, 10-B" },
-    { note: "One 'well done' from you is worth a whole week of motivation.", by: "Aarav, 10-B" },
-    { note: "Thank you for the extra minutes after the bell. We noticed every one.", by: "Kabir, 9-A" },
-    { note: "Because of you, the classroom felt like a second home.", by: "The Science Squad" },
-    { note: "Teachers plant seeds that grow forever. Thank you for ours.", by: "The Whole Cabinet" },
-    { note: "Thank you for seeing the potential in us that we couldn't see ourselves.", by: "Ananya, 10-B" },
-    { note: "Every mark you corrected, every doubt you cleared — thank you for all of it.", by: "The Whole Cabinet" },
-    { note: "You made Monday mornings something we actually look forward to.", by: "Dev, 10-B" },
-    { note: "You saw the best in us even on our worst days. That's a superpower.", by: "Meera, 10-B" },
-    { note: "Every doubt you cleared still echoes in our heads as confidence.", by: "The Science Squad" },
-    { note: "Thank you for the laughter — half our school memories are your jokes.", by: "Kabir, 9-A" },
-    { note: "You didn't give us answers; you gave us the courage to find them.", by: "Ananya, 10-B" },
-    { note: "The day you said 'I'm proud of you' still plays on repeat. Thank you.", by: "Riya, 10-B" },
-    { note: "You taught us that mistakes are just first attempts at learning. Now we're fearless.", by: "Aarav, 10-B" },
-    { note: "If thank-you notes were homework, we'd still be writing them for you.", by: "The Whole Cabinet" }
+    { note: "Thank you for believing in us before we ever believed in ourselves.", by: "Pavit Singh" },
+    { note: "You didn't just teach a subject — you taught us how to keep trying.", by: "Pavit Singh" },
+    { note: "One 'well done' from you is worth a whole week of motivation.", by: "Pavit Singh" },
+    { note: "Thank you for the extra minutes after the bell. We noticed every one.", by: "Pavit Singh" },
+    { note: "Because of you, the classroom felt like a second home.", by: "Pavit Singh" },
+    { note: "Teachers plant seeds that grow forever. Thank you for ours.", by: "Pavit Singh" },
+    { note: "Thank you for seeing the potential in us that we couldn't see ourselves.", by: "Pavit Singh" },
+    { note: "Every mark you corrected, every doubt you cleared — thank you for all of it.", by: "Pavit Singh" },
+    { note: "You made Monday mornings something we actually look forward to.", by: "Pavit Singh" },
+    { note: "You saw the best in us even on our worst days. That's a superpower.", by: "Pavit Singh" },
+    { note: "Every doubt you cleared still echoes in our heads as confidence.", by: "Pavit Singh" },
+    { note: "Thank you for the laughter — half our school memories are your jokes.", by: "Pavit Singh" },
+    { note: "You didn't give us answers; you gave us the courage to find them.", by: "Pavit Singh" },
+    { note: "The day you said 'I'm proud of you' still plays on repeat. Thank you.", by: "Pavit Singh" },
+    { note: "You taught us that mistakes are just first attempts at learning. Now we're fearless.", by: "Pavit Singh" },
+    { note: "If thank-you notes were homework, we'd still be writing them for you.", by: "Pavit Singh" }
   ],
 
   /* -------------------------------------------------- sticky notes (wall) */
   wallNotes: [
-    { note: "Sharma Ma'am, your margin notes were the real love letters. We kept every single one.", by: "Riya, 10-B" },
-    { note: "Verma Sir proved that patience is a superpower. Q.E.D.", by: "Aarav, 10-B" },
-    { note: "Kaur Ma'am, Lab 2 was officially the best place in the whole school.", by: "The Science Squad" },
-    { note: "Singh Sir, 'one more lap' quietly changed my life. I'll never admit it out loud though.", by: "Kabir, 9-A" },
-    { note: "Thank you for believing in us before we ever believed in ourselves.", by: "The Head Girl" },
-    { note: "Best. Teachers. Ever. There is no debate and there never will be.", by: "The Whole Cabinet" },
-    { note: "The way you explain things twice without sighing should be studied by scientists.", by: "Meera, 10-B" },
-    { note: "Our class is basically a family now — and it's because of how you treat us.", by: "Dev, 10-B" },
-    { note: "Thank you for staying after the bell when you didn't have to. We noticed, always.", by: "Ananya, 10-B" },
-    { note: "You celebrate our small wins like they're world records. We love you for it.", by: "Kabir, 9-A" },
-    { note: "Your 'you can do this' is the strongest sentence in the English language.", by: "Riya, 10-B" },
-    { note: "Happy Teachers' Day to the people who shaped us — every single one of you. 💛", by: "The Whole Cabinet" }
+    { note: "Sharma Ma'am, your margin notes were the real love letters. We kept every single one.", by: "Pavit Singh" },
+    { note: "Verma Sir proved that patience is a superpower. Q.E.D.", by: "Pavit Singh" },
+    { note: "Kaur Ma'am, Lab 2 was officially the best place in the whole school.", by: "Pavit Singh" },
+    { note: "Singh Sir, 'one more lap' quietly changed my life. I'll never admit it out loud though.", by: "Pavit Singh" },
+    { note: "Thank you for believing in us before we ever believed in ourselves.", by: "Pavit Singh" },
+    { note: "Best. Teachers. Ever. There is no debate and there never will be.", by: "Pavit Singh" },
+    { note: "The way you explain things twice without sighing should be studied by scientists.", by: "Pavit Singh" },
+    { note: "Our class is basically a family now — and it's because of how you treat us.", by: "Pavit Singh" },
+    { note: "Thank you for staying after the bell when you didn't have to. We noticed, always.", by: "Pavit Singh" },
+    { note: "You celebrate our small wins like they're world records. We love you for it.", by: "Pavit Singh" },
+    { note: "Your 'you can do this' is the strongest sentence in the English language.", by: "Pavit Singh" },
+    { note: "Happy Teachers' Day to the people who shaped us — every single one of you. 💛", by: "Pavit Singh" }
   ],
 
   /* ---------------------------------------- daily wish (home page, per day) */

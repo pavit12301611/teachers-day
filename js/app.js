@@ -356,7 +356,7 @@
       msgCard.innerHTML =
         '<span class="msg-count">Message ' + (msgIdx + 1) + ' of ' + T.moreMessages.length + ' · written only for ' + T.shortName + '</span>' +
         '<p class="msg-body">' + T.moreMessages[msgIdx] + '</p>' +
-        '<span class="msg-by">— from the class, with love 💌</span>';
+        '<span class="msg-by">— from Pavit Singh, with love 💌</span>';
       msgCard.classList.remove('pop'); void msgCard.offsetWidth;
       msgCard.classList.add('pop');
     }
@@ -367,7 +367,7 @@
     });
     showMsg(false);
 
-    /* ---- Notes from classmates ---- */
+    /* ---- Notes from Pavit (memories about each teacher) ---- */
     var notesWrap = document.getElementById('classNotes');
     if (notesWrap) {
       T.classNotes.forEach(function (n) {
