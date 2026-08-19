@@ -1425,8 +1425,12 @@ textarea:focus-visible,
 .footer-nav a:hover { color: var(--gold-2); text-decoration: underline; text-decoration-style: wavy; }
 
 .footer h3 { color: #fff; font-size: 0.95rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; font-family: var(--font-display); }
-.footer .credit { font-size: 0.92rem; line-height: 1.8; color: #e8d0c4; }
-.footer .credit b { color: #fff; }
+.footer .credit {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #fff8ee;
+}
+.footer .credit b { color: #fff8ee; font-weight: 800; }
 
 .footer-bottom {
   max-width: 1120px;
