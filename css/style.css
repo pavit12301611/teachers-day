@@ -387,6 +387,55 @@ textarea:focus-visible,
 
 .section-sub { color: var(--muted); line-height: 1.75; }
 
+/* ---------- 7b. Today's wish ---------- */
+.today-wish {
+  max-width: 780px;
+  margin: 40px auto 0;
+  text-align: center;
+  background: linear-gradient(135deg, var(--psoft), #fff8e8);
+  border: 2px solid var(--gold);
+  border-radius: 20px;
+  padding: 26px 30px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.today-wish::before {
+  content: "💐";
+  position: absolute;
+  left: -8px;
+  bottom: -10px;
+  font-size: 3.4rem;
+  opacity: 0.18;
+  transform: rotate(-18deg);
+}
+.today-wish::after {
+  content: "✨";
+  position: absolute;
+  right: -6px;
+  top: -12px;
+  font-size: 3rem;
+  opacity: 0.2;
+}
+.today-wish .tw-label {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple-deep);
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  padding: 6px 16px;
+  margin-bottom: 12px;
+}
+.today-wish .tw-text {
+  font-family: var(--font-hand);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  line-height: 1.55;
+  color: var(--ink);
+}
+
 /* ---------- 8. Stats ---------- */
 .stats {
   display: grid;
@@ -676,7 +725,7 @@ textarea:focus-visible,
   margin-bottom: 0;
 }
 .letter.open {
-  max-height: 2400px;
+  max-height: 5200px;
   opacity: 1;
   padding-top: 34px;
   padding-bottom: 30px;
@@ -707,6 +756,84 @@ textarea:focus-visible,
   padding-top: 10px;
 }
 .letter .ps.show { opacity: 1; }
+
+/* ---------- 12b. Fun action buttons + message library ---------- */
+.fun-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+}
+.fun-actions .btn { margin: 0; }
+
+.msg-card {
+  max-width: 780px;
+  margin: 0 auto 20px;
+  background: var(--card);
+  border-radius: 18px;
+  padding: 30px 34px;
+  box-shadow: var(--shadow-sm);
+  border: 2px dashed var(--p1);
+  position: relative;
+  font-family: var(--font-hand);
+  line-height: 1.7;
+  color: #463c54;
+}
+.msg-card.pop { animation: chipPop 0.45s ease; }
+.msg-card .msg-count {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--p1);
+  margin-bottom: 10px;
+}
+.msg-card .msg-body { font-size: 1.42rem; }
+.msg-card .msg-by {
+  display: block;
+  margin-top: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--p2);
+  text-align: right;
+}
+
+.notes-title {
+  text-align: center;
+  margin: 42px 0 22px;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  color: var(--purple-deep);
+}
+.class-notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.class-note {
+  background: var(--psoft);
+  border-radius: 14px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--p1);
+  box-shadow: var(--shadow-sm);
+  line-height: 1.65;
+  color: #463c54;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.class-note:hover { transform: translateY(-4px) rotate(-0.5deg); box-shadow: var(--shadow); }
+.class-note p { font-family: var(--font-hand); font-size: 1.25rem; }
+.class-note .who {
+  display: block;
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: var(--p1);
+  text-align: right;
+}
 
 /* ---------- 13. Fun stage (subject minigames) ---------- */
 .fun-stage {
@@ -1239,3 +1366,26 @@ body.party { animation: partyHue 2.5s linear infinite; }
   .fade-up { animation: none; }
   body.party { animation: none; }
 }
+
+/* ---------- 10b. Staff group headers ---------- */
+.staff-group-head {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  color: var(--purple-deep);
+  text-align: center;
+  margin: 56px 0 24px;
+  position: relative;
+}
+.staff-group-head::after {
+  content: "";
+  display: block;
+  width: 90px;
+  height: 4px;
+  margin: 10px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--gold), var(--purple));
+}
+.staff-group-head:first-child { margin-top: 8px; }
+
+/* ---------- 10c. Staff groups wrapper ---------- */
+.staff-groups { display: block; }

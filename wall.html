@@ -9,7 +9,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="The Gratitude Wall 💛" />
   <meta property="og:description" content="Sticky notes from the whole school — add your own thank-you note." />
-  <meta property="og:image" content="assets/teacher1.jpg" />
+  <meta property="og:image" content="assets/og-banner.png" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +28,7 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="teachers.html">Our Teachers</a></li>
+      <li><a href="teachers.html">Our Staff</a></li>
       <li><a href="memories.html">Memories</a></li>
       <li><a href="message.html">Special Message</a></li>
       <li><a href="wall.html" class="active" aria-current="page">Gratitude Wall</a></li>
@@ -40,7 +40,7 @@
       <div class="section-head">
         <h2 class="section-title" id="wall-title">The Wall of Gratitude 💛</h2>
         <p class="section-sub">
-          Sticky notes from the whole school. Read them, smile at them — and stick your own
+          Sticky notes from me, for you. Read them, smile at them — and stick your own
           on the wall. It stays right here in your browser, like a real note on a real wall.
         </p>
       </div>
@@ -51,7 +51,7 @@
         <h3>📌 Stick Your Note</h3>
         <div class="field">
           <label for="wallName">Your name</label>
-          <input type="text" id="wallName" maxlength="40" placeholder="e.g. Riya, 10-B (or leave blank)" autocomplete="name" />
+          <input type="text" id="wallName" maxlength="40" placeholder="e.g. Pavit Singh (or leave blank)" autocomplete="name" />
         </div>
         <div class="field">
           <label for="wallNote">Your thank-you note</label>
@@ -66,10 +66,10 @@
     <div class="footer-inner">
       <div>
         <p class="closing">Thank you, teachers. 💐</p>
-        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
+        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — I noticed, and I am forever grateful.</p>
         <ul class="footer-nav">
           <li><a href="index.html">Home</a></li>
-          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="teachers.html">Our Staff</a></li>
           <li><a href="memories.html">Memories</a></li>
           <li><a href="message.html">Special Message</a></li>
           <li><a href="wall.html">Gratitude Wall</a></li>
@@ -78,7 +78,7 @@
       <div>
         <h3>Made with love</h3>
         <p class="credit">
-          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
+          By <b>Pavit Singh</b><br />
           <b>[Your School Name]</b> · Class of 2026
         </p>
       </div>
@@ -89,16 +89,8 @@
     </div>
   </footer>
 
-  <script>
-    window.WALL_NOTES = [
-      { note: "Sharma Ma'am, your margin notes were the real love letters. We kept every single one.", by: "Riya, 10-B" },
-      { note: "Verma Sir proved that patience is a superpower. Q.E.D.", by: "Aarav, 10-B" },
-      { note: "Kaur Ma'am, Lab 2 was officially the best place in the whole school.", by: "The Science Squad" },
-      { note: "Singh Sir, 'one more lap' quietly changed my life. I'll never admit it out loud though.", by: "Kabir, 9-A" },
-      { note: "Thank you for believing in us before we ever believed in ourselves.", by: "The Head Girl" },
-      { note: "Best. Teachers. Ever. There is no debate and there never will be.", by: "The Whole Cabinet" }
-    ];
-  </script>
+  <!-- Sticky notes now live in js/data.js (SITE_DATA.wallNotes). -->
+  <script src="js/data.js"></script>
   <script src="js/confetti.js"></script>
   <script src="js/app.js"></script>
 </body>

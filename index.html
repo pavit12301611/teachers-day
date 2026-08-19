@@ -9,7 +9,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Happy Teachers' Day 💐" />
   <meta property="og:description" content="A heartfelt tribute to our teachers — personal letters, voice notes, memories and a gratitude wall." />
-  <meta property="og:image" content="assets/teacher1.jpg" />
+  <meta property="og:image" content="assets/og-banner.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,7 +29,7 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="active" aria-current="page">Home</a></li>
-      <li><a href="teachers.html">Our Teachers</a></li>
+      <li><a href="teachers.html">Our Staff</a></li>
       <li><a href="memories.html">Memories</a></li>
       <li><a href="message.html">Special Message</a></li>
       <li><a href="wall.html">Gratitude Wall</a></li>
@@ -45,12 +45,12 @@
           <p class="sub">
             To the ones who turn classrooms into worlds of wonder, who believe in us
             even when we don't believe in ourselves — this little corner of the internet
-            is our thank-you card to you.
+            is my thank-you card to you.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="teachers.html">Meet Our Teachers 👩‍🏫</a>
+            <a class="btn btn-primary" href="teachers.html">Meet All 83 Teachers &amp; Staff 💐</a>
             <a class="btn btn-ghost" href="wall.html">Leave A Note 💛</a>
-            <button class="btn btn-gold" type="button" data-celebrate="🎉 Happy Teachers' Day, to every teacher who ever believed in us!">🎉 Celebrate</button>
+            <button class="btn btn-gold" type="button" data-celebrate="🎉 Happy Teachers' Day, to every teacher and staff member who ever believed in us!">🎉 Celebrate</button>
           </div>
         </div>
 
@@ -58,13 +58,10 @@
           <span class="hero-emo" style="top:-18px; right:6%;">🎈</span>
           <span class="hero-emo" style="bottom:-10px; left:2%; animation-delay:-2s;">🍎</span>
           <div class="collage">
-            <div class="collage-frame">
-              <div class="collage-img"><img src="assets/teacher1.jpg" alt="" /></div>
-              <div class="collage-img"><img src="assets/teacher2.jpg" alt="" /></div>
-              <div class="collage-img"><img src="assets/teacher3.jpg" alt="" /></div>
-              <div class="collage-img"><img src="assets/teacher4.jpg" alt="" /></div>
+            <div class="collage-frame" id="heroCollage">
+              <!-- Filled from js/data.js — the first four staff members. -->
             </div>
-            <span class="collage-chip">Our favourite teachers 💛</span>
+            <span class="collage-chip">Our teachers &amp; staff 💛</span>
           </div>
         </div>
       </div>
@@ -77,14 +74,16 @@
       </div>
     </div>
 
+    <div class="today-wish reveal" id="todayWish" aria-live="polite"></div>
+
     <section class="section" aria-labelledby="stats-title">
       <div class="section-head">
         <h2 class="section-title" id="stats-title">Today, In Numbers</h2>
-        <p class="section-sub">A scientific* measurement of our gratitude. (*Science approved by Kaur Ma'am.)</p>
+        <p class="section-sub">A scientific* measurement of my gratitude. (*Science approved by Kaur Ma'am.)</p>
       </div>
       <div class="stats">
-        <div class="stat reveal"><b data-count="4">0</b><span>Teachers Celebrated</span></div>
-        <div class="stat reveal"><b data-count="16">0</b><span>Hidden Secrets To Find</span></div>
+        <div class="stat reveal"><b data-count="83">0</b><span>Teachers &amp; Staff Celebrated</span></div>
+        <div class="stat reveal"><b data-count="4">0</b><span>Hidden Secrets Per Page</span></div>
         <div class="stat reveal"><b>∞</b><span>Memories Made</span></div>
         <div class="stat reveal"><b data-count="100">0</b><span>% From The Heart</span></div>
       </div>
@@ -92,60 +91,14 @@
 
     <section class="section" aria-labelledby="teachers-title">
       <div class="section-head">
-        <h2 class="section-title" id="teachers-title">The Teachers We're Celebrating</h2>
-        <p class="section-sub">Four teachers, four personal pages, four sealed letters. Tap a card to open a wish made for one teacher only.</p>
+        <h2 class="section-title" id="teachers-title">The Staff We're Celebrating</h2>
+        <p class="section-sub">Every teacher and staff member has their own page, their own sealed letter — and a whole library of messages that keeps growing. Tap a card to open a wish made for one person only.</p>
       </div>
-      <div class="teacher-grid">
-        <a class="teacher-card mini reveal" style="--c1:#b7196b; --c2:#d97706;" href="teacher-sharma.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher1.jpg" alt="Mrs. Anjali Sharma" />
-            <span class="theme-emoji">📖</span>
-          </div>
-          <div class="info">
-            <h3>Mrs. Anjali Sharma</h3>
-            <p class="subject">English · Class Teacher</p>
-            <p class="note">"Your margin notes were tiny letters from you to us."</p>
-          </div>
-        </a>
-
-        <a class="teacher-card mini reveal" style="--c1:#1d4ed8; --c2:#0ea5e9;" href="teacher-verma.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
-            <span class="theme-emoji">➗</span>
-          </div>
-          <div class="info">
-            <h3>Mr. Rajesh Verma</h3>
-            <p class="subject">Mathematics</p>
-            <p class="note">"You made us show our steps — in equations and in life."</p>
-          </div>
-        </a>
-
-        <a class="teacher-card mini reveal" style="--c1:#0f766e; --c2:#ea580c;" href="teacher-kaur.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher3.jpg" alt="Ms. Simran Kaur" />
-            <span class="theme-emoji">🔬</span>
-          </div>
-          <div class="info">
-            <h3>Ms. Simran Kaur</h3>
-            <p class="subject">Science</p>
-            <p class="note">"You turned curiosity into our favourite habit."</p>
-          </div>
-        </a>
-
-        <a class="teacher-card mini reveal" style="--c1:#15803d; --c2:#f97316;" href="teacher-singh.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher4.jpg" alt="Mr. Arjun Singh" />
-            <span class="theme-emoji">🏆</span>
-          </div>
-          <div class="info">
-            <h3>Mr. Arjun Singh</h3>
-            <p class="subject">Physical Education</p>
-            <p class="note">"'One more lap' quietly changed our lives."</p>
-          </div>
-        </a>
+      <div class="teacher-grid" id="homeTeacherGrid">
+        <!-- Staff cards are generated from js/data.js (staff.csv). -->
       </div>
       <p style="text-align:center; margin-top:28px;">
-        <a class="btn btn-ghost" href="teachers.html">See all teachers →</a>
+        <a class="btn btn-ghost" href="teachers.html">See all 83 teachers &amp; staff →</a>
       </p>
     </section>
 
@@ -165,7 +118,7 @@
           <div class="num">2</div>
           <div class="big">💌</div>
           <h3>Break The Seal</h3>
-          <p>Open the sealed letter and watch their personalised wish write itself, word by word. Then press the golden voice-note button. 🎧</p>
+          <p>Open the sealed letter and watch their personalised wish write itself, word by word. Then keep tapping — every teacher has a whole library of fresh messages. 🎧</p>
         </div>
         <div class="step-card reveal">
           <div class="num">3</div>
@@ -179,30 +132,22 @@
     <section class="section" aria-labelledby="quotes-title">
       <div class="section-head">
         <h2 class="section-title" id="quotes-title">Words That Say It Best</h2>
-        <p class="section-sub">A few lines that remind us why teachers are the real superheroes — no capes, just chalk.</p>
+        <p class="section-sub">A few lines that remind us why teachers are the real superheroes — no capes, just chalk. (New ones every visit — shuffle away!)</p>
       </div>
-      <div class="quotes-strip">
-        <div class="quote-card reveal">
-          "A teacher takes a hand, opens a mind, and touches a heart."
-          <span class="who">— Unknown</span>
-        </div>
-        <div class="quote-card reveal">
-          "The best teachers teach from the heart, not from the book."
-          <span class="who">— Unknown</span>
-        </div>
-        <div class="quote-card reveal">
-          "Teaching is the one profession that creates all other professions."
-          <span class="who">— Unknown</span>
-        </div>
+      <div class="quotes-strip" id="quotesStrip">
+        <!-- Quotes are generated from js/data.js — three fresh ones on every visit. -->
       </div>
+      <p style="text-align:center; margin-top:26px;">
+        <button class="btn btn-ghost" type="button" id="shuffleQuotes">🔄 Fresh Quotes, Please</button>
+      </p>
     </section>
 
     <section class="section" style="text-align:center;" aria-labelledby="cta-title">
       <div class="section-head">
-        <h2 class="section-title" id="cta-title">From All of Us 🙏</h2>
+        <h2 class="section-title" id="cta-title">From Me 🙏</h2>
         <p class="section-sub">
           Every mark you corrected, every doubt you cleared, every extra minute you stayed
-          after the bell — we noticed. And today, we celebrate YOU.
+          after the bell — I noticed. And today, I celebrate YOU.
         </p>
       </div>
       <a class="btn btn-primary" href="teachers.html">Open The Wishes →</a>
@@ -214,10 +159,10 @@
     <div class="footer-inner">
       <div>
         <p class="closing">Thank you, teachers. 💐</p>
-        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
+        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — I noticed, and I am forever grateful.</p>
         <ul class="footer-nav">
           <li><a href="index.html">Home</a></li>
-          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="teachers.html">Our Staff</a></li>
           <li><a href="memories.html">Memories</a></li>
           <li><a href="message.html">Special Message</a></li>
           <li><a href="wall.html">Gratitude Wall</a></li>
@@ -226,7 +171,7 @@
       <div>
         <h3>Made with love</h3>
         <p class="credit">
-          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
+          By <b>Pavit Singh</b><br />
           <b>[Your School Name]</b> · Class of 2026
         </p>
       </div>
@@ -237,6 +182,7 @@
     </div>
   </footer>
 
+  <script src="js/data.js"></script>
   <script src="js/confetti.js"></script>
   <script src="js/app.js"></script>
 </body>

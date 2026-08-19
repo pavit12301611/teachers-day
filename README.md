@@ -1,43 +1,58 @@
 # teachers-day 💐
 
-A polished, emotional, fully static Teachers' Day tribute site — made by **Pavit Singh and the
-Whole Cabinet Members**. No frameworks, no build step, no paid services: just HTML, CSS and a
-little JavaScript. Host it anywhere.
+A heartfelt, **fully data-driven** Teachers' Day tribute site — made by **Pavit Singh** for the
+teachers and staff of **St. Mary's Senior Secondary School, Saharanpur** (83 members).
+No frameworks, no build step, no paid services: just HTML, CSS and a little JavaScript. Host it anywhere.
 
 ## Pages
 
 | Page | What's on it |
 | --- | --- |
-| `index.html` | Home — split hero with a photo collage, thank-you marquee, animated stats, teacher preview, treasure-hunt guide, quotes and a 🎉 **Celebrate** button |
-| `teachers.html` | The four teachers, each with their own theme colour, appreciation message + secret-hunt progress |
-| `teacher-sharma.html` | Mrs. Anjali Sharma (English): sealed letter, ANJALI acrostic poem, compliment shuffle, voice note |
-| `teacher-verma.html` | Mr. Rajesh Verma (Maths): sealed letter, "Solve For Joy" proof, the Pi button, voice note |
-| `teacher-kaur.html` | Ms. Simran Kaur (Science): sealed letter, Kaurium element tile, reaction mixer, voice note |
-| `teacher-singh.html` | Mr. Arjun Singh (PE): sealed letter, whistle button (real sound!), pep talks, voice note |
-| `memories.html` | Photo gallery with an accessible lightbox — existing photos + clearly-marked, easy-to-replace placeholders |
-| `message.html` | The special message from everyone + a 🎲 random thank-you-note shuffle |
+| `index.html` | Home — hero collage of staff, a **daily wish** (fresh every day), thank-you marquee, animated stats (83 staff), staff preview, treasure-hunt guide, **randomised quotes** and a 🎉 **Celebrate** button |
+| `teachers.html` | **All 83 staff members**, grouped by designation (Principal, Manager, P.G.T., T.G.T., P.R.T., Pre-Primary, Office, Librarian, Supporting) — each with their own theme colour, message and secret-hunt progress |
+| `teacher.html?t=p001` (etc.) | **One dynamic template** for every staff member: themed profile, sealed letter that types itself out (with a time-of-day greeting), subject minigames, a **message library** (a new message every time you ask), notes from Pavit, and 4 hidden secrets |
+| `memories.html` | "The Faces We'll Keep Forever" — an album of every staff member with an accessible lightbox |
+| `message.html` | The special message from Pavit + a 🎲 random thank-you-note shuffle |
 | `wall.html` | Interactive Gratitude Wall of sticky notes (add/remove your own, saved in your browser) |
+
+## The content engine — `js/data.js` 🧠
+
+`js/data.js` is **generated from `staff.csv`** (`python3 /tmp/gen_staff.py` regenerates it — see below).
+Every staff member is one record: name, designation, qualification, subject, theme colours,
+`photo` (path inside `images/`) and `avatar` (initial avatar in `assets/staff-avatars/`).
+
+- **Adding photos**: drop the real photos into the `images/` folder using the exact filenames from
+  the CSV (`images/001_sr-sheela-solanki.jpg`, …). The site **automatically** uses them — until then
+  it gracefully falls back to the initial avatars. No code changes needed.
+- **Adding/removing staff**: edit `staff.csv`, re-run the generator, done.
+- Per-person content (sealed letter, P.S. lines, message library, minigames) is built from
+  subject/designation templates in `js/app.js` — personalised with each person's name.
+
+No two visits are identical: quotes reshuffle, the P.S. line rotates, the daily wish changes with
+the day of the week, and the letter greeting matches the time of day.
 
 ## Personalisation
 
-Every teacher page has its **own** colour theme, its **own** sealed letter that types itself out,
-its **own** P.S., its **own** fun buttons and its **own** recorded voice note (`assets/audio/*.mp3`).
-No two teachers see the same message.
+Every staff member gets their **own** colour theme, **own** sealed letter, **own** P.S., **own**
+minigame buttons (subject-flavoured: poems for English, proofs for Maths, elements for Science,
+whistle for PE…) and **own** message library.
 
-## Hidden surprises (4 per teacher page 🕵️)
+## Hidden surprises (4 per staff page 🕵️)
 
-1. Tap the teacher's photo **5 times** → stickers + secret reveal
+1. Tap the photo **5 times** → stickers + secret reveal
 2. Find the **🎁 gift box** hiding in the footer
-3. Enter the **Konami code** (↑ ↑ ↓ ↓ ← → ← → B A) → party mode
-4. Select the **invisible ink** line in the footer
+3. Select the **invisible ink** line in the footer
+4. Enter the **Konami code** (↑ ↑ ↓ ↓ ← → ← → B A) → party mode + secret #4
 
-Find all 4 on a page for the golden banner celebration. 🏆
+Find all 4 on a page for the golden banner celebration. 🏆 Progress is saved per person in your
+browser and shown on the staff index.
 
-## Adding real photos to the Memories page
+## Regenerating data from staff.csv
 
-Drop your image into `assets/memories/`, then replace the placeholder `src` on any card in
-`memories.html` (see the in-file comment). The caption and lightbox update from the card's
-`data-lightbox-*` attributes.
+```bash
+# after editing staff.csv
+python3 /tmp/gen_staff.py   # regenerates js/data.js + assets/staff-avatars/
+```
 
 ## Run locally
 
@@ -54,3 +69,4 @@ python3 -m http.server 8000
 - `prefers-reduced-motion` is respected (animations & confetti calm down automatically).
 - Confetti only appears when *you* click something — nothing auto-sprays on load.
 - Fonts load from Google Fonts with graceful fallbacks; everything else is dependency-free.
+- With JavaScript disabled, pages degrade gracefully.

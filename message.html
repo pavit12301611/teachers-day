@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#2c2446" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="A Special Message 💌" />
-  <meta property="og:description" content="From every one of us, straight from the heart." />
-  <meta property="og:image" content="assets/teacher1.jpg" />
+  <meta property="og:description" content="From me, straight from the heart." />
+  <meta property="og:image" content="assets/og-banner.png" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +28,7 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="teachers.html">Our Teachers</a></li>
+      <li><a href="teachers.html">Our Staff</a></li>
       <li><a href="memories.html">Memories</a></li>
       <li><a href="message.html" class="active" aria-current="page">Special Message</a></li>
       <li><a href="wall.html">Gratitude Wall</a></li>
@@ -39,7 +39,7 @@
     <section class="section fade-up" aria-labelledby="message-title">
       <div class="section-head">
         <h2 class="section-title" id="message-title">A Special Message 💌</h2>
-        <p class="section-sub">From every one of us, straight from the heart. (And each teacher has an even more personal one waiting on their page!)</p>
+        <p class="section-sub">From me, straight from the heart. (And each teacher has an even more personal one — plus a whole library of extras — waiting on their page!)</p>
       </div>
 
       <div class="message-wrap">
@@ -64,12 +64,12 @@
           <p>
             Happy Teachers' Day! May your day be as wonderful as you make ours, every single day. 💐
           </p>
-          <p class="signoff">— With love and gratitude,<br />Pavit Singh &amp; the Whole Cabinet</p>
+          <p class="signoff">— With love and gratitude,<br />Pavit Singh</p>
         </div>
 
         <div class="note-shuffle reveal">
           <h3>Need the right words?</h3>
-          <p class="lead">Tap to see a thank-you note a classmate wrote.</p>
+          <p class="lead">Tap to see a thank-you note I wrote.</p>
           <button class="btn btn-primary" type="button" data-note-shuffle>🎲 Surprise Me</button>
           <p class="note-output" data-note-output aria-live="polite"></p>
         </div>
@@ -86,10 +86,10 @@
     <div class="footer-inner">
       <div>
         <p class="closing">Thank you, teachers. 💐</p>
-        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
+        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — I noticed, and I am forever grateful.</p>
         <ul class="footer-nav">
           <li><a href="index.html">Home</a></li>
-          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="teachers.html">Our Staff</a></li>
           <li><a href="memories.html">Memories</a></li>
           <li><a href="message.html">Special Message</a></li>
           <li><a href="wall.html">Gratitude Wall</a></li>
@@ -98,7 +98,7 @@
       <div>
         <h3>Made with love</h3>
         <p class="credit">
-          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
+          By <b>Pavit Singh</b><br />
           <b>[Your School Name]</b> · Class of 2026
         </p>
       </div>
@@ -109,19 +109,8 @@
     </div>
   </footer>
 
-  <script>
-    // Predefined thank-you notes used by the "Surprise Me" shuffle above.
-    window.WISH_NOTES = [
-      { note: "Thank you for believing in us before we ever believed in ourselves.", by: "The Head Girl" },
-      { note: "You didn't just teach a subject — you taught us how to keep trying.", by: "Riya, 10-B" },
-      { note: "One 'well done' from you is worth a whole week of motivation.", by: "Aarav, 10-B" },
-      { note: "Thank you for the extra minutes after the bell. We noticed every one.", by: "Kabir, 9-A" },
-      { note: "Because of you, the classroom felt like a second home.", by: "The Science Squad" },
-      { note: "Teachers plant seeds that grow forever. Thank you for ours.", by: "The Whole Cabinet" },
-      { note: "Thank you for seeing the potential in us that we couldn't see ourselves.", by: "Ananya, 10-B" },
-      { note: "Every mark you corrected, every doubt you cleared — thank you for all of it.", by: "The Whole Cabinet" }
-    ];
-  </script>
+  <!-- Thank-you notes now live in js/data.js (SITE_DATA.wishNotes). -->
+  <script src="js/data.js"></script>
   <script src="js/confetti.js"></script>
   <script src="js/app.js"></script>
 </body>
