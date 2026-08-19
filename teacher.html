@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>For Our Teacher 💐 | Teachers' Day</title>
   <meta name="description" content="A personal Teachers' Day page — sealed letter, a growing library of messages, a voice note and hidden surprises, all made for one teacher only." />
   <meta name="theme-color" content="#e8b48a" />
@@ -61,25 +61,35 @@
 
     <section class="profile fade-up" aria-labelledby="teacherName">
       <div class="photo-side">
-        <span class="float-emoji" style="top:-30px; left:10%;"></span>
-        <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;"></span>
-        <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;"></span>
-        <div class="photo-frame" id="photoFrame">
-          <img id="teacherPhoto" src="" alt="" />
+        <span class="float-emoji" style="top:-28px; left:8%;"></span>
+        <span class="float-emoji" style="top:-20px; right:4%; animation-delay:-2s;"></span>
+        <span class="float-emoji" style="bottom:-18px; left:42%; animation-delay:-1s;"></span>
+        <div class="polaroid">
+          <span class="tape tape-l" aria-hidden="true"></span>
+          <span class="tape tape-r" aria-hidden="true"></span>
+          <div class="photo-frame" id="photoFrame">
+            <img id="teacherPhoto" src="" alt="" />
+          </div>
+          <p class="polaroid-cap" id="polaroidCap">for you ♡</p>
         </div>
         <span class="sticker s1"></span>
         <span class="sticker s2"></span>
         <span class="sticker s3"></span>
         <span class="sticker s4"></span>
         <span class="sticker s5"></span>
-        <p class="photo-hint">(psst… some photos like being tapped five times)</p>
+        <p class="photo-hint">(psst… tap the photo five times)</p>
       </div>
 
-      <div>
+      <div class="profile-copy">
+        <p class="for-you" id="forYou">a page sketched just for you</p>
         <h1 id="teacherName">Our Teacher</h1>
-        <span class="subject-tag" id="subjectTag"></span>
-        <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
+        <div class="tag-row">
+          <span class="subject-tag" id="subjectTag"></span>
+          <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
+        </div>
         <p class="only-for" id="onlyFor"></p>
+        <ul class="fact-row" id="factRow"></ul>
+        <div class="about-card" id="aboutCard"></div>
 
         <button class="btn btn-primary" type="button" id="openLetter">💌 Open The Sealed Letter</button>
         <div class="letter" id="letter">
@@ -89,9 +99,11 @@
         <div class="fun-actions" id="funButtons"></div>
         <div class="fun-stage" id="funStage"></div>
 
-        <div style="margin-top:16px;">
+        <div class="voice-wrap">
           <button class="btn btn-gold" type="button" id="voiceNote">🎧 Play Your Voice Note</button>
         </div>
+
+        <nav class="teacher-pager" id="teacherPager" aria-label="More teachers"></nav>
       </div>
     </section>
 

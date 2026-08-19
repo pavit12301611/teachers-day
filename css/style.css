@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Teachers' Day — Hand-drawn claymorphism
-   Soft puffy clay shapes, sketched ink outlines, notebook paper grain.
+   Teachers' Day — Sketchbook / hand-drawn
+   Marker outlines, paper grain, polaroids. Clay glow kept very light.
 
-   Fonts: Fredoka (chubby display) · Nunito (body) · Caveat / Patrick Hand (ink)
+   Fonts: Patrick Hand (display) · Nunito (body) · Caveat (ink notes)
    ========================================================================== */
 
 /* ---------- 1. Design tokens ---------- */
@@ -26,21 +26,12 @@
   --ink-line: #3d2a26;
 
   --line: rgba(90, 61, 74, 0.16);
-  --shadow-sm:
-    inset 0 8px 14px rgba(255, 255, 255, 0.72),
-    inset 0 -8px 12px rgba(160, 100, 70, 0.1),
-    0 8px 18px rgba(90, 50, 40, 0.12);
-  --shadow:
-    inset 0 10px 18px rgba(255, 255, 255, 0.78),
-    inset 0 -10px 16px rgba(160, 100, 70, 0.12),
-    0 14px 28px rgba(90, 50, 40, 0.16);
-  --shadow-lg:
-    inset 0 12px 22px rgba(255, 255, 255, 0.82),
-    inset 0 -12px 18px rgba(160, 100, 70, 0.14),
-    0 22px 40px rgba(90, 50, 40, 0.2);
-  --radius: 36px;
-  --radius-lg: 46px;
-  --font-display: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  --shadow-sm: 3px 4px 0 rgba(61, 42, 38, 0.18);
+  --shadow: 4px 6px 0 rgba(61, 42, 38, 0.2);
+  --shadow-lg: 6px 8px 0 rgba(61, 42, 38, 0.22);
+  --radius: 18px;
+  --radius-lg: 22px;
+  --font-display: 'Patrick Hand', 'Fredoka', 'Nunito', system-ui, sans-serif;
   --font-hand: 'Caveat', 'Patrick Hand', 'Segoe Script', cursive;
   --font-sketch: 'Patrick Hand', 'Caveat', cursive;
   --font-body: 'Nunito', 'Segoe UI', system-ui, sans-serif;
@@ -1614,3 +1605,320 @@ body.party { animation: partyHue 2.5s linear infinite; }
 
 /* ---------- 10c. Staff groups wrapper ---------- */
 .staff-groups { display: block; }
+
+
+/* ==========================================================================
+   25. Sketchbook override — less clay, more ink
+   ========================================================================== */
+.navbar {
+  box-shadow: none;
+  background: rgba(255, 250, 240, 0.94);
+}
+.nav-links a.active {
+  background: var(--p1);
+  box-shadow: 3px 3px 0 var(--ink-line);
+}
+.nav-toggle { box-shadow: 3px 3px 0 var(--ink-line); }
+
+.btn,
+.btn-primary,
+.btn-ghost,
+.btn-gold {
+  box-shadow: 4px 5px 0 var(--ink-line);
+  background-image: none;
+}
+.btn-primary { background: var(--p1); }
+.btn-ghost { background: #fffaf2; }
+.btn-gold { background: var(--gold-2); animation: none; }
+.btn:active { box-shadow: 1px 2px 0 var(--ink-line); }
+
+.hero .eyebrow,
+.collage,
+.collage-chip,
+.today-wish,
+.tw-label,
+.stat, .step-card, .teacher-card, .rumour-box,
+.secret-chip, .subject-tag, .gold-banner,
+.msg-card, .class-note, .note-shuffle, .letter-static,
+.memory-card, .quote-card, .wall-form, .toast {
+  box-shadow: 4px 5px 0 var(--ink-line);
+  background-image: none;
+}
+.collage {
+  border-radius: 18px;
+  background: #fffaf2;
+  padding: 12px;
+}
+.collage-frame { border-radius: 8px; overflow: hidden; }
+.collage-img { border-radius: 6px; }
+.hero .eyebrow { border-radius: 999px; }
+
+.stat, .step-card, .teacher-card, .quote-card, .memory-card {
+  border-radius: 16px 20px 14px 18px;
+}
+.step-card .num { box-shadow: 3px 3px 0 var(--ink-line); }
+
+.footer { box-shadow: none; }
+
+/* ---------- Teacher page: polaroid + facts ---------- */
+.profile {
+  max-width: 1080px;
+  margin: 12px auto 8px;
+  padding: 0 clamp(14px, 4vw, 48px) 12px;
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) 1fr;
+  gap: clamp(20px, 4vw, 48px);
+  align-items: start;
+}
+.profile-copy { min-width: 0; }
+
+.for-you {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--p1);
+  transform: rotate(-2deg);
+  margin-bottom: 4px;
+}
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 4px 0 10px;
+}
+.subject-tag, .secret-chip { margin: 0; }
+
+.fact-row {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.fact {
+  background: #fffaf2;
+  border: 2.5px solid var(--ink-line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  box-shadow: 3px 3px 0 var(--ink-line);
+}
+.fact-k {
+  font-family: var(--font-sketch);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.fact-v { font-weight: 800; font-size: 0.88rem; }
+
+.about-card {
+  background: #fffaf2;
+  border: 2.5px dashed var(--ink-line);
+  border-radius: 16px 22px 14px 20px;
+  padding: 14px 16px 16px;
+  margin-bottom: 16px;
+  box-shadow: 3px 4px 0 rgba(61, 42, 38, 0.12);
+}
+.about-kicker {
+  font-family: var(--font-sketch);
+  color: var(--p1);
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+.about-card p { color: var(--ink); line-height: 1.65; }
+
+.polaroid {
+  position: relative;
+  background: #fffdf8;
+  border: 3px solid var(--ink-line);
+  border-radius: 4px 6px 5px 4px;
+  padding: 10px 10px 8px;
+  transform: rotate(-1.8deg);
+  box-shadow: 6px 7px 0 var(--ink-line);
+}
+.polaroid .tape {
+  position: absolute;
+  top: -12px;
+  width: 68px;
+  height: 22px;
+  background: rgba(255, 236, 170, 0.72);
+  border: 1.5px solid rgba(61, 42, 38, 0.2);
+  z-index: 3;
+}
+.tape-l { left: 14px; transform: rotate(-8deg); }
+.tape-r { right: 14px; transform: rotate(10deg); }
+.profile .photo-frame {
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: none;
+  transform: none;
+  background: #efe4d4;
+}
+.profile .photo-frame:hover { transform: none; }
+.profile .photo-frame img {
+  aspect-ratio: 4 / 4.5;
+  width: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+}
+.profile .photo-frame.wiggle { animation: wiggle 0.4s ease; }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1.6deg) scale(1.01); }
+  75% { transform: rotate(-2deg) scale(1.01); }
+}
+.polaroid-cap {
+  font-family: var(--font-hand);
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 8px 4px 4px;
+  color: var(--ink);
+}
+.sticker { z-index: 6; }
+.sticker.s1 { top: 6px; left: -18px; }
+.sticker.s2 { top: 0; right: -16px; }
+.sticker.s3 { bottom: 48px; left: -22px; }
+.sticker.s4 { bottom: 8px; right: -18px; }
+.sticker.s5 { top: 42%; right: -26px; }
+
+.voice-wrap { margin-top: 12px; }
+.teacher-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 2px dashed rgba(61, 42, 38, 0.22);
+}
+.pager-link {
+  font-family: var(--font-sketch);
+  color: var(--p1);
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 400;
+  padding: 8px 4px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.pager-link:hover { text-decoration: underline; text-decoration-style: wavy; }
+.pager-count {
+  font-family: var(--font-sketch);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.profile h1 { word-break: break-word; }
+
+/* ---------- 26. Mobile-first polish ---------- */
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-x: clip; }
+img, svg, video { max-width: 100%; height: auto; }
+.btn, .nav-toggle, .nav-links a, .pager-link, .memory-card, .lightbox-close {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    padding: 8px 14px;
+    padding-top: max(8px, env(safe-area-inset-top));
+  }
+  .brand { font-size: 1.28rem; }
+  .hero { padding: 28px 16px 28px; }
+  .hero h1 { font-size: clamp(2.1rem, 9vw, 3rem); }
+  .hero p.sub { font-size: 1rem; }
+  .hero-visual { max-width: 360px; }
+  .collage { transform: rotate(0.6deg); }
+  .section { padding: 36px 16px; }
+  .today-wish { margin: 20px 16px 0; padding: 18px 16px; }
+  .back-link { margin: 14px 16px 0; }
+  .gold-banner-wrap { padding: 12px 16px 0; }
+
+  .profile {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 8px;
+    text-align: center;
+  }
+  .profile .photo-side {
+    max-width: 280px;
+    width: min(78vw, 280px);
+    margin: 18px auto 0;
+    overflow: visible;
+  }
+  .polaroid { transform: rotate(-0.8deg); }
+  .float-emoji { display: none; }
+  .profile-copy { text-align: center; }
+  .tag-row, .fact-row, .hero-actions { justify-content: center; }
+  .about-card { text-align: left; }
+  .fun-actions { justify-content: center; }
+  .fun-actions .btn { margin: 0; }
+  .only-for { transform: none; }
+  .for-you { display: inline-block; }
+
+  .teacher-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .teacher-card { transform: none !important; border-radius: 14px; }
+  .teacher-card .note, .teacher-card .tap { display: none; }
+  .teacher-card h3 { font-size: 0.98rem; line-height: 1.25; }
+  .teacher-card .info { padding: 10px 10px 12px; }
+  .teacher-card .subject { font-size: 0.75rem; margin-bottom: 4px; }
+  .teacher-card .secret-badge { font-size: 0.68rem; padding: 3px 8px; }
+  .teacher-card.mini .photo-wrap,
+  .teacher-card .photo-wrap { aspect-ratio: 1 / 1; }
+
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .stat { transform: none; padding: 18px 10px; }
+  .stat b { font-size: 2rem; }
+
+  .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .memory-card { transform: none !important; }
+  .wall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .sticky-note { min-height: 130px; font-size: 1.05rem; }
+
+  .letter-static, .msg-card, .note-shuffle, .wall-form { padding: 20px 16px; }
+  .footer { padding: 36px 16px 24px; padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+  .doodle-field { display: none; }
+}
+
+@media (max-width: 480px) {
+  .btn { width: auto; max-width: 100%; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; margin: 4px 0; }
+  .profile-copy > .btn,
+  .voice-wrap .btn { width: 100%; margin-left: 0; margin-right: 0; }
+  .fun-actions .btn { width: 100%; }
+  .teacher-pager { flex-wrap: wrap; }
+  .pager-count { width: 100%; text-align: center; order: -1; }
+  .letter { font-size: 1.15rem; }
+  .letter.open { padding: 20px 14px; }
+  .msg-card .msg-body { font-size: 1.22rem; }
+  .profile h1 { font-size: 1.85rem; }
+  .section-title { font-size: 1.65rem; }
+  .toast { font-size: 0.85rem; padding: 12px 16px; }
+  .lightbox { max-width: 96vw; }
+  .lightbox-box img { max-height: 68vh; border-radius: 12px; }
+}
+
+@media (max-width: 360px) {
+  .teacher-grid,
+  .gallery-grid,
+  .wall-grid,
+  .stats { grid-template-columns: 1fr; }
+}
+
+@media (hover: none) {
+  .teacher-card:hover,
+  .memory-card:hover,
+  .stat:hover,
+  .step-card:hover,
+  .quote-card:hover { transform: none; }
+  .btn:hover { transform: none; }
+}

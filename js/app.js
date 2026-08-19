@@ -60,9 +60,15 @@
     return n;
   }
 
-  function imgSrc(t) {
-    // Watercolor AI avatars are used everywhere for a consistent, premium look.
-    return t.avatar;
+  function imgSrc(t, full) {
+    if (full) return t.photo || t.avatar;
+    return t.thumb || t.photo || t.avatar;
+  }
+
+  function cleanQual(q) {
+    q = String(q || '').replace(/\u200b/g, '').replace(/\s+/g, ' ').trim();
+    if (!q || q === '.' || /^iv class/i.test(q)) return '';
+    return q;
   }
 
   /* ------------------------------------------------------------------ 2. content builder
@@ -318,7 +324,7 @@
       : 'You make our school feel like home. Thank you.';
     return '' +
       '<div class="photo-wrap">' +
-        '<img src="' + imgSrc(t) + '" data-avatar="' + t.avatar + '" alt="' + t.name + '" loading="lazy" />' +
+        '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" />' +
         '<span class="theme-emoji">' + t.emoji + '</span>' +
       '</div>' +
       '<div class="info">' +
@@ -420,7 +426,7 @@
     frame.innerHTML = '';
     DATA.teachers.slice(0, 4).forEach(function (t) {
       var d = el('div', 'collage-img');
-      d.innerHTML = '<img src="' + imgSrc(t) + '" data-avatar="' + t.avatar + '" alt="" loading="lazy" />';
+      d.innerHTML = '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="" loading="lazy" />';
       frame.appendChild(d);
     });
   }
@@ -434,12 +440,12 @@
       btn.type = 'button';
       btn.setAttribute('data-lightbox', '');
       btn.setAttribute('data-lightbox-img', imgSrc(t, true));
-      btn.setAttribute('data-lightbox-avatar', t.avatar);
+      btn.setAttribute('data-lightbox-avatar', t.avatar || '');
       btn.setAttribute('data-lightbox-title', t.name);
       var subj = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
       btn.setAttribute('data-lightbox-sub', t.designation + (subj ? ' \u2014 ' + subj : ''));
       btn.innerHTML =
-        '<span class="thumb"><img src="' + imgSrc(t) + '" data-avatar="' + t.avatar + '" alt="' + t.name + '" loading="lazy" /></span>' +
+        '<span class="thumb"><img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" /></span>' +
         '<span class="cap">' +
           '<span class="cap-title">' + t.name + '</span>' +
           '<span class="cap-sub">' + t.designation + (subj ? ' \u00B7 ' + subj : '') + '</span>' +
@@ -456,15 +462,22 @@
   renderCollage();
   renderMemories();
 
-  /* Global image fallback chain: watercolor avatar jpg -> initial SVG -> hide. */
+  /* Image fallback: photo/thumb -> watercolor avatar -> initial SVG. */
   document.addEventListener('error', function (e) {
     var target = e.target;
-    if (!target || target.tagName !== 'IMG' || !target.dataset.avatar) return;
-    var cur = target.src;
-    var nxt = cur.replace('assets/avatars/', 'assets/staff-avatars/').replace(/\.jpg$/, '.svg');
-    if (nxt === cur) { target.removeAttribute('data-avatar'); return; }
-    target.dataset.avatar = nxt;
-    target.src = nxt;
+    if (!target || target.tagName !== 'IMG') return;
+    var step = target.dataset.fbStep || '0';
+    if (step === '0' && target.dataset.fallback) {
+      target.dataset.fbStep = '1';
+      target.src = target.dataset.fallback;
+      return;
+    }
+    var from = target.dataset.fallback || target.src;
+    var nxt = String(from).replace('assets/avatars/', 'assets/staff-avatars/').replace(/\.jpg$/i, '.svg');
+    if (step !== '2' && nxt && nxt !== target.src) {
+      target.dataset.fbStep = '2';
+      target.src = nxt;
+    }
   }, true);
 
   /* ------------------------------------------------------------------ 4. mobile nav */
@@ -542,7 +555,8 @@
 
     function openLightbox(trigger) {
       img.src = trigger.dataset.lightboxImg;
-      img.dataset.avatar = trigger.dataset.lightboxAvatar || '';
+      img.dataset.fallback = trigger.dataset.lightboxAvatar || '';
+      img.dataset.fbStep = '0';
       img.alt = trigger.dataset.lightboxTitle || '';
       capTitle.textContent = trigger.dataset.lightboxTitle || '';
       capSub.textContent = trigger.dataset.lightboxSub || '';
@@ -624,7 +638,11 @@
     document.title = T.name + ' \uD83D\uDC90 | Teachers\' Day';
 
     var photo = document.getElementById('teacherPhoto');
-    if (photo) { photo.src = imgSrc(T, true); photo.alt = T.name; }
+    if (photo) {
+      photo.src = imgSrc(T, true);
+      photo.alt = T.name;
+      if (T.avatar) photo.dataset.fallback = T.avatar;
+    }
     var name = document.getElementById('teacherName');
     if (name) name.textContent = T.name;
     var subject = document.getElementById('subjectTag');
@@ -634,6 +652,47 @@
     if (only) only.textContent = 'This page, its letter and its messages were made only for ' + T.name + '. Nobody else\u2019s message lives here. \uD83D\uDC9D';
     var openBtn = document.getElementById('openLetter');
     if (openBtn) openBtn.textContent = '\uD83D\uDC8C Open Your Sealed Letter' + (T.title ? ', ' + T.title : '');
+
+    var forYou = document.getElementById('forYou');
+    if (forYou) forYou.textContent = 'a page sketched just for ' + T.shortName;
+    var polaroidCap = document.getElementById('polaroidCap');
+    if (polaroidCap) polaroidCap.textContent = T.shortName + '  ·  Teachers\u2019 Day';
+
+    var facts = document.getElementById('factRow');
+    if (facts) {
+      facts.innerHTML = '';
+      function addFact(label, value) {
+        if (!value) return;
+        var li = el('li', 'fact');
+        li.innerHTML = '<span class="fact-k">' + label + '</span><span class="fact-v">' + value + '</span>';
+        facts.appendChild(li);
+      }
+      addFact('role', T.designation);
+      addFact('teaches', subjLabel || cleanSubjectRaw(T));
+      addFact('studied', cleanQual(T.qualification));
+    }
+
+    var about = document.getElementById('aboutCard');
+    if (about) {
+      var roleLine = ROLE[T.designation] || ROLE['P.G.T.'];
+      about.innerHTML =
+        '<p class="about-kicker">a little about you</p>' +
+        '<p>' + T.shortName + ', ' + roleLine + '.</p>';
+    }
+
+    var pager = document.getElementById('teacherPager');
+    if (pager && DATA.teachers.length) {
+      var idx = -1;
+      for (var pi = 0; pi < DATA.teachers.length; pi++) {
+        if (DATA.teachers[pi].id === T.id) { idx = pi; break; }
+      }
+      var prevT = DATA.teachers[(idx - 1 + DATA.teachers.length) % DATA.teachers.length];
+      var nextT = DATA.teachers[(idx + 1) % DATA.teachers.length];
+      pager.innerHTML =
+        '<a class="pager-link" href="' + teacherHref(prevT) + '">← ' + prevT.shortName + '</a>' +
+        '<span class="pager-count">' + (idx + 1) + ' / ' + DATA.teachers.length + '</span>' +
+        '<a class="pager-link" href="' + teacherHref(nextT) + '">' + nextT.shortName + ' →</a>';
+    }
 
     var floats = document.querySelectorAll('.float-emoji');
     ['\uD83C\uDF93', '\uD83D\uDCDA', '\uD83D\uDC90'].forEach(function (f, i) { if (floats[i]) floats[i].textContent = f; });
