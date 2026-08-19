@@ -60,9 +60,9 @@
     return n;
   }
 
-  function imgSrc(t, full) {
-    if (full) return t.photo || t.avatar;
-    return t.thumb || t.photo || t.avatar;
+  function imgSrc(t) {
+    // Hand-drawn watercolor portraits — never the plain staff photos.
+    return t.avatar;
   }
 
   function cleanQual(q) {
