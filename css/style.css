@@ -327,7 +327,7 @@ textarea:focus-visible,
 /* ---------- 5. Hero ---------- */
 .hero {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: clamp(48px, 8vw, 88px) clamp(16px, 6vw, 64px) clamp(40px, 6vw, 72px);
 }
 
@@ -397,47 +397,98 @@ textarea:focus-visible,
 
 .collage {
   position: relative;
-  border-radius: 42% 38% 44% 36% / 36% 42% 34% 44%;
-  padding: 16px;
-  background: linear-gradient(160deg, #ffe7b8, #fff6ea 45%, #f7c3cf);
-  border: 3px solid var(--ink-line);
-  box-shadow:
-    inset 0 10px 18px rgba(255,255,255,0.7),
-    inset 0 -10px 16px rgba(160,80,70,0.12),
-    0 8px 0 var(--ink-line),
-    0 22px 36px rgba(90, 50, 40, 0.18);
-  transform: rotate(1.8deg);
-  transition: transform 0.4s ease;
+  padding: 28px 4px 34px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transform: none;
 }
-.collage:hover { transform: rotate(-0.4deg) translateY(-4px); }
+.collage:hover { transform: none; }
 
 .collage-frame {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  overflow: hidden;
-  border-radius: 34% 30% 36% 28% / 28% 34% 26% 36%;
+  gap: clamp(12px, 2.4vw, 22px);
+  overflow: visible;
+  align-items: start;
 }
 
-.collage-img {
+.leader-card {
   position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #fffdf8;
+  border: 3px solid var(--ink-line);
+  border-radius: 4px 6px 5px 4px;
+  padding: 10px 10px 8px;
+  box-shadow: 6px 7px 0 var(--ink-line);
+  transform: rotate(-2.6deg);
+  transition: transform 0.28s ease;
+}
+.leader-card:nth-child(2) {
+  transform: rotate(2.8deg);
+  margin-top: 22px;
+}
+.leader-card:hover,
+.leader-card:focus-visible {
+  transform: rotate(-0.4deg) translateY(-6px);
+  z-index: 2;
+}
+.leader-card:nth-child(2):hover,
+.leader-card:nth-child(2):focus-visible {
+  transform: rotate(0.4deg) translateY(-6px);
+}
+.leader-card .tape {
+  position: absolute;
+  top: -11px;
+  width: 58px;
+  height: 20px;
+  background: rgba(255, 236, 170, 0.78);
+  border: 1.5px solid rgba(61, 42, 38, 0.2);
+  z-index: 3;
+}
+.leader-card .tape-l { left: 12px; transform: rotate(-8deg); }
+.leader-card .tape-r { right: 12px; transform: rotate(10deg); }
+
+.leader-photo {
+  display: block;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  border-radius: 28px 22px 30px 20px;
-  border: 2.5px solid var(--ink-line);
-  background: var(--clay);
+  background: #efe4d4;
+  border: 2px solid var(--ink-line);
 }
-.collage-img:nth-child(2) { border-radius: 22px 30px 20px 28px; }
-.collage-img:nth-child(3) { border-radius: 30px 18px 26px 24px; }
-.collage-img:nth-child(4) { border-radius: 20px 28px 22px 32px; }
-.collage-img img {
+.leader-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 22%;
   transition: transform 0.5s ease;
 }
-.collage:hover .collage-img img { transform: scale(1.06); }
+.leader-card:first-child .leader-photo img { object-position: center 62%; }
+.leader-card:nth-child(2) .leader-photo img { object-position: center 18%; }
+.leader-card:hover .leader-photo img { transform: scale(1.05); }
+
+.leader-cap {
+  display: block;
+  text-align: center;
+  padding: 10px 4px 4px;
+}
+.leader-cap strong {
+  display: block;
+  font-family: var(--font-hand);
+  font-size: clamp(1.05rem, 2vw, 1.28rem);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.leader-cap em {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-sketch);
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
 
 .collage-chip {
   position: absolute;
@@ -1637,7 +1688,6 @@ body.party { animation: partyHue 2.5s linear infinite; }
 .btn:active { box-shadow: 1px 2px 0 var(--ink-line); }
 
 .hero .eyebrow,
-.collage,
 .collage-chip,
 .today-wish,
 .tw-label,
@@ -1648,14 +1698,8 @@ body.party { animation: partyHue 2.5s linear infinite; }
   box-shadow: 4px 5px 0 var(--ink-line);
   background-image: none;
 }
-.collage {
-  border-radius: 18px;
-  background: #fffaf2;
-  padding: 12px;
-}
-.collage-frame { border-radius: 8px; overflow: hidden; }
-.collage-img { border-radius: 6px; }
 .hero .eyebrow { border-radius: 999px; }
+.leader-card { box-shadow: 5px 6px 0 var(--ink-line); }
 
 .stat, .step-card, .teacher-card, .quote-card, .memory-card {
   border-radius: 16px 20px 14px 18px;
@@ -1836,8 +1880,11 @@ img, svg, video { max-width: 100%; height: auto; }
   .hero { padding: 28px 16px 28px; }
   .hero h1 { font-size: clamp(2.1rem, 9vw, 3rem); }
   .hero p.sub { font-size: 1rem; }
-  .hero-visual { max-width: 360px; }
-  .collage { transform: rotate(0.6deg); }
+  .hero-visual { max-width: 420px; }
+  .collage { transform: none; padding: 18px 0 30px; }
+  .leader-card { transform: rotate(-1.4deg); }
+  .leader-card:nth-child(2) { transform: rotate(1.6deg); margin-top: 10px; }
+  .collage-chip { font-size: 1.05rem; padding: 7px 14px; }
   .section { padding: 36px 16px; }
   .today-wish { margin: 20px 16px 0; padding: 18px 16px; }
   .back-link { margin: 14px 16px 0; }

@@ -456,15 +456,31 @@
       '<p class="tw-text">' + wishes[day % wishes.length] + '</p>';
   }
 
-  /* Hero collage — first four staff members. */
+  /* Hero portraits — Principal (Sr. Sheela) and Manager (Fr. John) only. */
   function renderCollage() {
     var frame = document.getElementById('heroCollage');
     if (!frame) return;
+    if (frame.querySelector('.leader-card')) return;
     frame.innerHTML = '';
-    DATA.teachers.slice(0, 4).forEach(function (t) {
-      var d = el('div', 'collage-img');
-      d.innerHTML = '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="" loading="lazy" />';
-      frame.appendChild(d);
+    var leaders = DATA.teachers.filter(function (t) {
+      return t.designation === 'Principal' || t.designation === 'Manager';
+    });
+    if (leaders.length < 2) leaders = DATA.teachers.slice(0, 2);
+    leaders.slice(0, 2).forEach(function (t) {
+      var card = el('a', 'leader-card');
+      card.href = teacherHref(t);
+      var photo = t.photo || imgSrc(t);
+      card.innerHTML =
+        '<span class="tape tape-l" aria-hidden="true"></span>' +
+        '<span class="tape tape-r" aria-hidden="true"></span>' +
+        '<span class="leader-photo">' +
+          '<img src="' + photo + '" data-fallback="' + (t.avatar || '') + '" alt="' + t.name + '" />' +
+        '</span>' +
+        '<span class="leader-cap">' +
+          '<strong>' + t.name + '</strong>' +
+          '<em>' + t.designation + '</em>' +
+        '</span>';
+      frame.appendChild(card);
     });
   }
 
