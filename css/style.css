@@ -1922,3 +1922,94 @@ img, svg, video { max-width: 100%; height: auto; }
   .quote-card:hover { transform: none; }
   .btn:hover { transform: none; }
 }
+
+
+/* ==========================================================================
+   27. Contrast — dark text on paper; light text only on brown/black
+   ========================================================================== */
+a { color: #6a2040; }
+.brand,
+.btn-ghost,
+.back-link,
+.pager-link,
+.for-you,
+.only-for,
+.about-kicker,
+.profile h1,
+.msg-card .msg-count,
+.msg-card .msg-by,
+.class-note .who,
+.quote-card .who,
+.letter .ps,
+.letter-static .signoff,
+.pop-line,
+.poem-line,
+.reaction-line {
+  color: var(--ink);
+}
+
+.hero p.sub,
+.section-sub,
+.stat span,
+.step-card p,
+.teacher-card .note,
+.teacher-card .tap,
+.rumour-box,
+.photo-hint,
+.fact-k,
+.pager-count,
+.memory-card .cap-sub,
+.note-shuffle p.lead,
+.note-output .who,
+.element-tile .num,
+.element-tile .mass {
+  color: var(--muted);
+}
+
+.rumour-box b,
+.hero .eyebrow { color: #4a2a00; }
+
+.subject-tag {
+  color: var(--ink) !important;
+  border-color: var(--ink-line);
+  box-shadow: 3px 3px 0 var(--ink-line);
+}
+
+.teacher-card .secret-badge {
+  color: var(--ink);
+  border-color: var(--ink-line);
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: #fff8ee;
+}
+.btn-ghost { color: var(--ink); }
+.btn-gold { color: #2a1a00; }
+
+.nav-links a.active {
+  background: var(--navy);
+  color: #fff8ee;
+}
+
+/* Light text is allowed on these dark brown surfaces only */
+.footer,
+.footer .blurb,
+.footer .credit,
+.footer-nav a,
+.footer-bottom,
+.marquee,
+.toast,
+.collage-chip,
+.secret-chip,
+.lightbox-cap,
+.lightbox-cap .cap-sub {
+  color: #fff8ee;
+}
+.footer .closing,
+.footer-nav a:hover,
+.marquee-track span:nth-child(odd) {
+  color: #ffe7b0;
+}
+.sticky-note .by { color: #2a1a16; }
+.sticky-note .remove { color: #3b2a28; }
