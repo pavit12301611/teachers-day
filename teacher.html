@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Our Teacher 💐 | Teachers' Day</title>
+  <meta name="description" content="A personal Teachers' Day page — sealed letter, a growing library of messages, a voice note and hidden surprises, all made for one teacher only." />
+  <meta name="theme-color" content="#2c2446" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="A Page Made Only For You 💐" />
+  <meta property="og:description" content="A sealed letter, fresh messages and a voice note — one teacher's personal corner of the internet." />
+  <meta property="og:image" content="assets/teacher1.jpg" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <a class="brand" href="index.html">Teachers' Day 💐</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="teachers.html" class="active" aria-current="page">Our Teachers</a></li>
+      <li><a href="memories.html">Memories</a></li>
+      <li><a href="message.html">Special Message</a></li>
+      <li><a href="wall.html">Gratitude Wall</a></li>
+    </ul>
+  </nav>
+
+  <a class="back-link" href="teachers.html">← Back to all teachers</a>
+
+  <main id="main-content">
+    <div class="gold-banner-wrap">
+      <div class="gold-banner" id="goldBanner"></div>
+    </div>
+
+    <section class="profile fade-up" aria-labelledby="teacherName">
+      <div class="photo-side">
+        <span class="float-emoji" style="top:-30px; left:10%;"></span>
+        <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;"></span>
+        <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;"></span>
+        <div class="photo-frame" id="photoFrame">
+          <img id="teacherPhoto" src="" alt="" />
+        </div>
+        <span class="sticker s1"></span>
+        <span class="sticker s2"></span>
+        <span class="sticker s3"></span>
+        <span class="sticker s4"></span>
+        <span class="sticker s5"></span>
+        <p class="photo-hint">(psst… some photos like being tapped five times)</p>
+      </div>
+
+      <div>
+        <h1 id="teacherName">Our Teacher</h1>
+        <span class="subject-tag" id="subjectTag"></span>
+        <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
+        <p class="only-for" id="onlyFor"></p>
+
+        <button class="btn btn-primary" type="button" id="openLetter">💌 Open The Sealed Letter</button>
+        <div class="letter" id="letter">
+          <p class="ps" id="letterPs"></p>
+        </div>
+
+        <div class="fun-actions" id="funButtons"></div>
+        <div class="fun-stage" id="funStage"></div>
+
+        <div style="margin-top:16px;">
+          <button class="btn btn-gold" type="button" id="voiceNote">🎧 Play Your Voice Note</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- The message library: fresh words, every single visit -->
+    <section class="section" aria-labelledby="more-title">
+      <div class="section-head">
+        <h2 class="section-title" id="more-title">More Words, Just For You 💌</h2>
+        <p class="section-sub">
+          One page could never hold everything we wanted to say. This library keeps growing —
+          tap the button and a brand-new message appears, written only for this teacher.
+        </p>
+      </div>
+
+      <div class="msg-card" id="msgCard"></div>
+      <div style="text-align:center;">
+        <button class="btn btn-ghost" type="button" id="nextMsg">💌 Next Message For You →</button>
+      </div>
+
+      <h3 class="notes-title">Notes From The Class 📝</h3>
+      <div class="class-notes" id="classNotes"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p class="closing">Thank you, teachers. 💐</p>
+        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
+        <ul class="footer-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="memories.html">Memories</a></li>
+          <li><a href="message.html">Special Message</a></li>
+          <li><a href="wall.html">Gratitude Wall</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Made with love</h3>
+        <p class="credit">
+          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
+          <b>[Your School Name]</b> · Class of 2026
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Happy Teachers' Day — today, and every day.</p>
+      <p class="hearts">💐 ❤️ 📚 ✨</p>
+      <button class="giftbox" type="button" aria-label="A mysterious little gift">🎁</button><br />
+      <span class="hidden-ink"></span>
+    </div>
+  </footer>
+
+  <noscript>
+    <p style="text-align:center; padding:24px;">
+      This page needs JavaScript to know which teacher it belongs to.
+      <a href="teachers.html">Head back to the teachers list →</a>
+    </p>
+  </noscript>
+
+  <script src="js/data.js"></script>
+  <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

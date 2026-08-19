@@ -77,6 +77,8 @@
       </div>
     </div>
 
+    <div class="today-wish reveal" id="todayWish" aria-live="polite"></div>
+
     <section class="section" aria-labelledby="stats-title">
       <div class="section-head">
         <h2 class="section-title" id="stats-title">Today, In Numbers</h2>
@@ -93,56 +95,10 @@
     <section class="section" aria-labelledby="teachers-title">
       <div class="section-head">
         <h2 class="section-title" id="teachers-title">The Teachers We're Celebrating</h2>
-        <p class="section-sub">Four teachers, four personal pages, four sealed letters. Tap a card to open a wish made for one teacher only.</p>
+        <p class="section-sub">Every teacher has their own page, their own sealed letter — and a whole library of messages that keeps growing. Tap a card to open a wish made for one teacher only.</p>
       </div>
-      <div class="teacher-grid">
-        <a class="teacher-card mini reveal" style="--c1:#b7196b; --c2:#d97706;" href="teacher-sharma.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher1.jpg" alt="Mrs. Anjali Sharma" />
-            <span class="theme-emoji">📖</span>
-          </div>
-          <div class="info">
-            <h3>Mrs. Anjali Sharma</h3>
-            <p class="subject">English · Class Teacher</p>
-            <p class="note">"Your margin notes were tiny letters from you to us."</p>
-          </div>
-        </a>
-
-        <a class="teacher-card mini reveal" style="--c1:#1d4ed8; --c2:#0ea5e9;" href="teacher-verma.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
-            <span class="theme-emoji">➗</span>
-          </div>
-          <div class="info">
-            <h3>Mr. Rajesh Verma</h3>
-            <p class="subject">Mathematics</p>
-            <p class="note">"You made us show our steps — in equations and in life."</p>
-          </div>
-        </a>
-
-        <a class="teacher-card mini reveal" style="--c1:#0f766e; --c2:#ea580c;" href="teacher-kaur.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher3.jpg" alt="Ms. Simran Kaur" />
-            <span class="theme-emoji">🔬</span>
-          </div>
-          <div class="info">
-            <h3>Ms. Simran Kaur</h3>
-            <p class="subject">Science</p>
-            <p class="note">"You turned curiosity into our favourite habit."</p>
-          </div>
-        </a>
-
-        <a class="teacher-card mini reveal" style="--c1:#15803d; --c2:#f97316;" href="teacher-singh.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher4.jpg" alt="Mr. Arjun Singh" />
-            <span class="theme-emoji">🏆</span>
-          </div>
-          <div class="info">
-            <h3>Mr. Arjun Singh</h3>
-            <p class="subject">Physical Education</p>
-            <p class="note">"'One more lap' quietly changed our lives."</p>
-          </div>
-        </a>
+      <div class="teacher-grid" id="homeTeacherGrid">
+        <!-- Teacher cards are generated from js/data.js — add a teacher there and they appear here. -->
       </div>
       <p style="text-align:center; margin-top:28px;">
         <a class="btn btn-ghost" href="teachers.html">See all teachers →</a>
@@ -165,7 +121,7 @@
           <div class="num">2</div>
           <div class="big">💌</div>
           <h3>Break The Seal</h3>
-          <p>Open the sealed letter and watch their personalised wish write itself, word by word. Then press the golden voice-note button. 🎧</p>
+          <p>Open the sealed letter and watch their personalised wish write itself, word by word. Then keep tapping — every teacher has a whole library of fresh messages. 🎧</p>
         </div>
         <div class="step-card reveal">
           <div class="num">3</div>
@@ -179,22 +135,14 @@
     <section class="section" aria-labelledby="quotes-title">
       <div class="section-head">
         <h2 class="section-title" id="quotes-title">Words That Say It Best</h2>
-        <p class="section-sub">A few lines that remind us why teachers are the real superheroes — no capes, just chalk.</p>
+        <p class="section-sub">A few lines that remind us why teachers are the real superheroes — no capes, just chalk. (New ones every visit — shuffle away!)</p>
       </div>
-      <div class="quotes-strip">
-        <div class="quote-card reveal">
-          "A teacher takes a hand, opens a mind, and touches a heart."
-          <span class="who">— Unknown</span>
-        </div>
-        <div class="quote-card reveal">
-          "The best teachers teach from the heart, not from the book."
-          <span class="who">— Unknown</span>
-        </div>
-        <div class="quote-card reveal">
-          "Teaching is the one profession that creates all other professions."
-          <span class="who">— Unknown</span>
-        </div>
+      <div class="quotes-strip" id="quotesStrip">
+        <!-- Quotes are generated from js/data.js — three fresh ones on every visit. -->
       </div>
+      <p style="text-align:center; margin-top:26px;">
+        <button class="btn btn-ghost" type="button" id="shuffleQuotes">🔄 Fresh Quotes, Please</button>
+      </p>
     </section>
 
     <section class="section" style="text-align:center;" aria-labelledby="cta-title">
@@ -237,6 +185,7 @@
     </div>
   </footer>
 
+  <script src="js/data.js"></script>
   <script src="js/confetti.js"></script>
   <script src="js/app.js"></script>
 </body>

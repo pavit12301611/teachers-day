@@ -41,66 +41,12 @@
         <h2 class="section-title">Our Amazing Teachers</h2>
         <p class="section-sub">
           Each card opens a page made for one teacher only — their own colours, their own sealed
-          letter, their own voice note, and 4 hidden secrets to discover. 💌
+          letter, a whole library of messages, their own voice note, and 4 hidden secrets. 💌
         </p>
       </div>
 
-      <div class="teacher-grid">
-        <a class="teacher-card reveal" style="--c1:#b7196b; --c2:#d97706;" href="teacher-sharma.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher1.jpg" alt="Mrs. Anjali Sharma" />
-            <span class="theme-emoji">📖</span>
-          </div>
-          <div class="info">
-            <h3>Mrs. Anjali Sharma</h3>
-            <p class="subject">English · Class Teacher</p>
-            <p class="note">"You made Shakespeare feel like gossip between friends, and every margin note a tiny letter back to us."</p>
-            <p class="tap">Tap to open her personal page →</p>
-            <span class="secret-badge" data-badge="sharma">🕵️ Secrets found: 0/4</span>
-          </div>
-        </a>
-
-        <a class="teacher-card reveal" style="--c1:#1d4ed8; --c2:#0ea5e9;" href="teacher-verma.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher2.jpg" alt="Mr. Rajesh Verma" />
-            <span class="theme-emoji">➗</span>
-          </div>
-          <div class="info">
-            <h3>Mr. Rajesh Verma</h3>
-            <p class="subject">Mathematics</p>
-            <p class="note">"You turned the scariest subject in school into the one we secretly look forward to."</p>
-            <p class="tap">Tap to open his personal page →</p>
-            <span class="secret-badge" data-badge="verma">🕵️ Secrets found: 0/4</span>
-          </div>
-        </a>
-
-        <a class="teacher-card reveal" style="--c1:#0f766e; --c2:#ea580c;" href="teacher-kaur.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher3.jpg" alt="Ms. Simran Kaur" />
-            <span class="theme-emoji">🔬</span>
-          </div>
-          <div class="info">
-            <h3>Ms. Simran Kaur</h3>
-            <p class="subject">Science</p>
-            <p class="note">"You celebrated every 'what happens if…?' and turned curiosity into our favourite habit."</p>
-            <p class="tap">Tap to open her personal page →</p>
-            <span class="secret-badge" data-badge="kaur">🕵️ Secrets found: 0/4</span>
-          </div>
-        </a>
-
-        <a class="teacher-card reveal" style="--c1:#15803d; --c2:#f97316;" href="teacher-singh.html">
-          <div class="photo-wrap">
-            <img src="assets/teacher4.jpg" alt="Mr. Arjun Singh" />
-            <span class="theme-emoji">🏆</span>
-          </div>
-          <div class="info">
-            <h3>Mr. Arjun Singh</h3>
-            <p class="subject">Physical Education</p>
-            <p class="note">"You taught us that 'one more lap' was never about the track — it was about never giving up."</p>
-            <p class="tap">Tap to open his personal page →</p>
-            <span class="secret-badge" data-badge="singh">🕵️ Secrets found: 0/4</span>
-          </div>
-        </a>
+      <div class="teacher-grid" id="teacherGrid">
+        <!-- Teacher cards are generated from js/data.js — add a teacher there and they appear here. -->
       </div>
 
       <div class="rumour-box reveal">
@@ -139,6 +85,7 @@
     </div>
   </footer>
 
+  <script src="js/data.js"></script>
   <script src="js/confetti.js"></script>
   <script src="js/app.js"></script>
 </body>

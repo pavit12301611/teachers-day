@@ -4,139 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mrs. Anjali Sharma 💐 | Teachers' Day</title>
-  <meta name="description" content="A personal Teachers' Day tribute to Mrs. Anjali Sharma — a sealed letter, a poem and a voice note made only for her." />
-  <meta name="theme-color" content="#b7196b" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Mrs. Anjali Sharma 💐" />
-  <meta property="og:description" content="A page made only for Sharma Ma'am — with a sealed letter, a poem and a voice note." />
-  <meta property="og:image" content="assets/teacher1.jpg" />
+  <meta name="description" content="A personal Teachers' Day tribute to Mrs. Anjali Sharma — now part of the dynamic teacher page." />
+  <meta http-equiv="refresh" content="0; url=teacher.html?t=sharma" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body data-theme="sharma">
-  <a class="skip-link" href="#main-content">Skip to content</a>
-  <div class="bg-blob b1"></div>
-  <div class="bg-blob b2"></div>
-
-  <nav class="navbar" aria-label="Main navigation">
-    <a class="brand" href="index.html">Teachers' Day 💐</a>
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="teachers.html" class="active" aria-current="page">Our Teachers</a></li>
-      <li><a href="memories.html">Memories</a></li>
-      <li><a href="message.html">Special Message</a></li>
-      <li><a href="wall.html">Gratitude Wall</a></li>
-    </ul>
-  </nav>
-
-  <a class="back-link" href="teachers.html">← Back to all teachers</a>
-
-  <main id="main-content">
-    <div class="gold-banner-wrap">
-      <div class="gold-banner" id="goldBanner">🏆 You found all 4 secrets! Sharma Ma'am whispers: "You were always my favourite chapter." 📖</div>
-    </div>
-
-    <section class="profile fade-up" aria-labelledby="teacher-name">
-      <div class="photo-side">
-        <span class="float-emoji" style="top:-30px; left:10%;">📖</span>
-        <span class="float-emoji" style="top:-24px; right:6%; animation-delay:-2s;">✍️</span>
-        <span class="float-emoji" style="bottom:-26px; left:40%; animation-delay:-1s;">💐</span>
-        <div class="photo-frame" id="photoFrame">
-          <img src="assets/teacher1.jpg" alt="Mrs. Anjali Sharma" />
-        </div>
-        <span class="sticker s1">💐</span>
-        <span class="sticker s2">⭐</span>
-        <span class="sticker s3">📖</span>
-        <span class="sticker s4">❤️</span>
-        <span class="sticker s5">✨</span>
-        <p class="photo-hint">(psst… some photos like being tapped five times)</p>
-      </div>
-
-      <div>
-        <h1 id="teacher-name">Mrs. Anjali Sharma</h1>
-        <span class="subject-tag">📖 English · Class Teacher</span>
-        <span class="secret-chip" id="secretChip" title="Every page hides 4 secrets. Find them all!">🕵️ Secrets <b id="secretCount">0</b>/4</span>
-        <p class="only-for">This page, its letter and its voice note were made only for Sharma Ma'am. Nobody else's message lives here. 💝</p>
-
-        <button class="btn btn-primary" type="button" id="openLetter">💌 Open Your Sealed Letter, Ma'am</button>
-        <div class="letter" id="letter">
-          <p class="ps">P.S. — Yes, we noticed you read the last line of our essays first. Your secret is safe with us. 😄</p>
-        </div>
-
-        <div>
-          <button class="btn btn-ghost" type="button" data-fun="poem">📜 A Poem, Just For You</button>
-          <button class="btn btn-ghost" type="button" data-fun="shuffle">✨ Compliment Shuffle</button>
-          <button class="btn btn-gold" type="button" id="voiceNote">🎧 Play Your Voice Note</button>
-        </div>
-        <div class="fun-stage" id="funStage"></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <div>
-        <p class="closing">Thank you, teachers. 💐</p>
-        <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — we noticed, and we are forever grateful.</p>
-        <ul class="footer-nav">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="teachers.html">Our Teachers</a></li>
-          <li><a href="memories.html">Memories</a></li>
-          <li><a href="message.html">Special Message</a></li>
-          <li><a href="wall.html">Gratitude Wall</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Made with love</h3>
-        <p class="credit">
-          By <b>Pavit Singh &amp; the Whole Cabinet</b><br />
-          <b>[Your School Name]</b> · Class of 2026
-        </p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>Happy Teachers' Day — today, and every day.</p>
-      <p class="hearts">💐 ❤️ 📚 ✨</p>
-      <button class="giftbox" type="button" aria-label="A mysterious little gift">🎁</button><br />
-      <span class="hidden-ink">psst… invisible ink says: Ma'am's favourite bookmark is the class register. 🤫</span>
-    </div>
-  </footer>
-
-  <script>
-    window.TEACHER = {
-      id: 'sharma',
-      shortName: "Sharma Ma'am",
-      audio: 'assets/audio/sharma.mp3',
-      letter: [
-        "Dear Sharma Ma'am, the board still says 'Welcome Students' in your handwriting, and honestly, that one line is the reason half of us walk in smiling on Monday mornings. You don't just teach English — you read it aloud like the whole classroom is holding its breath for a story.",
-        "We know your red pen by heart. But those little notes in our margins — 'nice thought!', 'try again, you can do better' — were never corrections. They were tiny letters from you to us, and we kept every single one of them.",
-        "Thank you for the poems that became adventures, for the grammar that became games, and for believing in our words before we did. This page, this letter, this whole corner of the internet — it is yours, Ma'am. Only yours. 💐"
-      ],
-      poem: [
-        "A — Always the first smile at the classroom door,",
-        "N — Never a doubt left unanswered,",
-        "J — Joy, quietly hidden in every single period,",
-        "A — All our margins full of your little letters,",
-        "L — Literature that came alive in your voice,",
-        "I — Incredible, Ma'am. Simply incredible. 💐"
-      ],
-      shuffleLines: [
-        "Your board handwriting is officially better than our entire notebooks. ✍️",
-        "You make Shakespeare feel like gossip between friends. 🎭",
-        "The maroon saree with the gold border? Iconic. Always. 💛",
-        "One 'well done' from you = a whole week of motivation. ⭐"
-      ],
-      giftJoke: "🎁 Inside the box: one (1) coupon for an error-free essay, hand-delivered by the class. Terms & conditions: we will try very, very hard.",
-      pepTalks: [], reactions: [], equation: [], element: null
-    };
-  </script>
-  <script src="js/confetti.js"></script>
-  <script src="js/app.js"></script>
+<body style="font-family:system-ui,sans-serif; background:#fdf8f0; color:#251f34; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; text-align:center;">
+  <div>
+    <p style="font-size:2rem; margin:0 0 8px;">💐</p>
+    <p style="margin:0 0 16px;">Taking you to Mrs. Anjali Sharma's page…</p>
+    <a href="teacher.html?t=sharma" style="color:#6d28d9; font-weight:600;">Click here if nothing happens →</a>
+  </div>
+  <script>location.replace('teacher.html?t=sharma');</script>
 </body>
 </html>
