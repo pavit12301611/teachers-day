@@ -20,6 +20,7 @@ window.SITE_DATA = {
       "subjectRaw": "ENGLISH",
       "subject": "english",
       "photo": "images/001_sr-sheela-solanki.jpg",
+    "thumb": "assets/staff-thumbs/001_sr-sheela-solanki.jpg",
       "avatar": "assets/staff-avatars/001_sr-sheela-solanki.svg",
       "theme": {
         "c1": "#7c3aed",
@@ -40,6 +41,7 @@ window.SITE_DATA = {
       "subjectRaw": ".",
       "subject": "default",
       "photo": "images/002_rev-fr-john-chiman.jpg",
+    "thumb": "assets/staff-thumbs/002_rev-fr-john-chiman.jpg",
       "avatar": "assets/staff-avatars/002_rev-fr-john-chiman.svg",
       "theme": {
         "c1": "#6d28d9",
@@ -60,6 +62,7 @@ window.SITE_DATA = {
       "subjectRaw": "Business,Accounts",
       "subject": "default",
       "photo": "images/003_athar-umar.jpg",
+    "thumb": "assets/staff-thumbs/003_athar-umar.jpg",
       "avatar": "assets/staff-avatars/003_athar-umar.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -80,6 +83,7 @@ window.SITE_DATA = {
       "subjectRaw": "English",
       "subject": "english",
       "photo": "images/004_prabha-sharma.jpg",
+    "thumb": "assets/staff-thumbs/004_prabha-sharma.jpg",
       "avatar": "assets/staff-avatars/004_prabha-sharma.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -100,6 +104,7 @@ window.SITE_DATA = {
       "subjectRaw": "Mathematics,U.G.C NET",
       "subject": "maths",
       "photo": "images/005_arvind-kumar.jpg",
+    "thumb": "assets/staff-thumbs/005_arvind-kumar.jpg",
       "avatar": "assets/staff-avatars/005_arvind-kumar.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -120,6 +125,7 @@ window.SITE_DATA = {
       "subjectRaw": "Mathematics",
       "subject": "maths",
       "photo": "images/006_vijay-sharma.jpg",
+    "thumb": "assets/staff-thumbs/006_vijay-sharma.jpg",
       "avatar": "assets/staff-avatars/006_vijay-sharma.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -140,6 +146,7 @@ window.SITE_DATA = {
       "subjectRaw": "Computer",
       "subject": "computer",
       "photo": "images/007_vivek-duneja.jpg",
+    "thumb": "assets/staff-thumbs/007_vivek-duneja.jpg",
       "avatar": "assets/staff-avatars/007_vivek-duneja.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -160,6 +167,7 @@ window.SITE_DATA = {
       "subjectRaw": "Physical Education",
       "subject": "pe",
       "photo": "images/008_tejaswi.jpg",
+    "thumb": "assets/staff-thumbs/008_tejaswi.jpg",
       "avatar": "assets/staff-avatars/008_tejaswi.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -180,6 +188,7 @@ window.SITE_DATA = {
       "subjectRaw": "(English,Sociology,Education)B.Ed",
       "subject": "english",
       "photo": "images/009_anuj-sharma.jpg",
+    "thumb": "assets/staff-thumbs/009_anuj-sharma.jpg",
       "avatar": "assets/staff-avatars/009_anuj-sharma.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -200,6 +209,7 @@ window.SITE_DATA = {
       "subjectRaw": "Physics",
       "subject": "science",
       "photo": "images/010_amit-kumar.jpg",
+    "thumb": "assets/staff-thumbs/010_amit-kumar.jpg",
       "avatar": "assets/staff-avatars/010_amit-kumar.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -220,6 +230,7 @@ window.SITE_DATA = {
       "subjectRaw": "Chemistry",
       "subject": "science",
       "photo": "images/011_hemant-kumar-sharma.jpg",
+    "thumb": "assets/staff-thumbs/011_hemant-kumar-sharma.jpg",
       "avatar": "assets/staff-avatars/011_hemant-kumar-sharma.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -240,6 +251,7 @@ window.SITE_DATA = {
       "subjectRaw": "ECONOMICS",
       "subject": "default",
       "photo": "images/012_vivek-kapoor.jpg",
+    "thumb": "assets/staff-thumbs/012_vivek-kapoor.jpg",
       "avatar": "assets/staff-avatars/012_vivek-kapoor.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -260,6 +272,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/013_arshdeep-singh.jpg",
+    "thumb": "assets/staff-thumbs/013_arshdeep-singh.jpg",
       "avatar": "assets/staff-avatars/013_arshdeep-singh.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -280,6 +293,7 @@ window.SITE_DATA = {
       "subjectRaw": "Biology",
       "subject": "science",
       "photo": "images/014_vivek-chaudhary.jpg",
+    "thumb": "assets/staff-thumbs/014_vivek-chaudhary.jpg",
       "avatar": "assets/staff-avatars/014_vivek-chaudhary.svg",
       "theme": {
         "c1": "#1d4ed8",
@@ -300,6 +314,7 @@ window.SITE_DATA = {
       "subjectRaw": "Social Studies",
       "subject": "social",
       "photo": "images/015_edna-r-theophilus.jpg",
+    "thumb": "assets/staff-thumbs/015_edna-r-theophilus.jpg",
       "avatar": "assets/staff-avatars/015_edna-r-theophilus.svg",
       "theme": {
         "c1": "#0f766e",
@@ -320,6 +335,7 @@ window.SITE_DATA = {
       "subjectRaw": "Social Studies",
       "subject": "social",
       "photo": "images/016_anvesha-cornelius.jpg",
+    "thumb": "assets/staff-thumbs/016_anvesha-cornelius.jpg",
       "avatar": "assets/staff-avatars/016_anvesha-cornelius.svg",
       "theme": {
         "c1": "#0f766e",
@@ -340,6 +356,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/017_kamini-choudhary.jpg",
+    "thumb": "assets/staff-thumbs/017_kamini-choudhary.jpg",
       "avatar": "assets/staff-avatars/017_kamini-choudhary.svg",
       "theme": {
         "c1": "#0f766e",
@@ -360,6 +377,7 @@ window.SITE_DATA = {
       "subjectRaw": "Computer",
       "subject": "computer",
       "photo": "images/018_amit-mittal.jpg",
+    "thumb": "assets/staff-thumbs/018_amit-mittal.jpg",
       "avatar": "assets/staff-avatars/018_amit-mittal.svg",
       "theme": {
         "c1": "#0f766e",
@@ -380,6 +398,7 @@ window.SITE_DATA = {
       "subjectRaw": "Mathematics,Economics",
       "subject": "maths",
       "photo": "images/019_sudhir-aggarwal.jpg",
+    "thumb": "assets/staff-thumbs/019_sudhir-aggarwal.jpg",
       "avatar": "assets/staff-avatars/019_sudhir-aggarwal.svg",
       "theme": {
         "c1": "#0f766e",
@@ -400,6 +419,7 @@ window.SITE_DATA = {
       "subjectRaw": "M.A., M.Sc(Maths), B.Ed.",
       "subject": "maths",
       "photo": "images/020_sushil-kumar.jpg",
+    "thumb": "assets/staff-thumbs/020_sushil-kumar.jpg",
       "avatar": "assets/staff-avatars/020_sushil-kumar.svg",
       "theme": {
         "c1": "#0f766e",
@@ -420,6 +440,7 @@ window.SITE_DATA = {
       "subjectRaw": "Hindi",
       "subject": "hindi",
       "photo": "images/021_ruby-jain.jpg",
+    "thumb": "assets/staff-thumbs/021_ruby-jain.jpg",
       "avatar": "assets/staff-avatars/021_ruby-jain.svg",
       "theme": {
         "c1": "#0f766e",
@@ -440,6 +461,7 @@ window.SITE_DATA = {
       "subjectRaw": "Science",
       "subject": "science",
       "photo": "images/022_ruchi-sharpe.jpg",
+    "thumb": "assets/staff-thumbs/022_ruchi-sharpe.jpg",
       "avatar": "assets/staff-avatars/022_ruchi-sharpe.svg",
       "theme": {
         "c1": "#0f766e",
@@ -460,6 +482,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/023_rishu-wadhera.jpg",
+    "thumb": "assets/staff-thumbs/023_rishu-wadhera.jpg",
       "avatar": "assets/staff-avatars/023_rishu-wadhera.svg",
       "theme": {
         "c1": "#0f766e",
@@ -480,6 +503,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/024_kamal-jain.jpg",
+    "thumb": "assets/staff-thumbs/024_kamal-jain.jpg",
       "avatar": "assets/staff-avatars/024_kamal-jain.svg",
       "theme": {
         "c1": "#0f766e",
@@ -500,6 +524,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/025_kanika-goyal.jpg",
+    "thumb": "assets/staff-thumbs/025_kanika-goyal.jpg",
       "avatar": "assets/staff-avatars/025_kanika-goyal.svg",
       "theme": {
         "c1": "#0f766e",
@@ -520,6 +545,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/026_sr-marykutty.jpg",
+    "thumb": "assets/staff-thumbs/026_sr-marykutty.jpg",
       "avatar": "assets/staff-avatars/026_sr-marykutty.svg",
       "theme": {
         "c1": "#b7196b",
@@ -540,6 +566,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/027_j-r-bacon.jpg",
+    "thumb": "assets/staff-thumbs/027_j-r-bacon.jpg",
       "avatar": "assets/staff-avatars/027_j-r-bacon.svg",
       "theme": {
         "c1": "#b7196b",
@@ -560,6 +587,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/028_henrietta-raj-antony.jpg",
+    "thumb": "assets/staff-thumbs/028_henrietta-raj-antony.jpg",
       "avatar": "assets/staff-avatars/028_henrietta-raj-antony.svg",
       "theme": {
         "c1": "#b7196b",
@@ -580,6 +608,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/029_olga-john.jpg",
+    "thumb": "assets/staff-thumbs/029_olga-john.jpg",
       "avatar": "assets/staff-avatars/029_olga-john.svg",
       "theme": {
         "c1": "#b7196b",
@@ -600,6 +629,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/030_tony-atmaram.jpg",
+    "thumb": "assets/staff-thumbs/030_tony-atmaram.jpg",
       "avatar": "assets/staff-avatars/030_tony-atmaram.svg",
       "theme": {
         "c1": "#b7196b",
@@ -620,6 +650,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/031_michelle-scott.jpg",
+    "thumb": "assets/staff-thumbs/031_michelle-scott.jpg",
       "avatar": "assets/staff-avatars/031_michelle-scott.svg",
       "theme": {
         "c1": "#b7196b",
@@ -640,6 +671,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/032_madhu-malini-agarwal.jpg",
+    "thumb": "assets/staff-thumbs/032_madhu-malini-agarwal.jpg",
       "avatar": "assets/staff-avatars/032_madhu-malini-agarwal.svg",
       "theme": {
         "c1": "#b7196b",
@@ -660,6 +692,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "pe",
       "photo": "images/033_anupam-francis.jpg",
+    "thumb": "assets/staff-thumbs/033_anupam-francis.jpg",
       "avatar": "assets/staff-avatars/033_anupam-francis.svg",
       "theme": {
         "c1": "#b7196b",
@@ -680,6 +713,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/034_parul-gera.jpg",
+    "thumb": "assets/staff-thumbs/034_parul-gera.jpg",
       "avatar": "assets/staff-avatars/034_parul-gera.svg",
       "theme": {
         "c1": "#b7196b",
@@ -700,6 +734,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/035_mehjabin.jpg",
+    "thumb": "assets/staff-thumbs/035_mehjabin.jpg",
       "avatar": "assets/staff-avatars/035_mehjabin.svg",
       "theme": {
         "c1": "#b7196b",
@@ -720,6 +755,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/036_priyanka-a-luke.jpg",
+    "thumb": "assets/staff-thumbs/036_priyanka-a-luke.jpg",
       "avatar": "assets/staff-avatars/036_priyanka-a-luke.svg",
       "theme": {
         "c1": "#b7196b",
@@ -740,6 +776,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/037_mayuri-tyagi.jpg",
+    "thumb": "assets/staff-thumbs/037_mayuri-tyagi.jpg",
       "avatar": "assets/staff-avatars/037_mayuri-tyagi.svg",
       "theme": {
         "c1": "#b7196b",
@@ -760,6 +797,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/038_madhu-christopher.jpg",
+    "thumb": "assets/staff-thumbs/038_madhu-christopher.jpg",
       "avatar": "assets/staff-avatars/038_madhu-christopher.svg",
       "theme": {
         "c1": "#b7196b",
@@ -780,6 +818,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/039_meetu-taneja.jpg",
+    "thumb": "assets/staff-thumbs/039_meetu-taneja.jpg",
       "avatar": "assets/staff-avatars/039_meetu-taneja.svg",
       "theme": {
         "c1": "#b7196b",
@@ -800,6 +839,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/040_konika-mehta.jpg",
+    "thumb": "assets/staff-thumbs/040_konika-mehta.jpg",
       "avatar": "assets/staff-avatars/040_konika-mehta.svg",
       "theme": {
         "c1": "#b7196b",
@@ -820,6 +860,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/041_garima-sakhuja.jpg",
+    "thumb": "assets/staff-thumbs/041_garima-sakhuja.jpg",
       "avatar": "assets/staff-avatars/041_garima-sakhuja.svg",
       "theme": {
         "c1": "#b7196b",
@@ -840,6 +881,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/042_dipanta-sharma.jpg",
+    "thumb": "assets/staff-thumbs/042_dipanta-sharma.jpg",
       "avatar": "assets/staff-avatars/042_dipanta-sharma.svg",
       "theme": {
         "c1": "#b7196b",
@@ -860,6 +902,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "music",
       "photo": "images/043_shilpa-lal.jpg",
+    "thumb": "assets/staff-thumbs/043_shilpa-lal.jpg",
       "avatar": "assets/staff-avatars/043_shilpa-lal.svg",
       "theme": {
         "c1": "#b7196b",
@@ -880,6 +923,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "music",
       "photo": "images/044_lalit-kumar-rai.jpg",
+    "thumb": "assets/staff-thumbs/044_lalit-kumar-rai.jpg",
       "avatar": "assets/staff-avatars/044_lalit-kumar-rai.svg",
       "theme": {
         "c1": "#b7196b",
@@ -900,6 +944,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/045_isha-miglani.jpg",
+    "thumb": "assets/staff-thumbs/045_isha-miglani.jpg",
       "avatar": "assets/staff-avatars/045_isha-miglani.svg",
       "theme": {
         "c1": "#b7196b",
@@ -920,6 +965,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "pe",
       "photo": "images/046_neeru-tyagi.jpg",
+    "thumb": "assets/staff-thumbs/046_neeru-tyagi.jpg",
       "avatar": "assets/staff-avatars/046_neeru-tyagi.svg",
       "theme": {
         "c1": "#b7196b",
@@ -940,6 +986,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/047_salma-naz.jpg",
+    "thumb": "assets/staff-thumbs/047_salma-naz.jpg",
       "avatar": "assets/staff-avatars/047_salma-naz.svg",
       "theme": {
         "c1": "#b7196b",
@@ -960,6 +1007,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/048_suhani-arora.jpg",
+    "thumb": "assets/staff-thumbs/048_suhani-arora.jpg",
       "avatar": "assets/staff-avatars/048_suhani-arora.svg",
       "theme": {
         "c1": "#b7196b",
@@ -980,6 +1028,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/049_priyanka-rawat.jpg",
+    "thumb": "assets/staff-thumbs/049_priyanka-rawat.jpg",
       "avatar": "assets/staff-avatars/049_priyanka-rawat.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1000,6 +1049,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/050_pavneet-kaur.jpg",
+    "thumb": "assets/staff-thumbs/050_pavneet-kaur.jpg",
       "avatar": "assets/staff-avatars/050_pavneet-kaur.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1020,6 +1070,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/051_kirti-raswant.jpg",
+    "thumb": "assets/staff-thumbs/051_kirti-raswant.jpg",
       "avatar": "assets/staff-avatars/051_kirti-raswant.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1040,6 +1091,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/052_urvashi-goswami.jpg",
+    "thumb": "assets/staff-thumbs/052_urvashi-goswami.jpg",
       "avatar": "assets/staff-avatars/052_urvashi-goswami.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1060,6 +1112,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/053_sheetal-grover.jpg",
+    "thumb": "assets/staff-thumbs/053_sheetal-grover.jpg",
       "avatar": "assets/staff-avatars/053_sheetal-grover.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1080,6 +1133,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/054_poonam-chhabra.jpg",
+    "thumb": "assets/staff-thumbs/054_poonam-chhabra.jpg",
       "avatar": "assets/staff-avatars/054_poonam-chhabra.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1100,6 +1154,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/055_anu-john.jpg",
+    "thumb": "assets/staff-thumbs/055_anu-john.jpg",
       "avatar": "assets/staff-avatars/055_anu-john.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1120,6 +1175,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/056_meenu-dhingra.jpg",
+    "thumb": "assets/staff-thumbs/056_meenu-dhingra.jpg",
       "avatar": "assets/staff-avatars/056_meenu-dhingra.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1140,6 +1196,7 @@ window.SITE_DATA = {
       "subjectRaw": "SANSKRIT",
       "subject": "sanskrit",
       "photo": "images/057_roopmala.jpg",
+    "thumb": "assets/staff-thumbs/057_roopmala.jpg",
       "avatar": "assets/staff-avatars/057_roopmala.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1160,6 +1217,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/058_bhawna-chauhan.jpg",
+    "thumb": "assets/staff-thumbs/058_bhawna-chauhan.jpg",
       "avatar": "assets/staff-avatars/058_bhawna-chauhan.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1180,6 +1238,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/059_jatin-bhuria.jpg",
+    "thumb": "assets/staff-thumbs/059_jatin-bhuria.jpg",
       "avatar": "assets/staff-avatars/059_jatin-bhuria.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1200,6 +1259,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/060_yashika-verma.jpg",
+    "thumb": "assets/staff-thumbs/060_yashika-verma.jpg",
       "avatar": "assets/staff-avatars/060_yashika-verma.svg",
       "theme": {
         "c1": "#b7196b",
@@ -1220,6 +1280,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/061_deepali-sharma.jpg",
+    "thumb": "assets/staff-thumbs/061_deepali-sharma.jpg",
       "avatar": "assets/staff-avatars/061_deepali-sharma.svg",
       "theme": {
         "c1": "#d97706",
@@ -1240,6 +1301,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/062_nitha-cibichn.jpg",
+    "thumb": "assets/staff-thumbs/062_nitha-cibichn.jpg",
       "avatar": "assets/staff-avatars/062_nitha-cibichn.svg",
       "theme": {
         "c1": "#d97706",
@@ -1260,6 +1322,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/063_pooja-maini.jpg",
+    "thumb": "assets/staff-thumbs/063_pooja-maini.jpg",
       "avatar": "assets/staff-avatars/063_pooja-maini.svg",
       "theme": {
         "c1": "#d97706",
@@ -1280,6 +1343,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/064_vaishali-baveja.jpg",
+    "thumb": "assets/staff-thumbs/064_vaishali-baveja.jpg",
       "avatar": "assets/staff-avatars/064_vaishali-baveja.svg",
       "theme": {
         "c1": "#d97706",
@@ -1300,6 +1364,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/065_shweta-takkar.jpg",
+    "thumb": "assets/staff-thumbs/065_shweta-takkar.jpg",
       "avatar": "assets/staff-avatars/065_shweta-takkar.svg",
       "theme": {
         "c1": "#d97706",
@@ -1320,6 +1385,7 @@ window.SITE_DATA = {
       "subjectRaw": "Superintendent, Sr. Acc.",
       "subject": "default",
       "photo": "images/066_nikunj-k-jain.jpg",
+    "thumb": "assets/staff-thumbs/066_nikunj-k-jain.jpg",
       "avatar": "assets/staff-avatars/066_nikunj-k-jain.svg",
       "theme": {
         "c1": "#475569",
@@ -1340,6 +1406,7 @@ window.SITE_DATA = {
       "subjectRaw": "Clerk",
       "subject": "default",
       "photo": "images/067_rose-dias.jpg",
+    "thumb": "assets/staff-thumbs/067_rose-dias.jpg",
       "avatar": "assets/staff-avatars/067_rose-dias.svg",
       "theme": {
         "c1": "#475569",
@@ -1360,6 +1427,7 @@ window.SITE_DATA = {
       "subjectRaw": "Clerk",
       "subject": "default",
       "photo": "images/068_shubham-bhardwaj.jpg",
+    "thumb": "assets/staff-thumbs/068_shubham-bhardwaj.jpg",
       "avatar": "assets/staff-avatars/068_shubham-bhardwaj.svg",
       "theme": {
         "c1": "#475569",
@@ -1380,6 +1448,7 @@ window.SITE_DATA = {
       "subjectRaw": "Clerk",
       "subject": "default",
       "photo": "images/069_shivani-louis.jpg",
+    "thumb": "assets/staff-thumbs/069_shivani-louis.jpg",
       "avatar": "assets/staff-avatars/069_shivani-louis.svg",
       "theme": {
         "c1": "#475569",
@@ -1400,6 +1469,7 @@ window.SITE_DATA = {
       "subjectRaw": "Library",
       "subject": "default",
       "photo": "images/070_catherin-moses.jpg",
+    "thumb": "assets/staff-thumbs/070_catherin-moses.jpg",
       "avatar": "assets/staff-avatars/070_catherin-moses.svg",
       "theme": {
         "c1": "#0369a1",
@@ -1420,6 +1490,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/071_christopher-joseph.jpg",
+    "thumb": "assets/staff-thumbs/071_christopher-joseph.jpg",
       "avatar": "assets/staff-avatars/071_christopher-joseph.svg",
       "theme": {
         "c1": "#15803d",
@@ -1440,6 +1511,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/072_virender-kumar.jpg",
+    "thumb": "assets/staff-thumbs/072_virender-kumar.jpg",
       "avatar": "assets/staff-avatars/072_virender-kumar.svg",
       "theme": {
         "c1": "#15803d",
@@ -1460,6 +1532,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/073_shiv-charan.jpg",
+    "thumb": "assets/staff-thumbs/073_shiv-charan.jpg",
       "avatar": "assets/staff-avatars/073_shiv-charan.svg",
       "theme": {
         "c1": "#15803d",
@@ -1480,6 +1553,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/074_roxwell-john.jpg",
+    "thumb": "assets/staff-thumbs/074_roxwell-john.jpg",
       "avatar": "assets/staff-avatars/074_roxwell-john.svg",
       "theme": {
         "c1": "#15803d",
@@ -1500,6 +1574,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/075_sonu.jpg",
+    "thumb": "assets/staff-thumbs/075_sonu.jpg",
       "avatar": "assets/staff-avatars/075_sonu.svg",
       "theme": {
         "c1": "#15803d",
@@ -1520,6 +1595,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/076_sumit-jacob.jpg",
+    "thumb": "assets/staff-thumbs/076_sumit-jacob.jpg",
       "avatar": "assets/staff-avatars/076_sumit-jacob.svg",
       "theme": {
         "c1": "#15803d",
@@ -1540,6 +1616,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/077_rajiv-kumar.jpg",
+    "thumb": "assets/staff-thumbs/077_rajiv-kumar.jpg",
       "avatar": "assets/staff-avatars/077_rajiv-kumar.svg",
       "theme": {
         "c1": "#15803d",
@@ -1560,6 +1637,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/078_ajit-singh.jpg",
+    "thumb": "assets/staff-thumbs/078_ajit-singh.jpg",
       "avatar": "assets/staff-avatars/078_ajit-singh.svg",
       "theme": {
         "c1": "#15803d",
@@ -1580,6 +1658,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/079_savina-daniel.jpg",
+    "thumb": "assets/staff-thumbs/079_savina-daniel.jpg",
       "avatar": "assets/staff-avatars/079_savina-daniel.svg",
       "theme": {
         "c1": "#15803d",
@@ -1600,6 +1679,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/080_beena-charles.jpg",
+    "thumb": "assets/staff-thumbs/080_beena-charles.jpg",
       "avatar": "assets/staff-avatars/080_beena-charles.svg",
       "theme": {
         "c1": "#15803d",
@@ -1620,6 +1700,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/081_naveen-kumar.jpg",
+    "thumb": "assets/staff-thumbs/081_naveen-kumar.jpg",
       "avatar": "assets/staff-avatars/081_naveen-kumar.svg",
       "theme": {
         "c1": "#15803d",
@@ -1640,6 +1721,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/082_lily-sherring.jpg",
+    "thumb": "assets/staff-thumbs/082_lily-sherring.jpg",
       "avatar": "assets/staff-avatars/082_lily-sherring.svg",
       "theme": {
         "c1": "#15803d",
@@ -1660,6 +1742,7 @@ window.SITE_DATA = {
       "subjectRaw": "",
       "subject": "default",
       "photo": "images/083_gabrial.jpg",
+    "thumb": "assets/staff-thumbs/083_gabrial.jpg",
       "avatar": "assets/staff-avatars/083_gabrial.svg",
       "theme": {
         "c1": "#15803d",

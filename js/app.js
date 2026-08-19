@@ -60,8 +60,9 @@
     return n;
   }
 
-  function imgSrc(t) {
-    return t.photo && t.photo !== t.avatar ? t.photo : t.avatar;
+  function imgSrc(t, full) {
+    var src = full ? t.photo : (t.thumb || t.photo);
+    return src && src !== t.avatar ? src : t.avatar;
   }
 
   /* ------------------------------------------------------------------ 2. content builder
@@ -432,7 +433,7 @@
       var btn = el('button', 'memory-card reveal', '');
       btn.type = 'button';
       btn.setAttribute('data-lightbox', '');
-      btn.setAttribute('data-lightbox-img', imgSrc(t));
+      btn.setAttribute('data-lightbox-img', imgSrc(t, true));
       btn.setAttribute('data-lightbox-avatar', t.avatar);
       btn.setAttribute('data-lightbox-title', t.name);
       var subj = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
@@ -621,7 +622,7 @@
     document.title = T.name + ' \uD83D\uDC90 | Teachers\' Day';
 
     var photo = document.getElementById('teacherPhoto');
-    if (photo) { photo.src = imgSrc(T); photo.alt = T.name; }
+    if (photo) { photo.src = imgSrc(T, true); photo.alt = T.name; }
     var name = document.getElementById('teacherName');
     if (name) name.textContent = T.name;
     var subject = document.getElementById('subjectTag');
