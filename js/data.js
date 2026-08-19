@@ -1804,23 +1804,23 @@ window.SITE_DATA = {
   ],
   "wishNotes": [
     {
-      "note": "Thank you for believing in me before I ever believed in myself.",
+      "note": "Thank you for the work you do at St. Mary's Academy — even for students who are not in your class.",
       "by": "Pavit Singh"
     },
     {
-      "note": "You didn't just teach a subject — you taught me how to keep trying.",
+      "note": "Your profession is more than a subject — it is how you show up for this school.",
       "by": "Pavit Singh"
     },
     {
-      "note": "One 'well done' from you is worth a whole week of motivation.",
+      "note": "A kind word from a teacher can lift a whole corridor. Thank you for yours.",
       "by": "Pavit Singh"
     },
     {
-      "note": "Thank you for the extra minutes after the bell. I noticed every one.",
+      "note": "Thank you for the extra minutes after the bell — this school notices them.",
       "by": "Pavit Singh"
     },
     {
-      "note": "Because of you, the classroom felt like a second home.",
+      "note": "Because of people like you, this school feels like a second home.",
       "by": "Pavit Singh"
     },
     {
@@ -1828,43 +1828,43 @@ window.SITE_DATA = {
       "by": "Pavit Singh"
     },
     {
-      "note": "Thank you for seeing the potential in me that I couldn't see myself.",
+      "note": "Thank you for seeing potential in students — even the ones you never taught.",
       "by": "Pavit Singh"
     },
     {
-      "note": "Every mark you corrected, every doubt you cleared — thank you for all of it.",
+      "note": "Every file you handled, every class you took, every doubt you cleared — thank you.",
       "by": "Pavit Singh"
     },
     {
-      "note": "You made Monday mornings something I actually look forward to.",
+      "note": "You help make Monday mornings at St. Mary's Academy a little kinder.",
       "by": "Pavit Singh"
     },
     {
-      "note": "You saw the best in me even on my worst days. That's a superpower.",
+      "note": "Seeing the best in students is a superpower. This school is lucky you have it.",
       "by": "Pavit Singh"
     },
     {
-      "note": "Every doubt you cleared still echoes in my head as confidence.",
+      "note": "The doubts you clear for your students become someone's confidence. That matters.",
       "by": "Pavit Singh"
     },
     {
-      "note": "Thank you for the laughter — half my school memories are your jokes.",
+      "note": "Thank you for the laughter in the corridors. It belongs to the whole school.",
       "by": "Pavit Singh"
     },
     {
-      "note": "You didn't give me answers; you gave me the courage to find them.",
+      "note": "A good teacher doesn't just give answers — they give students the courage to find them.",
       "by": "Pavit Singh"
     },
     {
-      "note": "The day you said 'I'm proud of you' still plays on repeat. Thank you.",
+      "note": "The words 'I'm proud of you' from a teacher last a lifetime. Thank you for saying them.",
       "by": "Pavit Singh"
     },
     {
-      "note": "You taught me that mistakes are just first attempts at learning. Now I'm fearless.",
+      "note": "You treat mistakes as first attempts at learning. That is a gift to this school.",
       "by": "Pavit Singh"
     },
     {
-      "note": "If thank-you notes were homework, I'd still be writing them for you.",
+      "note": "If thank-you notes were homework, I would still be writing them for this staff.",
       "by": "Pavit Singh"
     }
   ],
@@ -1894,7 +1894,7 @@ window.SITE_DATA = {
       "by": "Pavit Singh"
     },
     {
-      "note": "Thank you for believing in me before I ever believed in myself.",
+      "note": "Thank you for the work you do at St. Mary's Academy — even for students who are not in your class.",
       "by": "Pavit Singh"
     },
     {

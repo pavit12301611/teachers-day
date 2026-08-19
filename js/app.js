@@ -114,7 +114,7 @@
       'Combustion: your energy during a lesson \u2192 complete burning of our boredom. \uD83D\uDD25',
       'Respiration: breathe in courage, breathe out "I can\u2019t do it". You taught me that exchange. \uD83E\uDEC2',
       'Osmosis: your kindness moves from high concentration (you) to low (me) until we\u2019re all equal. \u2696\uFE0F',
-      'Evolution: I entered your class as a student and evolved into a curious human. Natural selection chose you. \uD83E\uDDEC'
+      'Evolution: a school with you in it evolves into a kinder place. Natural selection chose well. \uD83E\uDDEC'
     ],
     pep: [
       'Champions are made in practice \u2014 but today, the champion is YOU. \uD83C\uDFC6',
@@ -154,17 +154,19 @@
       'P.S. \u2014 If this page made you smile even a little, my job here is done. \uD83D\uDE0A'
     ],
     extra: [
-      '{first}, you make every day at school a little brighter. Thank you for being you. \u2728',
-      'Some people become teachers; you became the reason a student loves school. Thank you. \uD83D\uDC9B',
-      'I hope this Teachers\u2019 Day brings you even half the joy you have given us. You deserve it all. \uD83D\uDC90',
-      'Every lesson you taught, every doubt you cleared, every extra minute you stayed \u2014 I noticed, and I am grateful. \uD83D\uDE4F',
-      'If gratitude could be measured, our school would overflow with it \u2014 and a large part of that would be for you. \uD83C\uDFC6',
-      'Thank you for making our school feel like a second home. You are a huge part of that feeling. \uD83C\uDFE0'
+      '{first}, thank you for the work you do at St. Mary\u2019s Academy. Our school is better because you are in it. \u2728',
+      'Happy Teachers\u2019 Day, {first}. Even if I am not in your class, I see how much you give this school. \uD83D\uDC9B',
+      'From Class IX-B, with respect: you deserve a day that is as kind as you are to this place. \uD83D\uDC90',
+      'Some people just work at a school. You help it feel like a family. Thank you. \uD83D\uDE4F',
+      'If gratitude could be measured, St. Mary\u2019s Academy would overflow with it \u2014 and a large part of that would be for you. \uD83C\uDFC6',
+      'Thank you for making our school feel like a second home. You are a huge part of that feeling. \uD83C\uDFE0',
+      '{first}, I may not sit in your classroom, but I still want you to know you are appreciated today. \u2728',
+      'A school is only as warm as its people. Thank you for being one of ours. \uD83C\uDFE0'
     ],
     notes: [
-      'You probably don\u2019t remember every small kindness, but I remember all of mine. Thank you for every single one.',
-      'The way you explain things twice without ever sighing is a superpower. I admire it.',
-      'You saw potential in me before I saw it myself. That changed everything.'
+      'I may not be one of your students, but I still notice the care you bring to this school. Thank you.',
+      'Your work happens in rooms I may never sit in \u2014 and it still makes St. Mary\u2019s Academy a better place.',
+      'Today is for every person who keeps this school going. That includes you, completely.'
     ],
     poem: [
       'T \u2014 To {first}, who makes learning a joy,',
@@ -178,28 +180,28 @@
   };
 
   var ROLE = {
-    'Principal': 'as the heart of our whole school, you are the reason every morning here begins with a smile. From the gate to the last classroom, your presence is felt everywhere',
+    'Principal': 'as the Principal of St. Mary\u2019s Academy, you are the heart of this whole school. From the gate to the last classroom, your presence is felt everywhere',
     'Manager': 'as our respected Manager, you quietly make sure every single part of this school runs like a well-oiled machine',
-    'P.G.T.': 'as one of our senior teachers, you have taught generations of students, and every one of us carries a little piece of your wisdom',
-    'T.G.T.': 'as one of our middle-school teachers, you were there at exactly the age when we needed someone to believe in us',
-    'P.R.T.': 'as one of our primary teachers, you were among the first people who made school feel safe and fun',
-    'PRE-PRIMARY': 'as one of our pre-primary teachers, you taught the littlest ones \u2014 including the very first letters and numbers we ever learned',
-    'Office Staff': 'as part of our office staff, you keep the whole school running behind the scenes \u2014 records, routines, everything',
-    'Assistant Librarian': 'as our assistant librarian, you guard the shelves of stories that so many of us escaped into',
-    'Supporting Staff': 'as part of our supporting staff, you do the quiet, tireless work that keeps our school clean, safe and cheerful'
+    'P.G.T.': 'as one of our senior teachers, your profession shapes the older classes of this school, and your work is felt far beyond one timetable',
+    'T.G.T.': 'as one of our middle-school teachers, your profession is to guide students through the years when school starts to feel like a bigger world',
+    'P.R.T.': 'as one of our primary teachers, your profession is to make the first years of school feel safe, kind and full of wonder',
+    'PRE-PRIMARY': 'as one of our pre-primary teachers, your profession is to teach the littlest ones their very first letters, numbers and school-day smiles',
+    'Office Staff': 'as part of our office staff, your profession is the quiet work that keeps records, routines and the whole school running',
+    'Assistant Librarian': 'as our assistant librarian, your profession is to guard the shelves of stories so many students escape into',
+    'Supporting Staff': 'as part of our supporting staff, your profession is the tireless work that keeps our school clean, safe and cheerful'
   };
 
   var SUBJECT = {
-    english: 'Thank you for the poems that became adventures and the stories that made us fall in love with words. You taught us that a well-written sentence can change a mood, and a well-read book can change a life.',
-    maths: 'Thank you for making numbers feel less scary and more like puzzles waiting to be solved. You taught us to show our steps, check our work, and never give up until the answer appears.',
-    science: 'Thank you for celebrating every "what happens if\u2026?" and turning curiosity into a habit. You showed us that the world is one big experiment and questions are the best equipment.',
-    computer: 'Thank you for teaching us the language of machines. You showed us that with logic and a little patience, we can build almost anything.',
-    social: 'Thank you for taking us around the world and back through time. You taught us that history is full of stories, and geography is full of reasons to be curious.',
-    hindi: 'Thank you for teaching us our mother tongue with so much love. You made every poem and every story in Hindi feel like home.',
-    sanskrit: 'Thank you for sharing the oldest language of our land. You taught us that some words carry thousands of years of wisdom.',
-    music: 'Thank you for filling our school with music. You taught us that a song can say what words alone cannot.',
-    pe: 'Thank you for the whistle, the laps, and the pep talks. You taught us that the body and the mind grow stronger together \u2014 and that quitting is never an option.',
-    'default': 'Thank you for the lessons that went beyond the textbook. You taught us patience, kindness and the courage to keep trying \u2014 and that is something no exam can ever measure.'
+    english: 'Your profession is in English \u2014 poems, stories and the art of saying what we mean. This school is richer because that is the field you chose.',
+    maths: 'Your profession is in Mathematics \u2014 numbers, proofs and the patience to try one more step. This school is sharper because that is the field you chose.',
+    science: 'Your profession is in Science \u2014 questions, experiments and every "what happens if\u2026?". This school is more curious because that is the field you chose.',
+    computer: 'Your profession is in Computers \u2014 logic, code and the language of machines. This school is more future-ready because that is the field you chose.',
+    social: 'Your profession is in Social Studies \u2014 history, geography and the stories of the world. This school is wider because that is the field you chose.',
+    hindi: 'Your profession is in Hindi \u2014 our mother tongue, its poems and its stories. This school feels more like home because that is the field you chose.',
+    sanskrit: 'Your profession is in Sanskrit \u2014 the oldest language of our land, and the wisdom it still carries. This school is deeper because that is the field you chose.',
+    music: 'Your profession is in Music \u2014 songs that say what words alone cannot. This school is brighter because that is the field you chose.',
+    pe: 'Your profession is in Physical Education \u2014 the whistle, the laps and the courage not to quit. This school is stronger because that is the field you chose.',
+    'default': 'Whatever your profession is in this school, you do work that no exam can measure \u2014 patience, kindness and showing up every day. Thank you for that.'
   };
 
   var SUBJECT_LABEL = {
@@ -228,12 +230,16 @@
     var roleLine = ROLE[t.designation] || ROLE['P.G.T.'];
     var subjLine = SUBJECT[t.subject] || SUBJECT['default'];
     t.letter = [
-      'Dear ' + t.name + ', ' + roleLine + '. Today is the day this whole school says thank you \u2014 loudly and from the heart.',
+      'Dear ' + t.name + ', ' + roleLine + '. Today the whole of St. Mary\u2019s Academy says thank you \u2014 loudly and from the heart.',
       subjLine,
-      'This little page is my way of saying thank you, ' + t.shortName + '. From Pavit Singh \u2014 happy Teachers\u2019 Day, and may you always know how much you mean to this school. \uD83D\uDC90'
+      'I am Pavit Singh of Class IX-B (roll 9R01). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + t.shortName + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
     ];
     t.psLines = POOL.ps.slice();
     t.moreMessages = POOL.extra.map(function (m) { return fill(m, t); });
+    var field = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
+    if (field) {
+      t.moreMessages.unshift('Your profession is in ' + field + '. I may not be your student, but I am still grateful you chose this work. \u2728');
+    }
     t.classNotes = POOL.notes.map(function (n) { return fill(n, t); });
     t.goldBanner = '\uD83C\uDFC6 All 4 secrets found! ' + t.name + ' is officially the most appreciated member of this school! \uD83C\uDF89';
     t.giftJoke = '\uD83C\uDF81 Inside the box: a tiny token of gratitude for ' + t.shortName + ' \u2014 valid for unlimited smiles. No returns, no refunds, only feelings.';
@@ -332,8 +338,8 @@
     var subjText = subj && SUBJECT_LABEL[t.subject] ? SUBJECT_LABEL[t.subject] : subj;
     var subjectLine = subjText ? t.designation + ' \u00B7 ' + subjText : t.designation;
     var note = subjText
-      ? 'You make ' + subjText.toLowerCase() + ' something we look forward to.'
-      : 'You make our school feel like home. Thank you.';
+      ? 'Your profession is in ' + subjText + '.'
+      : 'Your work helps this school feel like home.';
     return '' +
       '<div class="photo-wrap">' +
         '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" />' +
@@ -680,7 +686,7 @@
         facts.appendChild(li);
       }
       addFact('role', T.designation);
-      addFact('teaches', subjLabel || cleanSubjectRaw(T));
+      addFact('profession', subjLabel || cleanSubjectRaw(T));
       addFact('studied', cleanQual(T.qualification));
     }
 
