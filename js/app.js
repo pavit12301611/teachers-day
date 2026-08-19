@@ -217,8 +217,25 @@
     return s;
   }
 
+  function honorific(t) {
+    var title = String(t.title || '').trim();
+    var name = String(t.name || '');
+    if (/^father$/i.test(title) || /^rev\.?\s*fr/i.test(name)) return 'Father';
+    if (/^ma/i.test(title) || /^sr\./i.test(name)) return "Ma'am";
+    if (/^sir$/i.test(title)) return 'Sir';
+    if (/^kamal/i.test(name)) return 'Sir';
+    if (/^tejaswi/i.test(name)) return "Ma'am";
+    return 'Sir';
+  }
+
+  function honorName(t) {
+    var h = honorific(t);
+    if (h === 'Father') return 'Father ' + t.shortName;
+    return t.shortName + ' ' + h;
+  }
+
   function fill(tmpl, t) {
-    return tmpl.replace(/\{first\}/g, t.shortName).replace(/\{name\}/g, t.name);
+    return tmpl.replace(/\{first\}/g, honorName(t)).replace(/\{name\}/g, honorName(t));
   }
 
   function surname(t) {
@@ -230,9 +247,9 @@
     var roleLine = ROLE[t.designation] || ROLE['P.G.T.'];
     var subjLine = SUBJECT[t.subject] || SUBJECT['default'];
     t.letter = [
-      'Dear ' + t.name + ', ' + roleLine + '. Today the whole of St. Mary\u2019s Academy says thank you \u2014 loudly and from the heart.',
+      'Dear ' + honorName(t) + ', ' + roleLine + '. Today the whole of St. Mary\u2019s Academy says thank you \u2014 loudly and from the heart.',
       subjLine,
-      'I am Pavit Singh of Class IX-B (roll 9R01). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + t.shortName + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
+      'I am Pavit Singh of Class IX-B (roll 9R01). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + honorName(t) + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
     ];
     t.psLines = POOL.ps.slice();
     t.moreMessages = POOL.extra.map(function (m) { return fill(m, t); });
@@ -242,8 +259,8 @@
     }
     t.classNotes = POOL.notes.map(function (n) { return fill(n, t); });
     t.goldBanner = '\uD83C\uDFC6 All 4 secrets found! ' + t.name + ' is officially the most appreciated member of this school! \uD83C\uDF89';
-    t.giftJoke = '\uD83C\uDF81 Inside the box: a tiny token of gratitude for ' + t.shortName + ' \u2014 valid for unlimited smiles. No returns, no refunds, only feelings.';
-    t.ink = 'psst\u2026 invisible ink says: ' + t.shortName + ' is one of the reasons this school feels like home. \uD83E\uDD2B';
+    t.giftJoke = '\uD83C\uDF81 Inside the box: a tiny token of gratitude for ' + honorName(t) + ' \u2014 valid for unlimited smiles. No returns, no refunds, only feelings.';
+    t.ink = 'psst\u2026 invisible ink says: ' + honorName(t) + ' is one of the reasons this school feels like home. \uD83E\uDD2B';
 
     var shuffleFn = [
       { label: '\u2728 Compliment Shuffle', kind: 'shuffle' },
@@ -667,14 +684,14 @@
     var subjLabel = SUBJECT_LABEL[T.subject] || cleanSubjectRaw(T);
     if (subject) subject.textContent = T.emoji + ' ' + T.designation + (subjLabel ? ' \u00B7 ' + subjLabel : '');
     var only = document.getElementById('onlyFor');
-    if (only) only.textContent = 'This page, its letter and its messages were made only for ' + T.name + '. Nobody else\u2019s message lives here. \uD83D\uDC9D';
+    if (only) only.textContent = 'This page, its letter and its messages were made only for ' + honorName(T) + '. Nobody else\u2019s message lives here. \uD83D\uDC9D';
     var openBtn = document.getElementById('openLetter');
-    if (openBtn) openBtn.textContent = '\uD83D\uDC8C Open Your Sealed Letter' + (T.title ? ', ' + T.title : '');
+    if (openBtn) openBtn.textContent = '\uD83D\uDC8C Open Your Sealed Letter, ' + honorName(T);
 
     var forYou = document.getElementById('forYou');
-    if (forYou) forYou.textContent = 'a page sketched just for ' + T.shortName;
+    if (forYou) forYou.textContent = 'a page sketched just for ' + honorName(T);
     var polaroidCap = document.getElementById('polaroidCap');
-    if (polaroidCap) polaroidCap.textContent = T.shortName + '  ·  Teachers\u2019 Day';
+    if (polaroidCap) polaroidCap.textContent = honorName(T) + '  ·  Teachers\u2019 Day';
 
     var facts = document.getElementById('factRow');
     if (facts) {
@@ -695,7 +712,7 @@
       var roleLine = ROLE[T.designation] || ROLE['P.G.T.'];
       about.innerHTML =
         '<p class="about-kicker">a little about you</p>' +
-        '<p>' + T.shortName + ', ' + roleLine + '.</p>';
+        '<p>' + honorName(T) + ', ' + roleLine + '.</p>';
     }
 
     var pager = document.getElementById('teacherPager');
@@ -707,9 +724,9 @@
       var prevT = DATA.teachers[(idx - 1 + DATA.teachers.length) % DATA.teachers.length];
       var nextT = DATA.teachers[(idx + 1) % DATA.teachers.length];
       pager.innerHTML =
-        '<a class="pager-link" href="' + teacherHref(prevT) + '">← ' + prevT.shortName + '</a>' +
+        '<a class="pager-link" href="' + teacherHref(prevT) + '">← ' + honorName(prevT) + '</a>' +
         '<span class="pager-count">' + (idx + 1) + ' / ' + DATA.teachers.length + '</span>' +
-        '<a class="pager-link" href="' + teacherHref(nextT) + '">' + nextT.shortName + ' →</a>';
+        '<a class="pager-link" href="' + teacherHref(nextT) + '">' + honorName(nextT) + ' →</a>';
     }
 
     var floats = document.querySelectorAll('.float-emoji');
@@ -721,7 +738,7 @@
     if (gold) gold.textContent = T.goldBanner;
 
     var gift = document.querySelector('.giftbox');
-    if (gift) gift.setAttribute('aria-label', T.shortName + '\u2019s mysterious little gift');
+    if (gift) gift.setAttribute('aria-label', honorName(T) + '\u2019s mysterious little gift');
     var ink = document.querySelector('.hidden-ink');
     if (ink) ink.textContent = T.ink;
 
@@ -746,7 +763,7 @@
         ? (msgIdx + 1) % T.moreMessages.length
         : Math.floor(Math.random() * T.moreMessages.length);
       msgCard.innerHTML =
-        '<span class="msg-count">Message ' + (msgIdx + 1) + ' of ' + T.moreMessages.length + ' \u00B7 written only for ' + T.shortName + '</span>' +
+        '<span class="msg-count">Message ' + (msgIdx + 1) + ' of ' + T.moreMessages.length + ' \u00B7 written only for ' + honorName(T) + '</span>' +
         '<p class="msg-body">' + T.moreMessages[msgIdx] + '</p>' +
         '<span class="msg-by">\u2014 from Pavit Singh, with love \uD83D\uDC8C</span>';
       msgCard.classList.remove('pop'); void msgCard.offsetWidth;
@@ -796,7 +813,7 @@
       if (banner) banner.classList.add('show');
       if (!quiet) {
         window.confettiRain(160);
-        toast('\uD83C\uDFC6 ALL 4 SECRETS FOUND! You are officially ' + T.shortName + '\u2019s favourite detective!', 4200);
+        toast('\uD83C\uDFC6 ALL 4 SECRETS FOUND! You are officially ' + honorName(T) + '\u2019s favourite detective!', 4200);
       }
     }
 
@@ -820,7 +837,7 @@
     if (frame) {
       frame.setAttribute('role', 'button');
       frame.setAttribute('tabindex', '0');
-      frame.setAttribute('aria-label', T.shortName + '\u2019s photo. A little bird says it enjoys being tapped five times.');
+      frame.setAttribute('aria-label', honorName(T) + '\u2019s photo. A little bird says it enjoys being tapped five times.');
       function tapPhoto() {
         taps++;
         frame.classList.remove('wiggle');
@@ -875,7 +892,7 @@
       else if (h < 12) time = 'Good morning';
       else if (h < 17) time = 'Good afternoon';
       else time = 'Good evening';
-      return time + ', ' + (T.title || T.shortName) + ' \u2014 and welcome to your page. This letter types itself out because even I couldn\u2019t write it fast enough. \u2728';
+      return time + ', ' + honorName(T) + ' \u2014 and welcome to your page. This letter types itself out because even I couldn\u2019t write it fast enough. \u2728';
     }
 
     async function typeParagraphs(paras) {
@@ -895,7 +912,7 @@
       }
       var ps = letter.querySelector('.ps');
       if (ps) ps.classList.add('show');
-      toast('\uD83D\uDC8C Letter fully opened. Every word, only for ' + T.shortName + '.', 3400);
+      toast('\uD83D\uDC8C Letter fully opened. Every word, only for ' + honorName(T) + '.', 3400);
     }
 
     if (openBtn && letter) {
@@ -925,7 +942,7 @@
           if (audio.paused) {
             audio.play().then(function () {
               voiceBtn.textContent = '\u23F8\uFE0F Playing your voice note\u2026';
-              toast('\uD83C\uDFA7 A voice note recorded just for ' + T.shortName + '. Turn the volume up!', 3400);
+              toast('\uD83C\uDFA7 A voice note recorded just for ' + honorName(T) + '. Turn the volume up!', 3400);
             }).catch(function () {
               toast('\uD83D\uDD07 Hmm, audio needs a moment \u2014 try again!');
             });
@@ -1061,7 +1078,7 @@
       },
       whistle: function () {
         playWhistle();
-        render('<div class="pop-line">\uD83D\uDCE3 PEEP-PEEP! Everyone gather round \u2014 it\u2019s ' + T.shortName + '\u2019s day!</div>');
+        render('<div class="pop-line">\uD83D\uDCE3 PEEP-PEEP! Everyone gather round \u2014 it\u2019s ' + honorName(T) + '\u2019s day!</div>');
         window.confettiBurst(window.innerWidth / 2, window.innerHeight / 2, 70);
       },
       pep: function () {
