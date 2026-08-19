@@ -221,16 +221,18 @@
     var title = String(t.title || '').trim();
     var name = String(t.name || '');
     if (/^father$/i.test(title) || /^rev\.?\s*fr/i.test(name)) return 'Father';
-    if (/^ma/i.test(title) || /^sr\./i.test(name)) return "Ma'am";
+    if (/^sister$/i.test(title) || /^sr\./i.test(name)) return 'Sister';
+    if (/^ma/i.test(title)) return "Ma'am";
     if (/^sir$/i.test(title)) return 'Sir';
-    if (/^kamal/i.test(name)) return 'Sir';
-    if (/^tejaswi/i.test(name)) return "Ma'am";
+    if (/^kamal/i.test(name)) return "Ma'am";
+    if (/^tejaswi/i.test(name)) return 'Sir';
     return 'Sir';
   }
 
   function honorName(t) {
     var h = honorific(t);
     if (h === 'Father') return 'Father ' + t.shortName;
+    if (h === 'Sister') return 'Sister ' + t.shortName;
     return t.shortName + ' ' + h;
   }
 
