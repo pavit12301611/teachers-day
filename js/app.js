@@ -60,9 +60,9 @@
     return n;
   }
 
-  function imgSrc(t, full) {
-    var src = full ? t.photo : (t.thumb || t.photo);
-    return src && src !== t.avatar ? src : t.avatar;
+  function imgSrc(t) {
+    // Watercolor AI avatars are used everywhere for a consistent, premium look.
+    return t.avatar;
   }
 
   /* ------------------------------------------------------------------ 2. content builder
@@ -456,13 +456,15 @@
   renderCollage();
   renderMemories();
 
-  /* Global photo fallback: real photo from images/ if present, else avatar. */
+  /* Global image fallback chain: watercolor avatar jpg -> initial SVG -> hide. */
   document.addEventListener('error', function (e) {
     var target = e.target;
-    if (target && target.tagName === 'IMG' && target.dataset.avatar) {
-      target.src = target.dataset.avatar;
-      target.removeAttribute('data-avatar');
-    }
+    if (!target || target.tagName !== 'IMG' || !target.dataset.avatar) return;
+    var cur = target.src;
+    var nxt = cur.replace('assets/avatars/', 'assets/staff-avatars/').replace(/\.jpg$/, '.svg');
+    if (nxt === cur) { target.removeAttribute('data-avatar'); return; }
+    target.dataset.avatar = nxt;
+    target.src = nxt;
   }, true);
 
   /* ------------------------------------------------------------------ 4. mobile nav */
