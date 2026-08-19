@@ -1366,3 +1366,26 @@ body.party { animation: partyHue 2.5s linear infinite; }
   .fade-up { animation: none; }
   body.party { animation: none; }
 }
+
+/* ---------- 10b. Staff group headers ---------- */
+.staff-group-head {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  color: var(--purple-deep);
+  text-align: center;
+  margin: 56px 0 24px;
+  position: relative;
+}
+.staff-group-head::after {
+  content: "";
+  display: block;
+  width: 90px;
+  height: 4px;
+  margin: 10px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--gold), var(--purple));
+}
+.staff-group-head:first-child { margin-top: 8px; }
+
+/* ---------- 10c. Staff groups wrapper ---------- */
+.staff-groups { display: block; }

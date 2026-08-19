@@ -9,7 +9,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Happy Teachers' Day 💐" />
   <meta property="og:description" content="A heartfelt tribute to our teachers — personal letters, voice notes, memories and a gratitude wall." />
-  <meta property="og:image" content="assets/teacher1.jpg" />
+  <meta property="og:image" content="assets/og-banner.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,7 +29,7 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="active" aria-current="page">Home</a></li>
-      <li><a href="teachers.html">Our Teachers</a></li>
+      <li><a href="teachers.html">Our Staff</a></li>
       <li><a href="memories.html">Memories</a></li>
       <li><a href="message.html">Special Message</a></li>
       <li><a href="wall.html">Gratitude Wall</a></li>
@@ -45,12 +45,12 @@
           <p class="sub">
             To the ones who turn classrooms into worlds of wonder, who believe in us
             even when we don't believe in ourselves — this little corner of the internet
-            is our thank-you card to you.
+            is my thank-you card to you.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="teachers.html">Meet Our Teachers 👩‍🏫</a>
+            <a class="btn btn-primary" href="teachers.html">Meet All 83 Teachers &amp; Staff 💐</a>
             <a class="btn btn-ghost" href="wall.html">Leave A Note 💛</a>
-            <button class="btn btn-gold" type="button" data-celebrate="🎉 Happy Teachers' Day, to every teacher who ever believed in us!">🎉 Celebrate</button>
+            <button class="btn btn-gold" type="button" data-celebrate="🎉 Happy Teachers' Day, to every teacher and staff member who ever believed in us!">🎉 Celebrate</button>
           </div>
         </div>
 
@@ -58,13 +58,10 @@
           <span class="hero-emo" style="top:-18px; right:6%;">🎈</span>
           <span class="hero-emo" style="bottom:-10px; left:2%; animation-delay:-2s;">🍎</span>
           <div class="collage">
-            <div class="collage-frame">
-              <div class="collage-img"><img src="assets/teacher1.jpg" alt="" /></div>
-              <div class="collage-img"><img src="assets/teacher2.jpg" alt="" /></div>
-              <div class="collage-img"><img src="assets/teacher3.jpg" alt="" /></div>
-              <div class="collage-img"><img src="assets/teacher4.jpg" alt="" /></div>
+            <div class="collage-frame" id="heroCollage">
+              <!-- Filled from js/data.js — the first four staff members. -->
             </div>
-            <span class="collage-chip">Our favourite teachers 💛</span>
+            <span class="collage-chip">Our teachers &amp; staff 💛</span>
           </div>
         </div>
       </div>
@@ -85,8 +82,8 @@
         <p class="section-sub">A scientific* measurement of my gratitude. (*Science approved by Kaur Ma'am.)</p>
       </div>
       <div class="stats">
-        <div class="stat reveal"><b data-count="4">0</b><span>Teachers Celebrated</span></div>
-        <div class="stat reveal"><b data-count="16">0</b><span>Hidden Secrets To Find</span></div>
+        <div class="stat reveal"><b data-count="83">0</b><span>Teachers &amp; Staff Celebrated</span></div>
+        <div class="stat reveal"><b data-count="4">0</b><span>Hidden Secrets Per Page</span></div>
         <div class="stat reveal"><b>∞</b><span>Memories Made</span></div>
         <div class="stat reveal"><b data-count="100">0</b><span>% From The Heart</span></div>
       </div>
@@ -94,14 +91,14 @@
 
     <section class="section" aria-labelledby="teachers-title">
       <div class="section-head">
-        <h2 class="section-title" id="teachers-title">The Teachers We're Celebrating</h2>
-        <p class="section-sub">Every teacher has their own page, their own sealed letter — and a whole library of messages that keeps growing. Tap a card to open a wish made for one teacher only.</p>
+        <h2 class="section-title" id="teachers-title">The Staff We're Celebrating</h2>
+        <p class="section-sub">Every teacher and staff member has their own page, their own sealed letter — and a whole library of messages that keeps growing. Tap a card to open a wish made for one person only.</p>
       </div>
       <div class="teacher-grid" id="homeTeacherGrid">
-        <!-- Teacher cards are generated from js/data.js — add a teacher there and they appear here. -->
+        <!-- Staff cards are generated from js/data.js (staff.csv). -->
       </div>
       <p style="text-align:center; margin-top:28px;">
-        <a class="btn btn-ghost" href="teachers.html">See all teachers →</a>
+        <a class="btn btn-ghost" href="teachers.html">See all 83 teachers &amp; staff →</a>
       </p>
     </section>
 
@@ -165,7 +162,7 @@
         <p class="blurb">Every lesson you taught, every doubt you cleared, every extra minute you stayed after the bell — I noticed, and I am forever grateful.</p>
         <ul class="footer-nav">
           <li><a href="index.html">Home</a></li>
-          <li><a href="teachers.html">Our Teachers</a></li>
+          <li><a href="teachers.html">Our Staff</a></li>
           <li><a href="memories.html">Memories</a></li>
           <li><a href="message.html">Special Message</a></li>
           <li><a href="wall.html">Gratitude Wall</a></li>
