@@ -1521,8 +1521,8 @@ body::after {
 
 /* ---------- 25.11 Keep vibrant paint effects on small screens too ---------- */
 @media (max-width: 900px) {
-  body::before, body::after { filter: blur(55px); opacity: 0.38; }
-  .photo-side::before { inset: -16px; filter: blur(12px); opacity: 0.78; }
+  body::before, body::after { filter: blur(40px); opacity: 0.48; }
+  .photo-side::before { inset: -20px; filter: blur(11px); opacity: 0.82; }
 }
 
 /* ---------- 25.12 Painted hero backdrop ---------- */
@@ -1603,19 +1603,19 @@ body::after {
   .doodle-field {
     display: block !important;
     pointer-events: none; position: fixed; inset: 0; z-index: 0; overflow: hidden;
-    opacity: 0.65;
+    opacity: 0.75;
   }
   .doodle {
     position: absolute; font-family: var(--font-hand);
     line-height: 1; user-select: none;
   }
-  .d-star   { top: 6%;  left: 3%;  font-size: 1.1rem; transform: rotate(-10deg); color: var(--wc-sun) !important; opacity: 0.7; }
-  .d-heart  { top: 24%; right: 3%; font-size: 1.3rem; transform: rotate(12deg); color: var(--wc-rose) !important; opacity: 0.65; }
-  .d-apple  { bottom: 24%; left: 4%; font-size: 1rem;   transform: rotate(-8deg); opacity: 0.45; }
-  .d-book   { top: 62%; right: 4%; font-size: 1rem;   transform: rotate(10deg); opacity: 0.4; }
-  .d-flower { top: 12%; right: 9%; font-size: 1.15rem; color: var(--wc-violet) !important; opacity: 0.65; }
-  .d-spark  { bottom: 28%; right: 10%; font-size: 1.4rem; transform: rotate(18deg); color: var(--wc-teal) !important; opacity: 0.65; }
-  .d-squig  { top: 55%; left: 2%; font-size: 1rem; letter-spacing: -2px; color: var(--wc-lime) !important; opacity: 0.7; }
+  .d-star   { top: 6%;  left: 3%;  font-size: 1.2rem; transform: rotate(-10deg); color: var(--wc-sun) !important; opacity: 0.8; }
+  .d-heart  { top: 24%; right: 3%; font-size: 1.4rem; transform: rotate(12deg); color: var(--wc-rose) !important; opacity: 0.75; }
+  .d-apple  { bottom: 24%; left: 4%; font-size: 1.1rem;   transform: rotate(-8deg); opacity: 0.55; }
+  .d-book   { top: 62%; right: 4%; font-size: 1.1rem;   transform: rotate(10deg); opacity: 0.5; }
+  .d-flower { top: 12%; right: 9%; font-size: 1.2rem; color: var(--wc-violet) !important; opacity: 0.75; }
+  .d-spark  { bottom: 28%; right: 10%; font-size: 1.5rem; transform: rotate(18deg); color: var(--wc-teal) !important; opacity: 0.75; }
+  .d-squig  { top: 55%; left: 2%; font-size: 1.1rem; letter-spacing: -2px; color: var(--wc-lime) !important; opacity: 0.8; }
 
   /* --- 26.2 Navbar rainbow bar on mobile --- */
   .navbar::after {
@@ -1643,7 +1643,7 @@ body::after {
   .collage-img:nth-child(4) { box-shadow: inset 0 0 0 2.5px rgba(138, 92, 246, 0.32); }
 
   /* --- 26.4 Section dividers stay visible --- */
-  .section + .section::before { display: block; opacity: 0.85; height: 12px; }
+  .section + .section::before { display: block; opacity: 0.95; height: 14px; }
 
   /* --- 26.5 Card rotations on mobile (gentle but present) --- */
   .stat { transform: rotate(-0.5deg) !important; }
@@ -1674,17 +1674,17 @@ body::after {
 
   /* --- 26.6 Vibrant background washes on mobile --- */
   body::before {
-    width: 340px; height: 340px; top: 28%; left: -140px;
+    width: 420px; height: 420px; top: 20%; left: -80px;
     background: radial-gradient(circle at 40% 40%, var(--wc-teal), var(--wc-sky));
-    filter: blur(45px); opacity: 0.42;
+    filter: blur(40px); opacity: 0.52;
   }
   body::after {
-    width: 300px; height: 300px; bottom: 22%; right: -120px;
+    width: 380px; height: 380px; bottom: 20%; right: -70px;
     background: radial-gradient(circle at 60% 40%, var(--wc-violet), var(--wc-rose));
-    filter: blur(45px); opacity: 0.42;
+    filter: blur(40px); opacity: 0.52;
   }
-  .bg-blob.b1 { width: 300px; height: 300px; opacity: 0.42; }
-  .bg-blob.b2 { width: 260px; height: 260px; opacity: 0.42; }
+  .bg-blob.b1 { width: 340px; height: 340px; top: -100px; left: -110px; opacity: 0.48; }
+  .bg-blob.b2 { width: 300px; height: 300px; bottom: -80px; right: -110px; opacity: 0.48; }
 
   /* --- 26.7 Colorful card shadows stay vivid on mobile --- */
   .teacher-card:nth-child(5n+1) { box-shadow: 4px 5px 0 var(--wc-rose); }
@@ -1767,9 +1767,11 @@ body::after {
 
   /* --- 26.11 Marquee rainbow on mobile --- */
   .marquee {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.34)), var(--wc-rainbow);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.22)), var(--wc-rainbow);
     color: #34123c; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
     font-weight: 700;
+    border-top: 3px solid var(--wc-rose);
+    border-bottom: 3px solid var(--wc-violet);
   }
   .marquee-track span:nth-child(odd) { color: #7a1046; }
 
@@ -1805,7 +1807,7 @@ body::after {
       linear-gradient(160deg, #4b2a6b, #3d2352 55%, #2c1a3e);
   }
   .footer::after {
-    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 7px;
     background: var(--wc-rainbow);
   }
   .footer .closing { color: #ffe08a; }
@@ -1828,7 +1830,7 @@ body::after {
   .hero::before {
     content: ""; position: absolute; inset: -6% -4% auto -4%; height: 118%;
     background: url("../assets/wc-hero-splash.webp") no-repeat center / cover;
-    opacity: 0.28; z-index: 0; pointer-events: none;
+    opacity: 0.38; z-index: 0; pointer-events: none;
     -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 35%, transparent 78%);
     mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 35%, transparent 78%);
   }
@@ -1892,19 +1894,344 @@ body::after {
 }
 
 @media (max-width: 480px) {
-  .doodle-field { opacity: 0.5; }
-  .d-star { font-size: 0.95rem; }
-  .d-heart { font-size: 1.1rem; }
-  .d-flower { font-size: 1rem; }
-  .d-spark { font-size: 1.2rem; }
-  .hero-emo { font-size: 1.2rem; opacity: 0.8; }
-  .hero-emo.sketch-star, .hero-emo.sketch-heart { font-size: 1.3rem; }
+  .doodle-field { opacity: 0.65; }
+  .d-star { font-size: 1rem; }
+  .d-heart { font-size: 1.2rem; }
+  .d-flower { font-size: 1.05rem; }
+  .d-spark { font-size: 1.3rem; }
+  .hero-emo { font-size: 1.3rem; opacity: 0.85; }
+  .hero-emo.sketch-star, .hero-emo.sketch-heart { font-size: 1.4rem; }
   .collage-chip { font-size: 1rem; padding: 6px 14px; }
 }
 
 @media (max-width: 360px) {
-  .doodle-field { opacity: 0.4; }
-  .d-star { font-size: 0.8rem; }
-  .d-heart { font-size: 0.95rem; }
-  .d-flower { font-size: 0.85rem; }
+  .doodle-field { opacity: 0.55; }
+  .d-star { font-size: 0.85rem; }
+  .d-heart { font-size: 1rem; }
+  .d-flower { font-size: 0.9rem; }
+}
+
+/* ==========================================================================
+   27. Mobile vibrant boost — make mobile as colourful as desktop
+   Fix iOS background-attachment, reposition blobs on-screen,
+   reduce paper grain, add gradient borders, boost all colour accents.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  /* --- 27.1 Fix iOS background-attachment (fixed broken on Safari mobile) --- */
+  body {
+    background-attachment: scroll;
+  }
+
+  /* --- 27.2 Paper grain much lighter so colours shine through --- */
+  .paper-grain { opacity: 0.16; }
+
+  /* --- 27.3 Body watercolour blobs: bigger, more visible, ON-SCREEN --- */
+  body::before {
+    width: 480px; height: 480px;
+    top: 15%; left: -100px;
+    filter: blur(38px); opacity: 0.55;
+  }
+  body::after {
+    width: 440px; height: 440px;
+    bottom: 18%; right: -90px;
+    filter: blur(38px); opacity: 0.55;
+  }
+
+  /* --- 27.4 Background blobs: larger and more visible --- */
+  .bg-blob.b1 { width: 380px; height: 380px; top: -80px; left: -100px; opacity: 0.5; filter: blur(55px); }
+  .bg-blob.b2 { width: 340px; height: 340px; bottom: -60px; right: -100px; opacity: 0.5; filter: blur(55px); }
+
+  /* --- 27.5 Doodle decorations: more vibrant on mobile --- */
+  .doodle-field {
+    display: block !important;
+    opacity: 0.75;
+  }
+  .d-star   { color: var(--wc-sun) !important; opacity: 0.85; font-size: 1.2rem; }
+  .d-heart  { color: var(--wc-rose) !important; opacity: 0.8; font-size: 1.4rem; }
+  .d-flower { color: var(--wc-violet) !important; opacity: 0.8; font-size: 1.25rem; }
+  .d-spark  { color: var(--wc-teal) !important; opacity: 0.8; font-size: 1.5rem; }
+  .d-squig  { color: var(--wc-lime) !important; opacity: 0.85; font-size: 1.1rem; }
+  .d-apple  { opacity: 0.6; font-size: 1.15rem; }
+  .d-book   { opacity: 0.55; font-size: 1.1rem; }
+
+  /* --- 27.6 Hero backdrop more visible on mobile --- */
+  .hero::before {
+    opacity: 0.38;
+  }
+
+  /* --- 27.7 Colourful gradient top borders on ALL cards --- */
+  .stat::before,
+  .step-card::before,
+  .quote-card::before {
+    content: "";
+    display: block;
+    height: 5px;
+    margin: -28px -24px 20px;
+    border-radius: 16px 16px 0 0;
+  }
+  .stat:nth-child(4n+1)::before,
+  .step-card:nth-child(4n+1)::before,
+  .quote-card:nth-child(4n+1)::before {
+    background: linear-gradient(90deg, var(--wc-rose), var(--wc-tangerine));
+  }
+  .stat:nth-child(4n+2)::before,
+  .step-card:nth-child(4n+2)::before,
+  .quote-card:nth-child(4n+2)::before {
+    background: linear-gradient(90deg, var(--wc-sun), var(--wc-lime));
+  }
+  .stat:nth-child(4n+3)::before,
+  .step-card:nth-child(4n+3)::before,
+  .quote-card:nth-child(4n+3)::before {
+    background: linear-gradient(90deg, var(--wc-mint), var(--wc-sky));
+  }
+  .stat:nth-child(4n+4)::before,
+  .step-card:nth-child(4n+4)::before,
+  .quote-card:nth-child(4n+4)::before {
+    background: linear-gradient(90deg, var(--wc-violet), var(--wc-grape));
+  }
+
+  /* --- 27.8 Cards: more saturated gradients on mobile --- */
+  .stat:nth-child(4n+1),
+  .step-card:nth-child(4n+1) {
+    background: linear-gradient(160deg, #ffe0eb, #ffc4d4);
+  }
+  .stat:nth-child(4n+2),
+  .step-card:nth-child(4n+2) {
+    background: linear-gradient(160deg, #fff0c8, #ffe0a0);
+  }
+  .stat:nth-child(4n+3),
+  .step-card:nth-child(4n+3) {
+    background: linear-gradient(160deg, #d4f7e8, #b8f0d8);
+  }
+  .stat:nth-child(4n+4),
+  .step-card:nth-child(4n+4) {
+    background: linear-gradient(160deg, #e0e4ff, #ccd4ff);
+  }
+
+  .quote-card:nth-child(1) { background: linear-gradient(155deg, #ffe4ec, #ffd0de); }
+  .quote-card:nth-child(2) { background: linear-gradient(155deg, #fff4d4, #ffe8b0); }
+  .quote-card:nth-child(3) { background: linear-gradient(155deg, #d8f5ee, #c0eee0); }
+  .quote-card:nth-child(4) { background: linear-gradient(155deg, #e8e0ff, #d8d0ff); }
+
+  .teacher-card { background: linear-gradient(165deg, #fff8f0, #ffeeee); }
+
+  .memory-card:nth-child(4n+1) { background: linear-gradient(160deg, #fff0f4, #ffe0e8); }
+  .memory-card:nth-child(4n+2) { background: linear-gradient(160deg, #fff8e6, #ffefc8); }
+  .memory-card:nth-child(4n+3) { background: linear-gradient(160deg, #e8faf2, #d0f5e4); }
+  .memory-card:nth-child(4n+4) { background: linear-gradient(160deg, #eaf0ff, #dde6ff); }
+
+  /* --- 27.9 Stat number gradients more vibrant --- */
+  .stat b {
+    background: linear-gradient(100deg, var(--wc-berry), var(--wc-tangerine));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-size: 2.2rem;
+  }
+  .stat:nth-child(2) b {
+    background: linear-gradient(100deg, var(--wc-sun), var(--wc-rose));
+    -webkit-background-clip: text; background-clip: text;
+  }
+  .stat:nth-child(3) b {
+    background: linear-gradient(100deg, var(--wc-mint), var(--wc-sky));
+    -webkit-background-clip: text; background-clip: text;
+  }
+  .stat:nth-child(4) b {
+    background: linear-gradient(100deg, var(--wc-grape), var(--wc-teal));
+    -webkit-background-clip: text; background-clip: text;
+  }
+
+  /* --- 27.10 Step card numbers more vibrant --- */
+  .step-card .num {
+    background: linear-gradient(155deg, var(--wc-rose), var(--wc-grape));
+    box-shadow: 3px 3px 0 var(--wc-sun);
+  }
+  .step-card:nth-child(2) .num {
+    background: linear-gradient(155deg, var(--wc-sun), var(--wc-tangerine));
+    box-shadow: 3px 3px 0 var(--wc-mint);
+  }
+  .step-card:nth-child(3) .num {
+    background: linear-gradient(155deg, var(--wc-mint), var(--wc-sky));
+    box-shadow: 3px 3px 0 var(--wc-rose);
+  }
+
+  /* --- 27.11 Colourful card border accents --- */
+  .memory-card { border-color: var(--wc-violet); }
+  .memory-card:nth-child(4n+2) { border-color: var(--wc-sun); }
+  .memory-card:nth-child(4n+3) { border-color: var(--wc-mint); }
+  .memory-card:nth-child(4n+4) { border-color: var(--wc-sky); }
+
+  .wall-grid .sticky-note:nth-child(5n+1) {
+    background: linear-gradient(160deg, #ffe0ea, #ffd0de);
+  }
+  .wall-grid .sticky-note:nth-child(5n+2) {
+    background: linear-gradient(160deg, #fff4d4, #ffe8b0);
+  }
+  .wall-grid .sticky-note:nth-child(5n+3) {
+    background: linear-gradient(160deg, #d8f5ee, #c0eee0);
+  }
+  .wall-grid .sticky-note:nth-child(5n+4) {
+    background: linear-gradient(160deg, #e8f0ff, #dde6ff);
+  }
+  .wall-grid .sticky-note:nth-child(5n+5) {
+    background: linear-gradient(160deg, #f0e4ff, #e4d8ff);
+  }
+
+  /* --- 27.12 Coloured section dividers more prominent --- */
+  .section + .section::before {
+    height: 14px;
+    opacity: 1;
+    width: min(500px, 85%);
+  }
+
+  /* --- 27.13 Navbar rainbow bar thicker + brighter on mobile --- */
+  .navbar::after {
+    height: 6px;
+    background: var(--wc-rainbow);
+    opacity: 1;
+  }
+
+  /* --- 27.14 Marquee more vivid on mobile --- */
+  .marquee {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)), var(--wc-rainbow);
+    border-top: 3px solid var(--wc-rose);
+    border-bottom: 3px solid var(--wc-violet);
+    font-size: 1.1rem;
+  }
+
+  /* --- 27.15 Collage frame images have colour washes --- */
+  .collage {
+    background: linear-gradient(155deg, #fff0f8, #ffe8f4 50%, #f0f4ff);
+    box-shadow: 5px 6px 0 var(--wc-rose);
+    border-color: var(--wc-violet);
+  }
+
+  /* --- 27.16 Hero crest colourful border --- */
+  .hero-crest img {
+    border-color: var(--wc-violet);
+    box-shadow: 5px 6px 0 var(--wc-teal);
+  }
+
+  /* --- 27.17 Today's wish more vivid --- */
+  .today-wish {
+    background: linear-gradient(155deg, #ffe8f0, #ffdaa8 40%, #d0f0ff);
+    border-color: var(--wc-violet);
+    box-shadow: 5px 6px 0 var(--wc-rose);
+  }
+
+  /* --- 27.18 Rumour box colourful --- */
+  .rumour-box {
+    border-color: var(--wc-violet);
+    background: linear-gradient(155deg, #fff8f0, #f0f8ff);
+    box-shadow: 4px 5px 0 var(--wc-violet);
+  }
+
+  /* --- 27.19 Footer rainbow bar + vibrant --- */
+  .footer::after {
+    height: 8px;
+    background: var(--wc-rainbow);
+  }
+
+  /* --- 27.20 Letter cards colourful on mobile --- */
+  .letter-static {
+    border-color: var(--wc-teal);
+    box-shadow: 5px 6px 0 var(--wc-teal);
+    background: linear-gradient(160deg, #fff8f0, #fff0ea 50%, #f0f8ff);
+  }
+  .msg-card {
+    border-color: var(--wc-rose);
+    box-shadow: 5px 6px 0 var(--wc-sun);
+  }
+  .note-shuffle {
+    border-color: var(--wc-rose);
+    background: linear-gradient(160deg, #fff0f6, #fff4ea);
+    box-shadow: 5px 6px 0 var(--wc-rose);
+  }
+
+  /* --- 27.21 Class notes more vivid on mobile --- */
+  .class-note {
+    border-left-width: 10px;
+  }
+  .class-note:nth-child(5n+1) { background: linear-gradient(155deg, #ffe4ec, #ffd4de); }
+  .class-note:nth-child(5n+2) { background: linear-gradient(155deg, #fff4d4, #ffe8b0); }
+  .class-note:nth-child(5n+3) { background: linear-gradient(155deg, #d8f5ee, #c0eee0); }
+  .class-note:nth-child(5n+4) { background: linear-gradient(155deg, #e8f0ff, #dde6ff); }
+  .class-note:nth-child(5n+5) { background: linear-gradient(155deg, #f0e4ff, #e4d8ff); }
+
+  /* --- 27.22 Profile page halo bigger and brighter on mobile --- */
+  .photo-side::before {
+    inset: -22px;
+    filter: blur(10px);
+    opacity: 0.92;
+  }
+  .polaroid {
+    border-color: var(--wc-violet);
+    box-shadow: 7px 8px 0 var(--wc-rose);
+  }
+
+  /* --- 27.23 Facts more colourful on mobile --- */
+  .fact {
+    background: linear-gradient(155deg, #fff0f6, #ffe8f0);
+    border-color: var(--wc-rose);
+    box-shadow: 3px 3px 0 var(--wc-rose);
+  }
+  .fact:nth-child(2n) {
+    background: linear-gradient(155deg, #e8faf2, #d0f5e4);
+    box-shadow: 3px 3px 0 var(--wc-mint);
+    border-color: var(--wc-mint);
+  }
+  .fact:nth-child(3n) {
+    background: linear-gradient(155deg, #e8f0ff, #dde6ff);
+    box-shadow: 3px 3px 0 var(--wc-sky);
+    border-color: var(--wc-sky);
+  }
+  .fact:nth-child(4n) {
+    background: linear-gradient(155deg, #fff8e6, #ffefc8);
+    box-shadow: 3px 3px 0 var(--wc-tangerine);
+    border-color: var(--wc-tangerine);
+  }
+
+  /* --- 27.24 Subject tag more vibrant on mobile --- */
+  .subject-tag {
+    background: linear-gradient(100deg, var(--psoft, #fdeef3), #ffe0ea);
+    border-color: var(--p1, var(--wc-berry));
+    box-shadow: 3px 3px 0 var(--p1, var(--wc-berry));
+  }
+
+  /* --- 27.25 Secret chip more vivid --- */
+  .secret-chip {
+    background: linear-gradient(100deg, var(--wc-grape), var(--wc-berry));
+    border-color: var(--wc-sun);
+    box-shadow: 3px 3px 0 var(--wc-sun);
+  }
+
+  /* --- 27.26 Staff finder controls colourful --- */
+  .staff-controls input,
+  .staff-controls select {
+    border-color: var(--wc-teal);
+    background: linear-gradient(160deg, #fffdf8, #f0f8ff);
+  }
+}
+
+@media (max-width: 480px) {
+  .paper-grain { opacity: 0.12; }
+  body::before { width: 350px; height: 350px; left: -80px; filter: blur(32px); opacity: 0.5; }
+  body::after { width: 320px; height: 320px; right: -70px; filter: blur(32px); opacity: 0.5; }
+  .bg-blob.b1 { width: 300px; height: 300px; opacity: 0.45; }
+  .bg-blob.b2 { width: 270px; height: 270px; opacity: 0.45; }
+  .doodle-field { opacity: 0.7; }
+  .d-star   { font-size: 1.05rem; opacity: 0.85; }
+  .d-heart  { font-size: 1.2rem; opacity: 0.8; }
+  .d-flower { font-size: 1.1rem; opacity: 0.8; }
+  .d-spark  { font-size: 1.35rem; opacity: 0.8; }
+  .d-squig  { font-size: 1rem; opacity: 0.85; }
+  .hero-emo { font-size: 1.35rem; opacity: 0.85; }
+  .hero-emo.sketch-star, .hero-emo.sketch-heart { font-size: 1.45rem; }
+}
+
+@media (max-width: 360px) {
+  .paper-grain { opacity: 0.1; }
+  .doodle-field { opacity: 0.6; }
+  .d-star   { font-size: 0.9rem; }
+  .d-heart  { font-size: 1.05rem; }
+  .d-flower { font-size: 0.95rem; }
 }
