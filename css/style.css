@@ -1182,3 +1182,14 @@ body.party { animation: partyHue 2.5s linear infinite; }
   .fade-up { animation: none; }
   body.party { animation: none; }
 }
+
+/* Defer painting long off-screen galleries until the visitor reaches them. */
+.staff-groups > .teacher-grid,
+.gallery-grid {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1600px;
+}
+.load-more {
+  display: flex;
+  margin: 30px auto 0;
+}

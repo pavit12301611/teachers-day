@@ -42,8 +42,27 @@
     return n;
   }
 
-  function imgSrc(t) {
-    return t.avatar;
+  // Small, purpose-built images prevent the card grids from decoding full-size photos.
+  // Full-size avatars are only fetched when someone opens a profile or lightbox.
+  function imgSrc(t, full) {
+    if (full) return t.avatar || t.photo;
+    return t.thumb || t.avatar;
+  }
+
+  function mobileThumbSrc(t) {
+    return (t.thumb || t.avatar || '').replace('assets/staff-thumbs/', 'assets/staff-thumbs-mobile/');
+  }
+
+  function cardThumbSrc(t) {
+    return (t.thumb || t.avatar || '').replace('assets/staff-thumbs/', 'assets/staff-cards/');
+  }
+
+  function cardImageHtml(t, alt, eager) {
+    var small = mobileThumbSrc(t);
+    var card = cardThumbSrc(t);
+    return '<img src="' + card + '"' +
+      (small ? ' srcset="' + small + ' 150w, ' + card + ' 480w" sizes="(max-width: 640px) 150px, 360px"' : '') +
+      ' data-fallback="' + t.avatar + '" alt="' + alt + '" loading="' + (eager ? 'eager' : 'lazy') + '"' + (eager ? ' fetchpriority="high"' : '') + ' decoding="async" />';
   }
 
   function darkenHex(hex, amount) {
@@ -341,7 +360,7 @@
       : 'Your work helps this school feel like home.';
     return '' +
       '<div class="photo-wrap">' +
-        '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" decoding="async" />' +
+        cardImageHtml(t, t.name) +
         '<span class="theme-emoji">' + t.emoji + '</span>' +
       '</div>' +
       '<div class="info">' +
@@ -444,7 +463,7 @@
     var frag = document.createDocumentFragment();
     DATA.teachers.slice(0, 4).forEach(function (t) {
       var d = el('div', 'collage-img');
-      d.innerHTML = '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="" loading="lazy" decoding="async" />';
+      d.innerHTML = cardImageHtml(t, '', true);
       frag.appendChild(d);
     });
     frame.innerHTML = '';
@@ -455,7 +474,11 @@
     var grid = document.getElementById('memoriesGrid');
     if (!grid) return;
     var frag = document.createDocumentFragment();
-    DATA.teachers.forEach(function (t, i) {
+    // Render the first screen immediately; further cards are added on demand.
+    var shown = 0;
+    function addBatch() {
+      var frag = document.createDocumentFragment();
+      DATA.teachers.slice(shown, shown + 24).forEach(function (t, i) {
       var btn = el('button', 'memory-card reveal', '');
       btn.type = 'button';
       btn.setAttribute('data-lightbox', '');
@@ -465,15 +488,23 @@
       var subj = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
       btn.setAttribute('data-lightbox-sub', t.designation + (subj ? ' \u2014 ' + subj : ''));
       btn.innerHTML =
-        '<span class="thumb"><img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" decoding="async" /></span>' +
+        '<span class="thumb">' + cardImageHtml(t, t.name) + '</span>' +
         '<span class="cap">' +
           '<span class="cap-title">' + t.name + '</span>' +
           '<span class="cap-sub">' + t.designation + (subj ? ' \u00B7 ' + subj : '') + '</span>' +
         '</span>';
       frag.appendChild(btn);
-    });
-    grid.appendChild(frag);
-    initReveals();
+      });
+      shown += 24;
+      grid.appendChild(frag);
+      initReveals();
+      if (shown >= DATA.teachers.length && more.parentNode) more.remove();
+    }
+    var more = el('button', 'btn btn-ghost load-more', 'Show more memories');
+    more.type = 'button';
+    more.addEventListener('click', addBatch);
+    grid.insertAdjacentElement('afterend', more);
+    addBatch();
   }
 
   renderTeacherGrid(document.getElementById('homeTeacherGrid'), { mini: true, limit: 6 });
@@ -585,8 +616,10 @@
       else dialog.setAttribute('open', '');
     }
 
-    lightboxTriggers.forEach(function (t) {
-      t.addEventListener('click', function () { openLightbox(t); });
+    // Event delegation also covers memories added by the “Show more” button.
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest ? e.target.closest('[data-lightbox]') : null;
+      if (trigger) openLightbox(trigger);
     });
 
     function closeLightbox() {
