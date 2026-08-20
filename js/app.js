@@ -42,8 +42,29 @@
     return n;
   }
 
-  function imgSrc(t) {
-    return t.avatar;
+  // Small, purpose-built images prevent the card grids from decoding full-size photos.
+  // Full-size avatars are only fetched when someone opens a profile or lightbox.
+  function imgSrc(t, full) {
+    if (full) return t.avatar || t.photo;
+    return t.thumb || t.avatar;
+  }
+
+  function mobileThumbSrc(t) {
+    return (t.thumb || t.avatar || '').replace('assets/staff-thumbs/', 'assets/staff-thumbs-mobile/');
+  }
+
+  function cardThumbSrc(t) {
+    return (t.thumb || t.avatar || '').replace('assets/staff-thumbs/', 'assets/staff-cards/');
+  }
+
+  function cardImageHtml(t, alt, eager) {
+    var small = mobileThumbSrc(t);
+    var card = cardThumbSrc(t);
+    var webpSmall = small.replace('assets/staff-thumbs-mobile/', 'assets/staff-cards-mobile-webp/').replace(/\.jpg$/i, '.webp');
+    var webpCard = card.replace('assets/staff-cards/', 'assets/staff-cards-webp/').replace(/\.jpg$/i, '.webp');
+    var attrs = ' data-fallback="' + t.avatar + '" alt="' + alt + '" loading="' + (eager ? 'eager' : 'lazy') + '"' + (eager ? ' fetchpriority="high"' : '') + ' decoding="async"';
+    return '<picture><source type="image/webp" srcset="' + webpSmall + ' 150w, ' + webpCard + ' 480w" sizes="(max-width: 640px) 150px, 360px"><img src="' + card + '"' +
+      (small ? ' srcset="' + small + ' 150w, ' + card + ' 480w" sizes="(max-width: 640px) 150px, 360px"' : '') + attrs + ' /></picture>';
   }
 
   function darkenHex(hex, amount) {
@@ -231,7 +252,7 @@
     t.letter = [
       'Dear ' + honorName(t) + ', ' + roleLine + '. Today the whole of St. Mary\u2019s Academy says thank you \u2014 loudly and from the heart.',
       subjLine,
-      'I am Pavit Singh of Class IX-B (roll 9R01). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + honorName(t) + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
+      'I am Pavit Singh of Class IX-B (roll 9231). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + honorName(t) + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
     ];
     t.psLines = POOL.ps.slice();
     t.moreMessages = POOL.extra.map(function (m) { return fill(m, t); });
@@ -341,7 +362,7 @@
       : 'Your work helps this school feel like home.';
     return '' +
       '<div class="photo-wrap">' +
-        '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" decoding="async" />' +
+        cardImageHtml(t, t.name) +
         '<span class="theme-emoji">' + t.emoji + '</span>' +
       '</div>' +
       '<div class="info">' +
@@ -389,6 +410,8 @@
       members.forEach(function (t) {
         var card = el('a', 'teacher-card reveal', '');
         card.href = teacherHref(t);
+        card.dataset.name = (t.name + ' ' + t.designation + ' ' + (SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t))).toLowerCase();
+        card.dataset.role = t.designation;
         card.style.setProperty('--c1', t.theme.c1);
         card.style.setProperty('--c2', t.theme.c2);
         card.innerHTML = cardHtml(t, { badges: true });
@@ -444,7 +467,7 @@
     var frag = document.createDocumentFragment();
     DATA.teachers.slice(0, 4).forEach(function (t) {
       var d = el('div', 'collage-img');
-      d.innerHTML = '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="" loading="lazy" decoding="async" />';
+      d.innerHTML = cardImageHtml(t, '', true);
       frag.appendChild(d);
     });
     frame.innerHTML = '';
@@ -455,7 +478,11 @@
     var grid = document.getElementById('memoriesGrid');
     if (!grid) return;
     var frag = document.createDocumentFragment();
-    DATA.teachers.forEach(function (t, i) {
+    // Render the first screen immediately; further cards are added on demand.
+    var shown = 0;
+    function addBatch() {
+      var frag = document.createDocumentFragment();
+      DATA.teachers.slice(shown, shown + 24).forEach(function (t, i) {
       var btn = el('button', 'memory-card reveal', '');
       btn.type = 'button';
       btn.setAttribute('data-lightbox', '');
@@ -465,19 +492,50 @@
       var subj = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
       btn.setAttribute('data-lightbox-sub', t.designation + (subj ? ' \u2014 ' + subj : ''));
       btn.innerHTML =
-        '<span class="thumb"><img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" decoding="async" /></span>' +
+        '<span class="thumb">' + cardImageHtml(t, t.name) + '</span>' +
         '<span class="cap">' +
           '<span class="cap-title">' + t.name + '</span>' +
           '<span class="cap-sub">' + t.designation + (subj ? ' \u00B7 ' + subj : '') + '</span>' +
         '</span>';
       frag.appendChild(btn);
-    });
-    grid.appendChild(frag);
-    initReveals();
+      });
+      shown += 24;
+      grid.appendChild(frag);
+      initReveals();
+      if (shown >= DATA.teachers.length && more.parentNode) more.remove();
+    }
+    var more = el('button', 'btn btn-ghost load-more', 'Show more memories');
+    more.type = 'button';
+    more.addEventListener('click', addBatch);
+    grid.insertAdjacentElement('afterend', more);
+    addBatch();
   }
 
   renderTeacherGrid(document.getElementById('homeTeacherGrid'), { mini: true, limit: 6 });
   renderGroupedGrid(document.getElementById('teacherGrid'));
+  (function setupStaffFilters() {
+    var search = document.getElementById('staffSearch');
+    var role = document.getElementById('staffRole');
+    var empty = document.getElementById('staffEmpty');
+    if (!search || !role) return;
+    function filter() {
+      var query = search.value.trim().toLowerCase();
+      var chosen = role.value;
+      var visible = 0;
+      document.querySelectorAll('#teacherGrid .teacher-card').forEach(function (card) {
+        var show = (!query || card.dataset.name.indexOf(query) !== -1) && (!chosen || card.dataset.role === chosen);
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      document.querySelectorAll('#teacherGrid .staff-group-head').forEach(function (head) {
+        var grid = head.nextElementSibling;
+        head.hidden = !grid || !grid.querySelector('.teacher-card:not([hidden])');
+      });
+      empty.hidden = visible !== 0;
+    }
+    search.addEventListener('input', filter);
+    role.addEventListener('change', filter);
+  }());
   renderQuotes();
   renderTodayWish();
   renderCollage();
@@ -585,8 +643,10 @@
       else dialog.setAttribute('open', '');
     }
 
-    lightboxTriggers.forEach(function (t) {
-      t.addEventListener('click', function () { openLightbox(t); });
+    // Event delegation also covers memories added by the “Show more” button.
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest ? e.target.closest('[data-lightbox]') : null;
+      if (trigger) openLightbox(trigger);
     });
 
     function closeLightbox() {
@@ -656,6 +716,13 @@
     document.body.style.setProperty('--p2', darkenHex(T.theme.c2, 0.45));
     document.body.style.setProperty('--psoft', T.theme.soft);
     document.title = T.name + ' \uD83D\uDC90 | Teachers\' Day';
+
+    var share = document.getElementById('shareTeacher');
+    if (share) share.addEventListener('click', function () {
+      var shareData = { title: T.name + ' — Teachers’ Day', text: 'A special Teachers’ Day thank-you for ' + honorName(T) + '.', url: window.location.href };
+      if (navigator.share) navigator.share(shareData).catch(function () {});
+      else window.open('https://wa.me/?text=' + encodeURIComponent(shareData.text + ' ' + shareData.url), '_blank', 'noopener');
+    });
 
     var photo = document.getElementById('teacherPhoto');
     if (photo) {
@@ -1178,5 +1245,8 @@
         toast('\uD83D\uDC9B Your note is on the wall! Thank you!');
       });
     }
+  }
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   }
 })();

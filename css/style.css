@@ -1182,3 +1182,23 @@ body.party { animation: partyHue 2.5s linear infinite; }
   .fade-up { animation: none; }
   body.party { animation: none; }
 }
+
+/* Defer painting long off-screen galleries until the visitor reaches them. */
+.staff-groups > .teacher-grid,
+.gallery-grid {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1600px;
+}
+.load-more {
+  display: flex;
+  margin: 30px auto 0;
+}
+
+/* Staff finder */
+.staff-controls { display:flex; gap:12px; max-width:760px; margin:0 auto 30px; }
+.staff-controls input, .staff-controls select { min-height:50px; border:2px solid var(--ink-line); border-radius:14px; background:#fffaf2; color:var(--ink); font:700 1rem var(--font-body); padding:10px 14px; }
+.staff-controls input { flex:1; min-width:0; }
+.staff-controls select { min-width:180px; cursor:pointer; }
+.staff-empty { max-width:760px; margin:0 auto 28px; text-align:center; font-weight:700; color:var(--muted); }
+.teacher-card[hidden], .staff-group-head[hidden] { display:none; }
+@media (max-width: 560px) { .staff-controls { flex-direction:column; } .staff-controls select { min-width:0; } }
