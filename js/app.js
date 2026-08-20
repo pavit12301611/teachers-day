@@ -1,28 +1,10 @@
 /* ==========================================================================
-   Teachers' Day — application engine
-   --------------------------------------------------------------------------
-   The site is DATA-DRIVEN: every staff member lives in js/data.js (SITE_DATA,
-   generated from staff.csv). This file renders the pages and builds each
-   person's personalised content (letter, messages, minigames) from templates.
-   Modules:
-     1. helpers          — toast + reduced-motion detection
-     2. content builder  — personalised letter/messages/minigames per person
-     3. dynamic render   — grids (grouped), quotes, daily wish, collage, memories
-     4. mobileNav        — hamburger menu
-     5. revealOnScroll   — fade-in sections
-     6. countUp          — animated stats
-     7. lightbox         — gallery preview (native <dialog>)
-     8. noteShuffle      — random thank-you note generator
-     9. celebrate        — "Celebrate" button → confetti
-    10. teacherPage      — sealed letter, minigames, message library, secrets
-    11. konami           — hidden party-mode easter egg (secret #4)
-    12. secretBadges     — progress on the teachers index
-    13. gratitudeWall    — sticky-note wall (localStorage) with delete
+   Teachers' Day — application engine — OPTIMIZED
+   Performance: lazy loading, batched DOM, passive listeners, mobile-first
    ========================================================================== */
 (function () {
   'use strict';
 
-  // Enable JS-only enhancements (e.g. scroll-reveal) now that scripts have run.
   document.documentElement.classList.add('js');
 
   var reducedMotion = window.matchMedia &&
@@ -61,7 +43,6 @@
   }
 
   function imgSrc(t) {
-    // Hand-drawn watercolor portraits — never the plain staff photos.
     return t.avatar;
   }
 
@@ -83,8 +64,7 @@
     return q;
   }
 
-  /* ------------------------------------------------------------------ 2. content builder
-     Every staff member gets a personalised page built from templates. */
+  /* ------------------------------------------------------------------ 2. content builder */
   var POOL = {
     compliments: [
       'Your smile makes the whole corridor brighter. \u2600\uFE0F',
@@ -342,7 +322,7 @@
               revealObserver.unobserve(e.target);
             }
           });
-        }, { threshold: 0.12 });
+        }, { threshold: 0.08, rootMargin: '50px' });
       }
       items.forEach(function (n) { revealObserver.observe(n); });
     } else {
@@ -361,7 +341,7 @@
       : 'Your work helps this school feel like home.';
     return '' +
       '<div class="photo-wrap">' +
-        '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" />' +
+        '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" decoding="async" />' +
         '<span class="theme-emoji">' + t.emoji + '</span>' +
       '</div>' +
       '<div class="info">' +
@@ -380,30 +360,31 @@
     opts = opts || {};
     var list = DATA.teachers.slice();
     if (opts.limit) list = list.slice(0, opts.limit);
+    var frag = document.createDocumentFragment();
     list.forEach(function (t) {
       var card = el('a', 'teacher-card reveal' + (opts.mini ? ' mini' : ''), '');
       card.href = teacherHref(t);
       card.style.setProperty('--c1', t.theme.c1);
       card.style.setProperty('--c2', t.theme.c2);
       card.innerHTML = cardHtml(t, opts);
-      container.appendChild(card);
+      frag.appendChild(card);
     });
+    container.appendChild(frag);
     initReveals();
   }
 
-  /* Grouped staff index (teachers.html): headers per designation. */
   var GROUP_ORDER = [
     'Principal', 'Manager', 'P.G.T.', 'T.G.T.', 'P.R.T.', 'PRE-PRIMARY',
     'Office Staff', 'Assistant Librarian', 'Supporting Staff'
   ];
   function renderGroupedGrid(container) {
     if (!container) return;
-    container.innerHTML = '';
+    var frag = document.createDocumentFragment();
     GROUP_ORDER.forEach(function (g) {
       var members = DATA.teachers.filter(function (t) { return t.designation === g; });
       if (!members.length) return;
       var count = members.length;
-      container.appendChild(el('h3', 'staff-group-head', g + ' \u00B7 ' + count));
+      frag.appendChild(el('h3', 'staff-group-head', g + ' \u00B7 ' + count));
       var grid = el('div', 'teacher-grid');
       members.forEach(function (t) {
         var card = el('a', 'teacher-card reveal', '');
@@ -413,26 +394,28 @@
         card.innerHTML = cardHtml(t, { badges: true });
         grid.appendChild(card);
       });
-      container.appendChild(grid);
+      frag.appendChild(grid);
     });
+    container.appendChild(frag);
     initReveals();
   }
 
-  /* Quote strip — three random quotes on every visit. */
   function renderQuotes() {
     var strip = document.getElementById('quotesStrip');
     if (!strip) return;
-    strip.innerHTML = '';
     var pool = DATA.quotes.slice();
     for (var i = pool.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
     }
+    var frag = document.createDocumentFragment();
     pool.slice(0, 3).forEach(function (q) {
       var card = el('div', 'quote-card reveal');
       card.innerHTML = '"' + q.text + '"<span class="who">\u2014 ' + q.who + '</span>';
-      strip.appendChild(card);
+      frag.appendChild(card);
     });
+    strip.innerHTML = '';
+    strip.appendChild(frag);
     initReveals();
   }
 
@@ -445,33 +428,33 @@
     });
   }
 
-  /* Today's wish — one message per day of the week. */
   function renderTodayWish() {
     var box = document.getElementById('todayWish');
     if (!box) return;
     var wishes = DATA.dailyWishes.length ? DATA.dailyWishes : ['Happy Teachers\' Day! \uD83D\uDC90'];
-    var day = (new Date().getDay() + 6) % 7; // Monday = 0 … Sunday = 6
+    var day = (new Date().getDay() + 6) % 7;
     box.innerHTML =
       '<span class="tw-label">\uD83D\uDCAB Today\'s Wish For Our Teachers</span>' +
       '<p class="tw-text">' + wishes[day % wishes.length] + '</p>';
   }
 
-  /* Hero collage — first four staff members. */
   function renderCollage() {
     var frame = document.getElementById('heroCollage');
     if (!frame) return;
-    frame.innerHTML = '';
+    var frag = document.createDocumentFragment();
     DATA.teachers.slice(0, 4).forEach(function (t) {
       var d = el('div', 'collage-img');
-      d.innerHTML = '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="" loading="lazy" />';
-      frame.appendChild(d);
+      d.innerHTML = '<img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="" loading="lazy" decoding="async" />';
+      frag.appendChild(d);
     });
+    frame.innerHTML = '';
+    frame.appendChild(frag);
   }
 
-  /* Memories page — every staff member as a memory card. */
   function renderMemories() {
     var grid = document.getElementById('memoriesGrid');
     if (!grid) return;
+    var frag = document.createDocumentFragment();
     DATA.teachers.forEach(function (t, i) {
       var btn = el('button', 'memory-card reveal', '');
       btn.type = 'button';
@@ -482,13 +465,14 @@
       var subj = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
       btn.setAttribute('data-lightbox-sub', t.designation + (subj ? ' \u2014 ' + subj : ''));
       btn.innerHTML =
-        '<span class="thumb"><img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" /></span>' +
+        '<span class="thumb"><img src="' + imgSrc(t) + '" data-fallback="' + t.avatar + '" alt="' + t.name + '" loading="lazy" decoding="async" /></span>' +
         '<span class="cap">' +
           '<span class="cap-title">' + t.name + '</span>' +
           '<span class="cap-sub">' + t.designation + (subj ? ' \u00B7 ' + subj : '') + '</span>' +
         '</span>';
-      grid.appendChild(btn);
+      frag.appendChild(btn);
     });
+    grid.appendChild(frag);
     initReveals();
   }
 
@@ -648,7 +632,7 @@
   /* ------------------------------------------------------------------ 9. celebrate button */
   document.querySelectorAll('[data-celebrate]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      window.confettiRain(160);
+      window.confettiRain(120);
       var msg = btn.dataset.celebrate || '\uD83C\uDF89 Happy Teachers\u2019 Day!';
       toast(msg, 3600);
     });
@@ -668,7 +652,6 @@
     buildContent(T);
 
     document.body.setAttribute('data-theme', T.id);
-    // Per-person theme colours (data.js), applied inline.
     document.body.style.setProperty('--p1', darkenHex(T.theme.c1, 0.42));
     document.body.style.setProperty('--p2', darkenHex(T.theme.c2, 0.45));
     document.body.style.setProperty('--psoft', T.theme.soft);
@@ -693,7 +676,7 @@
     var forYou = document.getElementById('forYou');
     if (forYou) forYou.textContent = 'a page sketched just for ' + honorName(T);
     var polaroidCap = document.getElementById('polaroidCap');
-    if (polaroidCap) polaroidCap.textContent = honorName(T) + '  ·  Teachers\u2019 Day';
+    if (polaroidCap) polaroidCap.textContent = honorName(T) + '  \u00B7  Teachers\u2019 Day';
 
     var facts = document.getElementById('factRow');
     if (facts) {
@@ -726,9 +709,9 @@
       var prevT = DATA.teachers[(idx - 1 + DATA.teachers.length) % DATA.teachers.length];
       var nextT = DATA.teachers[(idx + 1) % DATA.teachers.length];
       pager.innerHTML =
-        '<a class="pager-link" href="' + teacherHref(prevT) + '">← ' + honorName(prevT) + '</a>' +
+        '<a class="pager-link" href="' + teacherHref(prevT) + '\u2190 ' + honorName(prevT) + '</a>' +
         '<span class="pager-count">' + (idx + 1) + ' / ' + DATA.teachers.length + '</span>' +
-        '<a class="pager-link" href="' + teacherHref(nextT) + '">' + honorName(nextT) + ' →</a>';
+        '<a class="pager-link" href="' + teacherHref(nextT) + '">' + honorName(nextT) + ' \u2192</a>';
     }
 
     var floats = document.querySelectorAll('.float-emoji');
@@ -746,13 +729,15 @@
 
     var funWrap = document.getElementById('funButtons');
     if (funWrap) {
+      var frag = document.createDocumentFragment();
       T.fun.forEach(function (f) {
         var b = el('button', 'btn btn-ghost');
         b.type = 'button';
         b.setAttribute('data-fun', f.kind);
         b.textContent = f.label;
-        funWrap.appendChild(b);
+        frag.appendChild(b);
       });
+      funWrap.appendChild(frag);
     }
 
     /* ---- Message library ---- */
@@ -781,15 +766,17 @@
     /* ---- A few notes from Pavit ---- */
     var notesWrap = document.getElementById('classNotes');
     if (notesWrap) {
+      var frag = document.createDocumentFragment();
       T.classNotes.forEach(function (n) {
         var d = el('div', 'class-note');
         d.innerHTML = '<p>' + n + '</p><span class="who">\u2014 Pavit Singh</span>';
-        notesWrap.appendChild(d);
+        frag.appendChild(d);
       });
+      notesWrap.appendChild(frag);
       initReveals();
     }
 
-    /* ---- Secrets progress (persisted per staff member) ---- */
+    /* ---- Secrets progress ---- */
     var secretFound = [];
     var storageKey = 'td-secrets-' + T.id;
     try { secretFound = JSON.parse(localStorage.getItem(storageKey)) || []; } catch (e) { secretFound = []; }
@@ -814,7 +801,7 @@
       var banner = document.getElementById('goldBanner');
       if (banner) banner.classList.add('show');
       if (!quiet) {
-        window.confettiRain(160);
+        window.confettiRain(120);
         toast('\uD83C\uDFC6 ALL 4 SECRETS FOUND! You are officially ' + honorName(T) + '\u2019s favourite detective!', 4200);
       }
     }
@@ -825,7 +812,7 @@
       saveSecrets();
       updateChip(true);
       toast('\uD83D\uDD75\uFE0F Secret found (' + secretFound.length + '/4): ' + label, 3200);
-      window.confettiBurst(window.innerWidth / 2, window.innerHeight / 3, 60);
+      window.confettiBurst(window.innerWidth / 2, window.innerHeight / 3, 40);
       if (secretFound.length >= 4) setTimeout(function () { celebrateAll(false); }, 700);
     }
     teacherDiscover = discover;
@@ -863,7 +850,7 @@
       gift.addEventListener('click', function () {
         discover('gift', 'The hidden gift box!');
         var r = gift.getBoundingClientRect();
-        window.confettiBurst(r.left + r.width / 2, r.top, 40);
+        window.confettiBurst(r.left + r.width / 2, r.top, 30);
         toast(T.giftJoke, 5000);
       });
     }
@@ -925,7 +912,7 @@
       openBtn.addEventListener('click', function () {
         openBtn.classList.add('gone');
         letter.classList.add('open');
-        window.confettiBurst(window.innerWidth / 2, 220, 40);
+        window.confettiBurst(window.innerWidth / 2, 220, 30);
         setTimeout(function () {
           if (letter.scrollIntoView) {
             letter.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
@@ -935,7 +922,7 @@
       });
     }
 
-    /* ---- Voice note (only when an audio file exists) ---- */
+    /* ---- Voice note ---- */
     var voiceBtn = document.getElementById('voiceNote');
     if (voiceBtn) {
       if (T.audio) {
@@ -1067,8 +1054,8 @@
           b.style.animationDuration = 1.4 + Math.random() * 1.4 + 's';
           if (wrap && wrap.isConnected) wrap.appendChild(b);
           setTimeout(function () { if (b.isConnected) b.remove(); }, 3000);
-          if (++n > 26) clearInterval(iv);
-        }, 90);
+          if (++n > 20) clearInterval(iv);
+        }, 100);
         setTimeout(function () {
           if (!stage.isConnected) return;
           var rl = stage.querySelector('.reaction-line');
@@ -1081,7 +1068,7 @@
       whistle: function () {
         playWhistle();
         render('<div class="pop-line">\uD83D\uDCE3 PEEP-PEEP! Everyone gather round \u2014 it\u2019s ' + honorName(T) + '\u2019s day!</div>');
-        window.confettiBurst(window.innerWidth / 2, window.innerHeight / 2, 70);
+        window.confettiBurst(window.innerWidth / 2, window.innerHeight / 2, 50);
       },
       pep: function () {
         render('<div class="pop-line">\uD83D\uDCAA ' + nextLine(T.pepTalks) + '</div>');
@@ -1097,7 +1084,7 @@
         if (actions[kind]) actions[kind]();
         if (kind !== 'whistle' && kind !== 'bubbles') {
           var r = btn.getBoundingClientRect();
-          window.confettiBurst(r.left + r.width / 2, r.top, 18);
+          window.confettiBurst(r.left + r.width / 2, r.top, 14);
         }
       });
     });
@@ -1112,7 +1099,7 @@
     if (ki === seq.length) {
       ki = 0;
       document.body.classList.add('party');
-      window.confettiRain(140);
+      window.confettiRain(100);
       toast('\uD83C\uDF08 PARTY MODE UNLOCKED! (Old-school cheat codes still work here)', 4000);
       if (teacherDiscover) teacherDiscover('konami', 'The old-school cheat code!');
     }
@@ -1187,7 +1174,7 @@
         saveWall();
         addNote(item, preset.length + extra.length - 1, true);
         form.reset();
-        window.confettiBurst(window.innerWidth / 2, window.innerHeight / 2, 40);
+        window.confettiBurst(window.innerWidth / 2, window.innerHeight / 2, 30);
         toast('\uD83D\uDC9B Your note is on the wall! Thank you!');
       });
     }

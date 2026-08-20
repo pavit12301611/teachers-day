@@ -10,12 +10,8 @@
   <meta property="og:title" content="A Page Made Only For You 💐" />
   <meta property="og:description" content="A sealed letter, fresh messages and a voice note — one teacher's personal corner of the internet." />
   <meta property="og:image" content="assets/og-banner.png" />
-  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="assets/favicon-192.png" sizes="192x192" />
-  <link rel="apple-touch-icon" href="assets/favicon-180.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -170,8 +166,8 @@
     </p>
   </noscript>
 
-  <script src="js/data.js"></script>
-  <script src="js/confetti.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/confetti.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

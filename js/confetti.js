@@ -1,9 +1,7 @@
 /* ==========================================================================
-   Confetti engine — Teacher's Day
+   Confetti engine — OPTIMIZED (canvas-based)
+   GPU-friendly: single canvas, requestAnimationFrame batching.
    Exposes `confettiBurst(x, y, count)` and `confettiRain(count)`.
-
-   Confetti is ONLY triggered by explicit calls (buttons / celebrations) —
-   nothing auto-sprays on page load. Respects prefers-reduced-motion.
    ========================================================================== */
 (function () {
   'use strict';
@@ -12,77 +10,126 @@
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var COLORS = ['#6d28d9', '#8b5cf6', '#d6356f', '#d99a06', '#f0b429', '#0ea5e9', '#10b981'];
-  var SHAPES = ['🎉', '💐', '⭐', '📚', '✏️', '❤️', '✨', '🎓'];
+  var canvas = null;
+  var ctx = null;
+  var pieces = [];
+  var rafId = null;
+  var running = false;
 
-  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function ensureCanvas() {
+    if (canvas) return;
+    canvas = document.createElement('canvas');
+    canvas.className = 'confetti-canvas';
+    ctx = canvas.getContext('2d');
+    resize();
+    document.body.appendChild(canvas);
+    window.addEventListener('resize', resize);
+  }
 
-  /**
-   * Create one piece of confetti.
-   * @param {Object} opts
-   * @param {boolean} opts.burst - true = explode from a point; false = rain from the top
-   * @param {number}  [opts.x]   - burst origin (px)
-   * @param {number}  [opts.y]   - burst origin (px)
-   */
-  function spawn(opts) {
-    if (reducedMotion) return;
+  function resize() {
+    if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
 
-    var el = document.createElement('div');
-    el.className = 'confetti-piece';
-
-    var size = 8 + Math.random() * 10;
-    var useEmoji = Math.random() > 0.55;
-
-    if (useEmoji) {
-      el.textContent = pick(SHAPES);
-      el.style.fontSize = (size + 8) + 'px';
-    } else {
-      el.style.width = size + 'px';
-      el.style.height = (size * 0.6) + 'px';
-      el.style.background = pick(COLORS);
-      el.style.borderRadius = '2px';
-    }
-
-    if (opts.burst) {
-      el.style.left = opts.x + 'px';
-      el.style.top = opts.y + 'px';
-      document.body.appendChild(el);
-
-      var dx = (Math.random() - 0.5) * 2 * 170;      // sideways drift
-      var dy = 150 + Math.random() * 240;            // downward fall
-      var rot = 360 + Math.random() * 540;           // full spins
-      var dur = 1100 + Math.random() * 1300;         // ms
-
-      el.animate([
-        { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
-        { transform: 'translate(' + dx + 'px, ' + dy + 'px) rotate(' + rot + 'deg)', opacity: 0 }
-      ], { duration: dur, easing: 'cubic-bezier(0.2, 0.7, 0.3, 1)', fill: 'forwards' });
-
-      setTimeout(function () { el.remove(); }, dur + 60);
-    } else {
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.animationDuration = (4 + Math.random() * 5) + 's';
-      // Negative delay starts pieces partway down their fall (no pile-up at top).
-      el.style.animationDelay = '-' + (Math.random() * 5).toFixed(2) + 's';
-      document.body.appendChild(el);
-      setTimeout(function () { el.remove(); }, 10500);
+  function spawnBurst(x, y, count) {
+    count = count || 50;
+    for (var i = 0; i < count; i++) {
+      var angle = Math.random() * Math.PI * 2;
+      var speed = 4 + Math.random() * 8;
+      pieces.push({
+        x: x, y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 4,
+        size: 4 + Math.random() * 6,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        rotation: Math.random() * 360,
+        rotSpeed: (Math.random() - 0.5) * 12,
+        life: 1,
+        decay: 0.012 + Math.random() * 0.008,
+        shape: Math.random() > 0.5 ? 'rect' : 'circle'
+      });
     }
   }
 
-  /** Explode a burst of confetti from a point. */
-  window.confettiBurst = function (x, y, count) {
-    if (reducedMotion) return;
+  function spawnRain(count) {
     count = count || 60;
     for (var i = 0; i < count; i++) {
-      setTimeout(function () { spawn({ burst: true, x: x, y: y }); }, i * 12);
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * 200,
+        vx: (Math.random() - 0.5) * 2,
+        vy: 2 + Math.random() * 3,
+        size: 4 + Math.random() * 6,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        rotation: Math.random() * 360,
+        rotSpeed: (Math.random() - 0.5) * 6,
+        life: 1,
+        decay: 0.004 + Math.random() * 0.003,
+        shape: Math.random() > 0.5 ? 'rect' : 'circle'
+      });
     }
+  }
+
+  function tick() {
+    if (!ctx || !canvas) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (var i = pieces.length - 1; i >= 0; i--) {
+      var p = pieces[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.15; // gravity
+      p.vx *= 0.99; // friction
+      p.rotation += p.rotSpeed;
+      p.life -= p.decay;
+
+      if (p.life <= 0 || p.y > canvas.height + 50) {
+        pieces.splice(i, 1);
+        continue;
+      }
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation * Math.PI / 180);
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    if (pieces.length > 0) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      running = false;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  function startLoop() {
+    if (running) return;
+    running = true;
+    rafId = requestAnimationFrame(tick);
+  }
+
+  window.confettiBurst = function (x, y, count) {
+    if (reducedMotion) return;
+    ensureCanvas();
+    spawnBurst(x, y, count);
+    startLoop();
   };
 
-  /** Rain confetti across the whole screen. */
   window.confettiRain = function (count) {
     if (reducedMotion) return;
-    count = count || 90;
-    for (var i = 0; i < count; i++) {
-      setTimeout(function () { spawn({ burst: false }); }, i * 28);
-    }
+    ensureCanvas();
+    spawnRain(count);
+    startLoop();
   };
 })();
