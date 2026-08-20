@@ -9,7 +9,7 @@
   var reducedMotion = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var COLORS = ['#6d28d9', '#8b5cf6', '#d6356f', '#d99a06', '#f0b429', '#0ea5e9', '#10b981'];
+  var COLORS = ['#d6337c', '#ff5f8d', '#ff8a3d', '#ffc93c', '#7bd44a', '#22c39a', '#17b6c7', '#3ea6f5', '#8a5cf6', '#6b3fd4'];
   var canvas = null;
   var ctx = null;
   var pieces = [];

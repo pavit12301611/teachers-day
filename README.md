@@ -47,6 +47,14 @@ whistle for PE…) and **own** message library.
 Find all 4 on a page for the golden banner celebration. 🏆 Progress is saved per person in your
 browser and shown on the staff index.
 
+## The colour theme 🎨
+
+The palette is tuned to the hand-drawn watercolour portraits: rainbow washes in the page
+background, gradient headings, a rainbow navbar strip and marquee, colour-cycled card tints and
+shadows, a painted halo behind profile photos and a colourful footer. It all lives in
+**section 25 of `css/style.css`** (`--wc-*` tokens), so the whole scheme can be retuned from
+one block of variables.
+
 ## Regenerating data from staff.csv
 
 ```bash
