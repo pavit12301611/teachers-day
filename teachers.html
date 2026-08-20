@@ -6,6 +6,7 @@
   <title>Our Staff 👩‍🏫 | Teachers' Day</title>
   <meta name="description" content="Meet all 83 teachers and staff we're celebrating this Teachers' Day — each with a personal page, a sealed letter, a voice note and hidden surprises." />
   <meta name="theme-color" content="#e8b48a" />
+  <link rel="manifest" href="manifest.webmanifest" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Our Staff 💐" />
   <meta property="og:description" content="83 teachers and staff, each with a personal page and sealed letter — made with love by Pavit Singh." />
@@ -61,6 +62,16 @@
           Every single teacher and staff member of our school is celebrated here — 83 people, each with their own page, their own sealed letter, a whole library of messages, and 4 hidden secrets to discover. 💌
         </p>
       </div>
+
+      <div class="staff-controls" role="search">
+        <label class="sr-only" for="staffSearch">Search staff</label>
+        <input id="staffSearch" type="search" placeholder="Search by name, subject or role" autocomplete="off" />
+        <label class="sr-only" for="staffRole">Filter by role</label>
+        <select id="staffRole">
+          <option value="">All roles</option><option>Principal</option><option>Manager</option><option>P.G.T.</option><option>T.G.T.</option><option>P.R.T.</option><option>PRE-PRIMARY</option><option>Office Staff</option><option>Assistant Librarian</option><option>Supporting Staff</option>
+        </select>
+      </div>
+      <p class="staff-empty" id="staffEmpty" hidden>No matching staff members yet — try another search.</p>
 
       <div id="teacherGrid" class="staff-groups">
         <!-- Staff cards are generated from js/data.js (staff.csv), grouped by designation. -->

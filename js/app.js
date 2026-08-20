@@ -60,9 +60,11 @@
   function cardImageHtml(t, alt, eager) {
     var small = mobileThumbSrc(t);
     var card = cardThumbSrc(t);
-    return '<img src="' + card + '"' +
-      (small ? ' srcset="' + small + ' 150w, ' + card + ' 480w" sizes="(max-width: 640px) 150px, 360px"' : '') +
-      ' data-fallback="' + t.avatar + '" alt="' + alt + '" loading="' + (eager ? 'eager' : 'lazy') + '"' + (eager ? ' fetchpriority="high"' : '') + ' decoding="async" />';
+    var webpSmall = small.replace('assets/staff-thumbs-mobile/', 'assets/staff-cards-mobile-webp/').replace(/\.jpg$/i, '.webp');
+    var webpCard = card.replace('assets/staff-cards/', 'assets/staff-cards-webp/').replace(/\.jpg$/i, '.webp');
+    var attrs = ' data-fallback="' + t.avatar + '" alt="' + alt + '" loading="' + (eager ? 'eager' : 'lazy') + '"' + (eager ? ' fetchpriority="high"' : '') + ' decoding="async"';
+    return '<picture><source type="image/webp" srcset="' + webpSmall + ' 150w, ' + webpCard + ' 480w" sizes="(max-width: 640px) 150px, 360px"><img src="' + card + '"' +
+      (small ? ' srcset="' + small + ' 150w, ' + card + ' 480w" sizes="(max-width: 640px) 150px, 360px"' : '') + attrs + ' /></picture>';
   }
 
   function darkenHex(hex, amount) {
@@ -408,6 +410,8 @@
       members.forEach(function (t) {
         var card = el('a', 'teacher-card reveal', '');
         card.href = teacherHref(t);
+        card.dataset.name = (t.name + ' ' + t.designation + ' ' + (SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t))).toLowerCase();
+        card.dataset.role = t.designation;
         card.style.setProperty('--c1', t.theme.c1);
         card.style.setProperty('--c2', t.theme.c2);
         card.innerHTML = cardHtml(t, { badges: true });
@@ -509,6 +513,29 @@
 
   renderTeacherGrid(document.getElementById('homeTeacherGrid'), { mini: true, limit: 6 });
   renderGroupedGrid(document.getElementById('teacherGrid'));
+  (function setupStaffFilters() {
+    var search = document.getElementById('staffSearch');
+    var role = document.getElementById('staffRole');
+    var empty = document.getElementById('staffEmpty');
+    if (!search || !role) return;
+    function filter() {
+      var query = search.value.trim().toLowerCase();
+      var chosen = role.value;
+      var visible = 0;
+      document.querySelectorAll('#teacherGrid .teacher-card').forEach(function (card) {
+        var show = (!query || card.dataset.name.indexOf(query) !== -1) && (!chosen || card.dataset.role === chosen);
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      document.querySelectorAll('#teacherGrid .staff-group-head').forEach(function (head) {
+        var grid = head.nextElementSibling;
+        head.hidden = !grid || !grid.querySelector('.teacher-card:not([hidden])');
+      });
+      empty.hidden = visible !== 0;
+    }
+    search.addEventListener('input', filter);
+    role.addEventListener('change', filter);
+  }());
   renderQuotes();
   renderTodayWish();
   renderCollage();
@@ -689,6 +716,13 @@
     document.body.style.setProperty('--p2', darkenHex(T.theme.c2, 0.45));
     document.body.style.setProperty('--psoft', T.theme.soft);
     document.title = T.name + ' \uD83D\uDC90 | Teachers\' Day';
+
+    var share = document.getElementById('shareTeacher');
+    if (share) share.addEventListener('click', function () {
+      var shareData = { title: T.name + ' — Teachers’ Day', text: 'A special Teachers’ Day thank-you for ' + honorName(T) + '.', url: window.location.href };
+      if (navigator.share) navigator.share(shareData).catch(function () {});
+      else window.open('https://wa.me/?text=' + encodeURIComponent(shareData.text + ' ' + shareData.url), '_blank', 'noopener');
+    });
 
     var photo = document.getElementById('teacherPhoto');
     if (photo) {
@@ -1211,5 +1245,8 @@
         toast('\uD83D\uDC9B Your note is on the wall! Thank you!');
       });
     }
+  }
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   }
 })();
