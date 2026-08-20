@@ -860,8 +860,8 @@
     buildContent(T);
 
     document.body.setAttribute('data-theme', T.id);
-    document.body.style.setProperty('--p1', darkenHex(T.theme.c1, 0.42));
-    document.body.style.setProperty('--p2', darkenHex(T.theme.c2, 0.45));
+    document.body.style.setProperty('--p1', darkenHex(T.theme.c1, 0.16));
+    document.body.style.setProperty('--p2', darkenHex(T.theme.c2, 0.2));
     document.body.style.setProperty('--psoft', T.theme.soft);
     document.title = T.name + ' \uD83D\uDC90 | Teachers\' Day';
 

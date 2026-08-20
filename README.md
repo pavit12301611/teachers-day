@@ -47,6 +47,25 @@ whistle for PE…) and **own** message library.
 Find all 4 on a page for the golden banner celebration. 🏆 Progress is saved per person in your
 browser and shown on the staff index.
 
+## The watercolour look 🎨
+
+Every staff portrait is a **freestyle watercolour painting**: the pale watercolour renders in
+`assets/avatars-src/` are repainted with rainbow washes, loose paint splashes, faint pencil lines
+and cold-press paper grain, then exported to every size the site serves.
+
+```bash
+./tools/repaint_all.sh            # repaints all 83 portraits + all derived sizes
+./tools/wc_paint.sh <src> <out> <seed> [size]   # paint a single image
+```
+
+- `tools/wc_paint.sh` — the ImageMagick painting pipeline (deterministic: same seed → same painting).
+- `tools/repaint_all.sh` — runs it over `assets/avatars-src/` and rebuilds
+  `assets/avatars/`, `assets/avatars-mobile/`, `assets/staff-cards/`, `assets/staff-cards-webp/`,
+  `assets/staff-cards-mobile-webp/` and `assets/staff-thumbs-mobile/`.
+
+The site palette matches the paintings: rainbow washes in the page background, gradient headings,
+a rainbow marquee and navbar strip, and colour-cycled card shadows (`section 25` of `css/style.css`).
+
 ## Regenerating data from staff.csv
 
 ```bash
