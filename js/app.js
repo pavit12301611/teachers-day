@@ -246,21 +246,169 @@
     return parts.length > 1 ? parts[parts.length - 1] : t.shortName;
   }
 
+  /* ------------------------------------------------------------------ 2b. personal context
+     Written by Pavit Singh, keyed by the staff number from staff.csv.
+     These are polished, first-person tributes inspired by real memories —
+     when a teacher has an entry here, their letter, "about", message library
+     and notes are rewritten around it. Teachers without an entry keep the
+     warm, generic copy generated above. */
+  var PERSONAL = {
+    '1':  { taught: false, subj: '',  who: 'the Principal who leads our whole school',
+            gift: 'You never taught me in a classroom, yet you kept me motivated in more ways than you probably realise \u2014 and that quiet push mattered.' },
+    '2':  { taught: false, subj: '',  who: 'the Manager of our school',
+            gift: 'You always felt less like an authority and more like a friend, and that warmth is part of why this school feels safe.' },
+    '7':  { taught: false, subj: 'Computer', who: 'my guide in the world of computers',
+            gift: 'You pointed me towards IT and helped me actually learn it instead of just memorising it \u2014 that direction stuck with me.' },
+    '8':  { taught: true, subj: 'Physical Education', who: 'the best P.T. teacher I could have asked for',
+            gift: 'You looked after my health and drilled us until march-past and every activity felt sharp \u2014 you taught me not to quit.' },
+    '9':  { taught: false, subj: '', who: 'the finest anchor of our school and an even better motivator',
+            gift: 'You guided me through so many different sides of life, well beyond any syllabus.' },
+    '16': { taught: true, subj: 'Social Studies', who: 'my mentor and one of the most helpful teachers I have had',
+            gift: 'You taught Social Studies so beautifully that even history felt alive instead of boring.' },
+    '18': { taught: true, subj: 'IT and Moral Science', who: 'my class teacher and my IT teacher',
+            gift: 'You taught me Computer and Moral Science, but more than that you helped me understand values I still carry.' },
+    '19': { taught: true, subj: 'Mathematics and Economics', who: 'my Maths teacher first, and now my Economics teacher',
+            gift: 'From numbers to economics, you have stayed part of my learning \u2014 thank you for that continuity.' },
+    '22': { taught: true, subj: 'Science', who: 'the teacher who made Science feel easy',
+            gift: 'You explained Science so simply that it never felt heavy \u2014 it just made sense.' },
+    '24': { taught: true, subj: 'Hindi and Sanskrit', who: 'my Hindi and Sanskrit teacher',
+            gift: 'You made even Hindi and Sanskrit feel easy, simple and genuinely fun.',
+            extra: 'You may be strict in class, but everyone knows you have one of the kindest hearts.' },
+    '25': { taught: true, subj: 'English', who: 'my English teacher',
+            gift: 'Alongside the language, you taught us moral values that stayed with me.' },
+    '27': { taught: true, subj: 'Hindi', who: 'my Hindi teacher',
+            gift: 'You gave me a steady footing in Hindi in my early years.' },
+    '28': { taught: true, subj: 'Science', who: 'my Science teacher',
+            gift: 'You never asked us to just memorise \u2014 you taught us to understand Science and actually apply it to life.' },
+    '29': { taught: true, subj: 'English', who: 'my English teacher',
+            gift: 'You showed me how simple and easy grammar can really be.' },
+    '30': { taught: true, subj: 'Mathematics', who: 'my Maths teacher',
+            gift: 'You cleared my foundation in Maths \u2014 tables, sums and calculations \u2014 in a way that was easy to remember and understand.' },
+    '31': { taught: true, subj: 'English', who: 'my English teacher',
+            gift: 'You were always so kind, and that made your class an easy one to walk into.' },
+    '32': { taught: true, subj: 'Social Science', who: 'my Social Science teacher',
+            gift: 'You made Social Science feel easy and simple, and you were always ready to help.' },
+    '33': { taught: true, subj: 'Physical Education', who: 'my P.T. teacher',
+            gift: 'You trained me through so many exercises and drills \u2014 thank you for keeping us active and disciplined.' },
+    '34': { taught: true, subj: 'Computer', who: 'my Computer teacher',
+            gift: 'You taught me computers and even computer languages \u2014 the start of something I still enjoy.' },
+    '35': { taught: true, subj: 'Computer', who: 'my Computer teacher in the junior branch',
+            gift: 'You introduced me to computers and all the things they can do.' },
+    '36': { taught: true, subj: 'Science and Mathematics', who: 'my Science and Maths teacher',
+            gift: 'You handled two of the trickiest subjects and still made class feel comfortable.' },
+    '37': { taught: true, subj: 'Hindi and Sanskrit', who: 'my Hindi teacher in Class 8',
+            gift: 'You taught me Hindi and Sanskrit, and you were always so cooperative and kind.' },
+    '39': { taught: true, subj: 'English, G.K. and Moral Science', who: 'my class teacher in Class 5',
+            gift: 'You taught me English and G.K., but the moral values you gave us are what I remember most.' },
+    '41': { taught: true, subj: 'Science and G.K.', who: 'my Science teacher in Class 8',
+            gift: 'You helped me with Science and G.K. and kept the subjects interesting.' },
+    '42': { taught: true, subj: 'Social Studies, English and Moral Science', who: 'my best friend\u2019s mother and my English and Moral Science teacher',
+            gift: 'You guided me the right way again and again, in class and in life, always with warmth.',
+            extra: 'You were so sweet to me that class never felt like just class.' },
+    '43': { taught: true, subj: 'Dance', who: 'my Dance teacher',
+            gift: 'You taught me to enjoy movement and rhythm \u2014 thank you for all the fun.' },
+    '44': { taught: true, subj: 'Music', who: 'my Music teacher',
+            gift: 'You helped me understand music and just how beautiful it can be.' },
+    '45': { taught: true, subj: 'Mathematics', who: 'my best friend\u2019s mother and the best Maths teacher I have had',
+            gift: 'You made formulas make sense and helped me well beyond the classroom, in everyday life too.',
+            extra: 'You were always so kind and sweet to me.' },
+    '47': { taught: true, subj: 'English and Moral Science', who: 'my class teacher in Class 8 and one of the best teachers ever',
+            gift: 'You built my English and my values together, and I still remember every method you taught.',
+            extra: 'You were the teacher who was fun and (very rarely) a little scary, who roasted us, made us laugh, and somehow made grammar stick for life.' },
+    '48': { taught: true, subj: 'Mathematics', who: 'my Maths teacher',
+            gift: 'You taught Maths so well that I still use your methods in my daily life.' },
+    '49': { taught: true, subj: 'Art', who: 'my Drawing teacher',
+            gift: 'You gave me space to create \u2014 thank you for all the colour.' },
+    '50': { taught: true, subj: 'English and Social Studies', who: 'my English and Social Studies teacher',
+            gift: 'You handled both subjects with such ease and kindness.' },
+    '51': { taught: true, subj: 'English and Moral Science', who: 'my class teacher in Class 6',
+            gift: 'You taught me English and Moral Science, and you were always cooperative and understanding.' },
+    '52': { taught: true, subj: 'G.K.', who: 'one of my favourite teachers',
+            gift: 'You taught me G.K. and made it something I actually looked forward to.' },
+    '54': { taught: true, subj: 'Hindi and Sanskrit', who: 'my Hindi and Sanskrit teacher',
+            gift: 'You gave me a strong footing in both Hindi and Sanskrit.' },
+    '56': { taught: true, subj: 'Mathematics', who: 'my current Maths teacher',
+            gift: 'You explain formulas so clearly and always take the time to clear our doubts.' },
+    '57': { taught: true, subj: 'Hindi and Sanskrit', who: 'my Hindi and Sanskrit teacher in Class 7',
+            gift: 'You made Hindi and Sanskrit approachable and kept the class kind.' },
+    '59': { taught: true, subj: 'Physical Education', who: 'my P.T. teacher',
+            gift: 'You keep us active and energised \u2014 thank you for every drill and every bit of encouragement.' }
+  };
+
+  function personalFor(t) {
+    var p = PERSONAL[String(t.num)];
+    if (p && (p.who || p.gift)) return p;
+    return null;
+  }
+
+  function personalAbout(t, p) {
+    var out = honorName(t) + ', to me you were ' + p.who + '.';
+    if (p.gift) out += ' ' + p.gift;
+    if (p.extra) out += ' ' + p.extra;
+    return out;
+  }
+
+  function personalLetter(t, p) {
+    var name = honorName(t);
+    var p1 = 'Dear ' + name + ', on Teachers\u2019 Day I wanted to write to you as ' + p.who + '.';
+    if (p.taught && p.subj) p1 += ' I still remember sitting in your ' + p.subj + ' class.';
+    var p2 = p.gift + (p.extra ? ' ' + p.extra : '');
+    var p3 = 'Thank you for everything you gave me \u2014 it stayed with me. Happy Teachers\u2019 Day, ' + name + '. \uD83D\uDC90 \u2014 Pavit Singh, Class IX-B (roll 9231).';
+    return [p1, p2, p3];
+  }
+
+  function personalMessages(t, p) {
+    var name = honorName(t);
+    var msgs = [];
+    msgs.push('To ' + name + ' \u2014 ' + p.who + '. ' + p.gift);
+    if (p.taught && p.subj) {
+      msgs.push('Your ' + p.subj + ' class is one of the reasons I found my footing. Thank you, ' + name + '. \u2728');
+    }
+    if (p.extra) msgs.push(p.extra + ' Happy Teachers\u2019 Day, ' + name + '.');
+    msgs.push('Some teachers you remember for the marks; you, ' + name + ', I remember for how you made class feel. \uD83D\uDC9B');
+    msgs.push('Thank you for the patience, the second explanations and the encouragement, ' + name + '. It all counted.');
+    return msgs;
+  }
+
+  function personalNotes(t, p) {
+    var name = honorName(t);
+    var notes = [];
+    notes.push(p.gift);
+    if (p.taught && p.subj) {
+      notes.push('For every ' + p.subj + ' lesson and every doubt you cleared \u2014 thank you, ' + name + '.');
+    } else {
+      notes.push('You didn\u2019t have to look out for me, but you did \u2014 and I noticed, ' + name + '.');
+    }
+    return notes;
+  }
+
   function buildContent(t) {
     var roleLine = ROLE[t.designation] || ROLE['P.G.T.'];
     var subjLine = SUBJECT[t.subject] || SUBJECT['default'];
-    t.letter = [
-      'Dear ' + honorName(t) + ', ' + roleLine + '. Today the whole of St. Mary\u2019s Academy says thank you \u2014 loudly and from the heart.',
-      subjLine,
-      'I am Pavit Singh of Class IX-B (roll 9231). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + honorName(t) + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
-    ];
-    t.psLines = POOL.ps.slice();
-    t.moreMessages = POOL.extra.map(function (m) { return fill(m, t); });
-    var field = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
-    if (field) {
-      t.moreMessages.unshift('Your profession is in ' + field + '. I may not be your student, but I am still grateful you chose this work. \u2728');
+    var p = personalFor(t);
+    t.personal = p;
+    if (p) {
+      t.letter = personalLetter(t, p);
+    } else {
+      t.letter = [
+        'Dear ' + honorName(t) + ', ' + roleLine + '. Today the whole of St. Mary\u2019s Academy says thank you \u2014 loudly and from the heart.',
+        subjLine,
+        'I am Pavit Singh of Class IX-B (roll 9231). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + honorName(t) + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
+      ];
     }
-    t.classNotes = POOL.notes.map(function (n) { return fill(n, t); });
+    t.psLines = POOL.ps.slice();
+    if (p) {
+      t.moreMessages = personalMessages(t, p).concat(POOL.extra.map(function (m) { return fill(m, t); }));
+    } else {
+      t.moreMessages = POOL.extra.map(function (m) { return fill(m, t); });
+      var field = SUBJECT_LABEL[t.subject] || cleanSubjectRaw(t);
+      if (field) {
+        t.moreMessages.unshift('Your profession is in ' + field + '. I may not be your student, but I am still grateful you chose this work. \u2728');
+      }
+    }
+    t.classNotes = p
+      ? personalNotes(t, p).concat(POOL.notes.map(function (n) { return fill(n, t); }).slice(0, 1))
+      : POOL.notes.map(function (n) { return fill(n, t); });
     t.goldBanner = '\uD83C\uDFC6 All 4 secrets found! ' + t.name + ' is officially the most appreciated member of this school! \uD83C\uDF89';
     t.giftJoke = '\uD83C\uDF81 Inside the box: a tiny token of gratitude for ' + honorName(t) + ' \u2014 valid for unlimited smiles. No returns, no refunds, only feelings.';
     t.ink = 'psst\u2026 invisible ink says: ' + honorName(t) + ' is one of the reasons this school feels like home. \uD83E\uDD2B';
@@ -761,10 +909,17 @@
 
     var about = document.getElementById('aboutCard');
     if (about) {
-      var roleLine = ROLE[T.designation] || ROLE['P.G.T.'];
-      about.innerHTML =
-        '<p class="about-kicker">a little about you</p>' +
-        '<p>' + honorName(T) + ', ' + roleLine + '.</p>';
+      var pAbout = T.personal || personalFor(T);
+      if (pAbout) {
+        about.innerHTML =
+          '<p class="about-kicker">a little about you</p>' +
+          '<p>' + personalAbout(T, pAbout) + '</p>';
+      } else {
+        var roleLine = ROLE[T.designation] || ROLE['P.G.T.'];
+        about.innerHTML =
+          '<p class="about-kicker">a little about you</p>' +
+          '<p>' + honorName(T) + ', ' + roleLine + '.</p>';
+      }
     }
 
     var pager = document.getElementById('teacherPager');
