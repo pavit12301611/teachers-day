@@ -252,7 +252,7 @@
     t.letter = [
       'Dear ' + honorName(t) + ', ' + roleLine + '. Today the whole of St. Mary\u2019s Academy says thank you \u2014 loudly and from the heart.',
       subjLine,
-      'I am Pavit Singh of Class IX-B (roll 9R01). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + honorName(t) + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
+      'I am Pavit Singh of Class IX-B (roll 9231). I may not be in your class, but this page is still for you. Happy Teachers\u2019 Day, ' + honorName(t) + ' \u2014 may you always know how much you mean to this school. \uD83D\uDC90'
     ];
     t.psLines = POOL.ps.slice();
     t.moreMessages = POOL.extra.map(function (m) { return fill(m, t); });
