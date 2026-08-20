@@ -865,13 +865,6 @@
     document.body.style.setProperty('--psoft', T.theme.soft);
     document.title = T.name + ' \uD83D\uDC90 | Teachers\' Day';
 
-    var share = document.getElementById('shareTeacher');
-    if (share) share.addEventListener('click', function () {
-      var shareData = { title: T.name + ' — Teachers’ Day', text: 'A special Teachers’ Day thank-you for ' + honorName(T) + '.', url: window.location.href };
-      if (navigator.share) navigator.share(shareData).catch(function () {});
-      else window.open('https://wa.me/?text=' + encodeURIComponent(shareData.text + ' ' + shareData.url), '_blank', 'noopener');
-    });
-
     var photo = document.getElementById('teacherPhoto');
     if (photo) {
       photo.src = imgSrc(T, true);
