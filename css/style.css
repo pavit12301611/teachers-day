@@ -118,7 +118,7 @@ textarea:focus-visible,
 .bg-blob.b1 { width: 460px; height: 460px; background: #e8a0b0; top: -140px; left: -140px; }
 .bg-blob.b2 { width: 380px; height: 380px; background: #f0c36a; bottom: -120px; right: -140px; }
 
-/* Floating page doodles — hidden on mobile for performance */
+/* Floating page doodles — mobile-friendly by default */
 .doodle-field { display: none; }
 
 /* ---------- 3. Navbar ---------- */
@@ -1100,7 +1100,7 @@ body.party { animation: partyHue 2.5s linear infinite; }
     margin: 18px auto 0; overflow: visible;
   }
   .polaroid { transform: rotate(-0.8deg); }
-  .float-emoji { display: none; }
+  .float-emoji { display: block; font-size: 1.2rem; }
   .profile-copy { text-align: center; }
   .tag-row, .fact-row, .hero-actions { justify-content: center; }
   .about-card { text-align: left; }
@@ -1112,7 +1112,10 @@ body.party { animation: partyHue 2.5s linear infinite; }
   .teacher-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
   }
-  .teacher-card { transform: none !important; border-radius: 14px; }
+  .teacher-card { transform: rotate(0.4deg); border-radius: 14px; }
+  .teacher-card:nth-child(2n) { transform: rotate(-0.5deg); }
+  .teacher-card:nth-child(3n) { transform: rotate(0.6deg); }
+  .teacher-card:nth-child(4n) { transform: rotate(-0.3deg); }
   .teacher-card .note, .teacher-card .tap { display: none; }
   .teacher-card h3 { font-size: 0.98rem; line-height: 1.25; }
   .teacher-card .info { padding: 10px 10px 12px; }
@@ -1122,11 +1125,15 @@ body.party { animation: partyHue 2.5s linear infinite; }
   .teacher-card .photo-wrap { aspect-ratio: 1 / 1; }
 
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .stat { transform: none; padding: 18px 10px; }
+  .stat { transform: rotate(-0.5deg); padding: 18px 10px; }
+  .stat:nth-child(2) { transform: rotate(0.8deg); }
+  .stat:nth-child(3) { transform: rotate(-0.3deg); }
+  .stat:nth-child(4) { transform: rotate(0.7deg); }
   .stat b { font-size: 2rem; }
 
   .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .memory-card { transform: none !important; }
+  .memory-card { transform: rotate(0.5deg); }
+  .memory-card:nth-child(3n+1) { transform: rotate(-0.4deg); }
   .wall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .sticky-note { min-height: 130px; font-size: 1.05rem; }
 
@@ -1157,7 +1164,7 @@ body.party { animation: partyHue 2.5s linear infinite; }
   .teacher-grid, .gallery-grid, .wall-grid, .stats { grid-template-columns: 1fr; }
 }
 
-/* Touch devices — disable hover effects */
+/* Touch devices — disable hover effects but keep colours */
 @media (hover: none) {
   .teacher-card:hover,
   .memory-card:hover,
@@ -1208,6 +1215,26 @@ body.party { animation: partyHue 2.5s linear infinite; }
    Layered on top of the sketchbook base so the whole site matches the
    repainted staff portraits (rainbow washes, paint splashes, bright cards).
    ========================================================================== */
+
+/* Mobile doodle-field — lighter, smaller but visible on mobile */
+@media (max-width: 900px) {
+  .doodle-field {
+    display: block; pointer-events: none; position: fixed;
+    inset: 0; z-index: 0; overflow: hidden;
+    opacity: 0.6;
+  }
+  .doodle {
+    position: absolute; font-family: var(--font-hand);
+    color: rgba(90, 50, 40, 0.18); line-height: 1; user-select: none;
+  }
+  .d-star   { top: 8%; left: 2%; font-size: 1.2rem; transform: rotate(-12deg); }
+  .d-heart  { top: 30%; right: 3%; font-size: 1.4rem; transform: rotate(14deg); }
+  .d-apple  { bottom: 20%; left: 4%; font-size: 1.1rem; opacity: 0.45; transform: rotate(-8deg); }
+  .d-book   { top: 65%; right: 5%; font-size: 1.1rem; opacity: 0.4; transform: rotate(10deg); }
+  .d-flower { top: 15%; right: 8%; font-size: 1.2rem; color: rgba(196, 92, 122, 0.22); }
+  .d-spark  { bottom: 30%; right: 12%; font-size: 1.5rem; transform: rotate(20deg); }
+  .d-squig  { top: 50%; left: 2%; font-size: 1.1rem; letter-spacing: -2px; }
+}
 
 :root {
   --wc-rose:      #ff5f8d;
@@ -1492,10 +1519,10 @@ body::after {
 .footer-nav a:hover { color: #ffd6e6; }
 .footer-logo { border-radius: 14px; }
 
-/* ---------- 25.11 Reduce heavy paint effects on small screens ---------- */
+/* ---------- 25.11 Keep vibrant paint effects on small screens too ---------- */
 @media (max-width: 900px) {
-  body::before, body::after { filter: blur(60px); opacity: 0.3; }
-  .photo-side::before { inset: -14px; filter: blur(10px); opacity: 0.7; }
+  body::before, body::after { filter: blur(55px); opacity: 0.38; }
+  .photo-side::before { inset: -16px; filter: blur(12px); opacity: 0.78; }
 }
 
 /* ---------- 25.12 Painted hero backdrop ---------- */
@@ -1563,3 +1590,321 @@ body::after {
 .element-tile { background: linear-gradient(160deg, #fffdf8, #f2f7ff); box-shadow: 4px 5px 0 var(--wc-sky); }
 .back-link { color: var(--wc-berry); }
 .for-you, .only-for { color: #52215a; }
+
+/* ==========================================================================
+   26. Mobile — keep the full colourful watercolour design alive
+   Bring every desktop decorative element (doodles, card rotations,
+   rainbow washes, painted halos, section dividers, vibrant blobs)
+   to mobile with proper sizing and safe-area insets.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  /* --- 26.1 Doodle decorations visible on mobile --- */
+  .doodle-field {
+    display: block !important;
+    pointer-events: none; position: fixed; inset: 0; z-index: 0; overflow: hidden;
+    opacity: 0.65;
+  }
+  .doodle {
+    position: absolute; font-family: var(--font-hand);
+    line-height: 1; user-select: none;
+  }
+  .d-star   { top: 6%;  left: 3%;  font-size: 1.1rem; transform: rotate(-10deg); color: var(--wc-sun) !important; opacity: 0.7; }
+  .d-heart  { top: 24%; right: 3%; font-size: 1.3rem; transform: rotate(12deg); color: var(--wc-rose) !important; opacity: 0.65; }
+  .d-apple  { bottom: 24%; left: 4%; font-size: 1rem;   transform: rotate(-8deg); opacity: 0.45; }
+  .d-book   { top: 62%; right: 4%; font-size: 1rem;   transform: rotate(10deg); opacity: 0.4; }
+  .d-flower { top: 12%; right: 9%; font-size: 1.15rem; color: var(--wc-violet) !important; opacity: 0.65; }
+  .d-spark  { bottom: 28%; right: 10%; font-size: 1.4rem; transform: rotate(18deg); color: var(--wc-teal) !important; opacity: 0.65; }
+  .d-squig  { top: 55%; left: 2%; font-size: 1rem; letter-spacing: -2px; color: var(--wc-lime) !important; opacity: 0.7; }
+
+  /* --- 26.2 Navbar rainbow bar on mobile --- */
+  .navbar::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -5px;
+    height: 5px; background: var(--wc-rainbow); opacity: 0.95;
+  }
+
+  /* --- 26.3 Hero — keep collage, emojis, gradient text vibrant --- */
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .hero-copy { text-align: center; }
+  .hero p.sub { margin-left: auto; margin-right: auto; }
+  .hero-actions { justify-content: center; }
+  .hero-visual { max-width: 340px; margin: 0 auto; }
+  .hero-emo { opacity: 0.85; font-size: 1.5rem; }
+  .hero-emo.sketch-star, .hero-emo.sketch-heart { font-size: 1.6rem; }
+  .collage { transform: rotate(0.8deg); }
+  .collage-chip {
+    background: linear-gradient(100deg, var(--wc-berry), var(--wc-violet));
+    box-shadow: 4px 5px 0 var(--wc-sun);
+    font-size: 1.1rem; padding: 7px 18px;
+  }
+  .collage-img:nth-child(1) { box-shadow: inset 0 0 0 2.5px rgba(255, 95, 141, 0.32); }
+  .collage-img:nth-child(2) { box-shadow: inset 0 0 0 2.5px rgba(255, 201, 60, 0.38); }
+  .collage-img:nth-child(3) { box-shadow: inset 0 0 0 2.5px rgba(34, 195, 154, 0.32); }
+  .collage-img:nth-child(4) { box-shadow: inset 0 0 0 2.5px rgba(138, 92, 246, 0.32); }
+
+  /* --- 26.4 Section dividers stay visible --- */
+  .section + .section::before { display: block; opacity: 0.85; height: 12px; }
+
+  /* --- 26.5 Card rotations on mobile (gentle but present) --- */
+  .stat { transform: rotate(-0.5deg) !important; }
+  .stat:nth-child(2) { transform: rotate(0.8deg) !important; }
+  .stat:nth-child(3) { transform: rotate(-0.3deg) !important; }
+  .stat:nth-child(4) { transform: rotate(0.7deg) !important; }
+
+  .teacher-card { transform: rotate(0.4deg) !important; border-radius: 14px; }
+  .teacher-card:nth-child(2n) { transform: rotate(-0.5deg) !important; }
+  .teacher-card:nth-child(3n) { transform: rotate(0.6deg) !important; }
+  .teacher-card:nth-child(4n) { transform: rotate(-0.3deg) !important; }
+  .teacher-card .note, .teacher-card .tap { display: none; }
+
+  .step-card { transform: rotate(-0.5deg) !important; }
+  .step-card:nth-child(2) { transform: rotate(0.6deg) !important; }
+  .step-card:nth-child(3) { transform: rotate(-0.3deg) !important; }
+
+  .quote-card { transform: rotate(-0.4deg) !important; }
+  .quote-card:nth-child(2) { transform: rotate(0.5deg) !important; }
+  .quote-card:nth-child(3) { transform: rotate(-0.3deg) !important; }
+  .quote-card:nth-child(4) { transform: rotate(0.4deg) !important; }
+
+  .memory-card { transform: rotate(0.5deg) !important; }
+  .memory-card:nth-child(3n) { transform: rotate(-0.5deg) !important; }
+  .memory-card:nth-child(3n+1) { transform: rotate(0.5deg) !important; }
+
+  .sticky-note { transform: rotate(var(--rot, -0.8deg)) !important; }
+
+  /* --- 26.6 Vibrant background washes on mobile --- */
+  body::before {
+    width: 340px; height: 340px; top: 28%; left: -140px;
+    background: radial-gradient(circle at 40% 40%, var(--wc-teal), var(--wc-sky));
+    filter: blur(45px); opacity: 0.42;
+  }
+  body::after {
+    width: 300px; height: 300px; bottom: 22%; right: -120px;
+    background: radial-gradient(circle at 60% 40%, var(--wc-violet), var(--wc-rose));
+    filter: blur(45px); opacity: 0.42;
+  }
+  .bg-blob.b1 { width: 300px; height: 300px; opacity: 0.42; }
+  .bg-blob.b2 { width: 260px; height: 260px; opacity: 0.42; }
+
+  /* --- 26.7 Colorful card shadows stay vivid on mobile --- */
+  .teacher-card:nth-child(5n+1) { box-shadow: 4px 5px 0 var(--wc-rose); }
+  .teacher-card:nth-child(5n+2) { box-shadow: 4px 5px 0 var(--wc-sun); }
+  .teacher-card:nth-child(5n+3) { box-shadow: 4px 5px 0 var(--wc-mint); }
+  .teacher-card:nth-child(5n+4) { box-shadow: 4px 5px 0 var(--wc-sky); }
+  .teacher-card:nth-child(5n+5) { box-shadow: 4px 5px 0 var(--wc-violet); }
+  .teacher-card:hover { box-shadow: 7px 9px 0 var(--wc-berry); }
+
+  .memory-card:nth-child(4n+1) { box-shadow: 4px 5px 0 var(--wc-rose); }
+  .memory-card:nth-child(4n+2) { box-shadow: 4px 5px 0 var(--wc-sun); }
+  .memory-card:nth-child(4n+3) { box-shadow: 4px 5px 0 var(--wc-mint); }
+  .memory-card:nth-child(4n+4) { box-shadow: 4px 5px 0 var(--wc-sky); }
+
+  .sticky-note:nth-child(5n+1) { box-shadow: 4px 5px 0 var(--wc-rose); }
+  .sticky-note:nth-child(5n+2) { box-shadow: 4px 5px 0 var(--wc-tangerine); }
+  .sticky-note:nth-child(5n+3) { box-shadow: 4px 5px 0 var(--wc-mint); }
+  .sticky-note:nth-child(5n+4) { box-shadow: 4px 5px 0 var(--wc-sky); }
+  .sticky-note:nth-child(5n+5) { box-shadow: 4px 5px 0 var(--wc-violet); }
+
+  .stat:nth-child(4n+1) { box-shadow: 4px 5px 0 var(--wc-rose); }
+  .stat:nth-child(4n+2) { box-shadow: 4px 5px 0 var(--wc-tangerine); }
+  .stat:nth-child(4n+3) { box-shadow: 4px 5px 0 var(--wc-mint); }
+  .stat:nth-child(4n+4) { box-shadow: 4px 5px 0 var(--wc-violet); }
+
+  .step-card:nth-child(4n+1) { box-shadow: 4px 5px 0 var(--wc-rose); }
+  .step-card:nth-child(4n+2) { box-shadow: 4px 5px 0 var(--wc-tangerine); }
+  .step-card:nth-child(4n+3) { box-shadow: 4px 5px 0 var(--wc-mint); }
+  .step-card:nth-child(4n+4) { box-shadow: 4px 5px 0 var(--wc-violet); }
+
+  .quote-card:nth-child(1) { box-shadow: 4px 5px 0 var(--wc-rose); }
+  .quote-card:nth-child(2) { box-shadow: 4px 5px 0 var(--wc-sun); }
+  .quote-card:nth-child(3) { box-shadow: 4px 5px 0 var(--wc-teal); }
+  .quote-card:nth-child(4) { box-shadow: 4px 5px 0 var(--wc-violet); }
+
+  .class-note:nth-child(5n+1) { box-shadow: 4px 5px 0 var(--wc-rose); }
+  .class-note:nth-child(5n+2) { box-shadow: 4px 5px 0 var(--wc-tangerine); }
+  .class-note:nth-child(5n+3) { box-shadow: 4px 5px 0 var(--wc-mint); }
+  .class-note:nth-child(5n+4) { box-shadow: 4px 5px 0 var(--wc-sky); }
+  .class-note:nth-child(5n+5) { box-shadow: 4px 5px 0 var(--wc-violet); }
+
+  /* --- 26.8 Gradient card backgrounds on mobile --- */
+  .stat:nth-child(4n+1) { background: linear-gradient(165deg, #fff2f6, #ffe3ec); }
+  .stat:nth-child(4n+2) { background: linear-gradient(165deg, #fff8e6, #ffedc6); }
+  .stat:nth-child(4n+3) { background: linear-gradient(165deg, #eafaf3, #d6f5e8); }
+  .stat:nth-child(4n+4) { background: linear-gradient(165deg, #eef3ff, #e2e6ff); }
+
+  .step-card:nth-child(4n+1) { background: linear-gradient(165deg, #fff2f6, #ffe3ec); }
+  .step-card:nth-child(4n+2) { background: linear-gradient(165deg, #fff8e6, #ffedc6); }
+  .step-card:nth-child(4n+3) { background: linear-gradient(165deg, #eafaf3, #d6f5e8); }
+  .step-card:nth-child(4n+4) { background: linear-gradient(165deg, #eef3ff, #e2e6ff); }
+
+  .quote-card:nth-child(1) { background: linear-gradient(160deg, #fff5f8, #ffe9f0); }
+  .quote-card:nth-child(2) { background: linear-gradient(160deg, #fffaea, #fff0cc); }
+  .quote-card:nth-child(3) { background: linear-gradient(160deg, #edfbf8, #d9f4ef); }
+  .quote-card:nth-child(4) { background: linear-gradient(160deg, #f3f0ff, #e6e0ff); }
+
+  /* --- 26.9 Gradient buttons stay vivid --- */
+  .btn-primary {
+    background: linear-gradient(100deg, var(--wc-berry), var(--wc-violet) 60%, var(--wc-sky));
+    box-shadow: 4px 5px 0 var(--ink-line);
+  }
+  .btn-gold {
+    background: linear-gradient(100deg, var(--wc-sun), var(--wc-tangerine));
+  }
+  .btn-ghost { box-shadow: 4px 5px 0 var(--wc-teal); }
+  .btn-primary:hover { box-shadow: 5px 7px 0 var(--wc-sun); }
+  .btn-gold:hover { box-shadow: 5px 7px 0 var(--wc-rose); }
+  .btn-ghost:hover { box-shadow: 5px 7px 0 var(--wc-mint); }
+
+  /* --- 26.10 Navbar brand gradient text on mobile --- */
+  .brand {
+    background: linear-gradient(92deg, var(--wc-berry), var(--wc-violet) 55%, var(--wc-teal));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .nav-links a.active {
+    background: linear-gradient(100deg, var(--wc-berry), var(--wc-violet));
+    color: #fff; box-shadow: 3px 3px 0 var(--wc-sun);
+  }
+
+  /* --- 26.11 Marquee rainbow on mobile --- */
+  .marquee {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.34)), var(--wc-rainbow);
+    color: #34123c; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+    font-weight: 700;
+  }
+  .marquee-track span:nth-child(odd) { color: #7a1046; }
+
+  /* --- 26.12 Colourful today-wish, letters, banners --- */
+  .today-wish {
+    background: linear-gradient(160deg, #fff4f8, #fff2d6 45%, #e6f7ff);
+    box-shadow: 5px 6px 0 var(--wc-violet);
+  }
+  .today-wish .tw-label {
+    background: linear-gradient(100deg, var(--wc-sun), var(--wc-rose));
+    color: #3a1030; box-shadow: 0 3px 0 var(--ink-line);
+  }
+  .rumour-box { background: linear-gradient(160deg, #fffaf0, #f2f7ff); box-shadow: 4px 5px 0 var(--wc-sky); }
+  .letter-static, .msg-card, .note-shuffle, .about-card {
+    background: linear-gradient(165deg, #fffdf8, #fff5ea 60%, #f3f8ff);
+  }
+  .gold-banner {
+    background: linear-gradient(100deg, var(--wc-sun), var(--wc-tangerine) 50%, var(--wc-rose));
+    color: #3a1020;
+  }
+  .toast { background: linear-gradient(100deg, var(--wc-grape), var(--wc-berry)); }
+  .wall-form {
+    background: linear-gradient(165deg, #fffdf8, #fff2f8 55%, #eef8ff);
+    box-shadow: 5px 6px 0 var(--wc-violet);
+  }
+
+  /* --- 26.13 Colourful footer on mobile --- */
+  .footer {
+    background:
+      radial-gradient(ellipse 60% 60% at 8% 0%, rgba(255, 95, 141, 0.50), transparent 60%),
+      radial-gradient(ellipse 55% 60% at 92% 10%, rgba(255, 201, 60, 0.40), transparent 62%),
+      radial-gradient(ellipse 60% 70% at 70% 100%, rgba(34, 195, 154, 0.40), transparent 62%),
+      linear-gradient(160deg, #4b2a6b, #3d2352 55%, #2c1a3e);
+  }
+  .footer::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    background: var(--wc-rainbow);
+  }
+  .footer .closing { color: #ffe08a; }
+
+  /* --- 26.14 Polaroid watercolour halo on mobile --- */
+  .photo-side { position: relative; }
+  .photo-side::before {
+    content: ""; position: absolute; inset: -18px; z-index: -1;
+    border-radius: 58% 42% 62% 38% / 46% 58% 42% 54%;
+    background:
+      radial-gradient(circle at 25% 30%, rgba(255, 95, 141, 0.52), transparent 60%),
+      radial-gradient(circle at 78% 22%, rgba(255, 201, 60, 0.52), transparent 58%),
+      radial-gradient(circle at 68% 82%, rgba(138, 92, 246, 0.48), transparent 60%),
+      radial-gradient(circle at 18% 78%, rgba(34, 195, 154, 0.48), transparent 60%);
+    filter: blur(14px); opacity: 0.82; pointer-events: none;
+  }
+  .polaroid { box-shadow: 6px 7px 0 var(--ink-line); background: #fffefb; }
+
+  /* --- 26.15 Colourful hero background on mobile --- */
+  .hero::before {
+    content: ""; position: absolute; inset: -6% -4% auto -4%; height: 118%;
+    background: url("../assets/wc-hero-splash.webp") no-repeat center / cover;
+    opacity: 0.28; z-index: 0; pointer-events: none;
+    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 35%, transparent 78%);
+    mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 35%, transparent 78%);
+  }
+  .hero > * { position: relative; z-index: 1; }
+
+  /* --- 26.16 Letter and form inputs with colour --- */
+  .letter {
+    background-image: repeating-linear-gradient(transparent 0 31px, rgba(138, 92, 246, 0.14) 31px 32px);
+    box-shadow: 5px 6px 0 var(--p1, var(--wc-violet));
+  }
+  .letter::before { color: var(--wc-tangerine); opacity: 0.7; }
+  .letter-static {
+    background-image: repeating-linear-gradient(transparent 0 33px, rgba(23, 182, 199, 0.13) 33px 34px);
+    box-shadow: 5px 6px 0 var(--wc-teal);
+  }
+  .letter-static::before { color: var(--wc-rose); opacity: 0.65; }
+  .wall-form input:focus, .wall-form textarea:focus {
+    border-color: var(--wc-violet);
+    box-shadow: inset 0 3px 8px rgba(138, 92, 246, 0.14);
+  }
+  .staff-controls input:focus, .staff-controls select:focus { border-color: var(--wc-teal); }
+
+  /* --- 26.17 Profile h1 gradient on mobile --- */
+  .profile h1 {
+    background: linear-gradient(96deg, var(--p1, var(--wc-berry)), var(--p2, var(--wc-violet)) 70%, var(--wc-teal));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: none;
+  }
+  .section-title,
+  .staff-group-head,
+  .wall-form h3,
+  .step-card h3 {
+    background: linear-gradient(96deg, var(--wc-berry), var(--wc-grape) 55%, var(--wc-teal));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .section-title::after {
+    height: 12px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 12' fill='none'><path d='M2 8 C30 3 60 10 90 6 C120 2 150 9 178 5' stroke='%2322c39a' stroke-width='3.4' stroke-linecap='round'/><path d='M4 11 C32 6 62 12 92 9 C122 5 152 11 176 8' stroke='%23ff8a3d' stroke-width='2.2' stroke-linecap='round' opacity='0.85'/></svg>") no-repeat center / 100% 100%;
+  }
+
+  /* --- 26.18 Collage and hover effects stay colourful --- */
+  .collage {
+    background: linear-gradient(160deg, #fffdf8, #fff2f8);
+    box-shadow: 5px 6px 0 var(--wc-teal);
+  }
+  .collage-chip {
+    background: linear-gradient(100deg, var(--wc-berry), var(--wc-violet));
+    box-shadow: 4px 5px 0 var(--wc-sun);
+  }
+
+  /* --- 26.19 Extra mobile-only paint splash decoration --- */
+  .hero::after {
+    content: ""; position: absolute; bottom: -40px; left: -30px; right: -30px;
+    height: 80px;
+    background:
+      radial-gradient(ellipse 35% 80% at 15% 50%, rgba(255, 95, 141, 0.18), transparent 70%),
+      radial-gradient(ellipse 30% 70% at 50% 50%, rgba(255, 201, 60, 0.14), transparent 65%),
+      radial-gradient(ellipse 32% 75% at 85% 50%, rgba(34, 195, 154, 0.16), transparent 70%);
+    filter: blur(20px); z-index: 0; pointer-events: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .doodle-field { opacity: 0.5; }
+  .d-star { font-size: 0.95rem; }
+  .d-heart { font-size: 1.1rem; }
+  .d-flower { font-size: 1rem; }
+  .d-spark { font-size: 1.2rem; }
+  .hero-emo { font-size: 1.2rem; opacity: 0.8; }
+  .hero-emo.sketch-star, .hero-emo.sketch-heart { font-size: 1.3rem; }
+  .collage-chip { font-size: 1rem; padding: 6px 14px; }
+}
+
+@media (max-width: 360px) {
+  .doodle-field { opacity: 0.4; }
+  .d-star { font-size: 0.8rem; }
+  .d-heart { font-size: 0.95rem; }
+  .d-flower { font-size: 0.85rem; }
+}
