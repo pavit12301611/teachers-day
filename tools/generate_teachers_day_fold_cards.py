@@ -182,11 +182,6 @@ def qr_fragment(qr_svg: str, x: float, y: float, size: float) -> str:
     )
 
 
-def photo_data_uri(path: Path) -> str:
-    encoded = base64.b64encode(path.read_bytes()).decode("ascii")
-    return "data:image/jpeg;base64," + encoded
-
-
 def personal_note(record: dict[str, str]) -> str:
     """Use the student's real note where available, otherwise make a respectful unique note."""
     number = int(record["number"])
@@ -223,10 +218,6 @@ def folded_outer_card_svg(record: dict[str, str], qr_svg: str, palette: dict[str
     name = pretty_name(record["name"])
     designation = record["designation"].strip()
     teacher_id = f"p{int(record['number']):03d}"
-    portrait = ROOT / "assets" / "staff-cards" / Path(record["image_file"]).name
-    if not portrait.exists():
-        portrait = ROOT / record["image_file"]
-    portrait_uri = photo_data_uri(portrait)
     name_lines = lines_for(name, 18, 2)
     name_size = "5.6" if len(name) <= 17 else "4.8"
     # 72 × 70 mm is deliberately sized to be the visual centre of the cover: large
@@ -235,9 +226,6 @@ def folded_outer_card_svg(record: dict[str, str], qr_svg: str, palette: dict[str
     role_y = 116.3 if len(name_lines) == 1 else 116.6
 
     return f'''<g>
-      <defs>
-        <clipPath id="portrait-{teacher_id}"><rect x="110" y="30" width="72" height="70" rx="3.5"/></clipPath>
-      </defs>
       <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3.4" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width="1.05"/>
       <rect x="1.8" y="1.8" width="94.3" height="129.4" rx="2.6" fill="{palette['wash']}"/>
       <rect x="1.5" y="1.5" width="191" height="5.5" rx="2.5" fill="{palette['accent']}"/>
@@ -262,7 +250,7 @@ def folded_outer_card_svg(record: dict[str, str], qr_svg: str, palette: dict[str
       <text x="145" y="23.2" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="5.65" font-weight="800" fill="{palette['ink']}">TEACHERS' DAY</text>
       <path d="M 112 26.5 H 178" stroke="{palette['accent']}" stroke-width=".85"/>
       <rect x="109.2" y="29.2" width="73.6" height="71.6" rx="4.2" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".8"/>
-      <image x="110" y="30" width="72" height="70" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait-{teacher_id})" xlink:href="{portrait_uri}"/>
+      <!-- The portrait is an actual ODT image frame, positioned above this card layer. -->
       {svg_text_lines(name_lines, 145, name_y, 4.6, **{"text-anchor": "middle", "font-family": "DejaVu Sans, sans-serif", "font-size": name_size, "font-weight": "700", "fill": palette['ink']})}
       <text x="145" y="{role_y}" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.15" fill="{palette['accent']}">{esc(designation)}</text>
       <path d="M 111 121 H 179" stroke="{palette['line']}" stroke-width=".6"/>
@@ -340,7 +328,31 @@ def page_svg(top_card: str, bottom_card: str | None, sheet_number: int, side: st
 </svg>'''
 
 
-def content_xml(page_count: int) -> str:
+def portrait_asset_path(record: dict[str, str]) -> Path:
+    """Use the pre-rendered hand-drawn portrait if available, otherwise the source photo."""
+    filename = Path(record["image_file"]).name
+    painted = ROOT / "assets" / "staff-cards" / filename
+    return painted if painted.exists() else ROOT / record["image_file"]
+
+
+def portrait_frames_for(teachers: list[dict[str, str]]) -> dict[int, list[str]]:
+    """Create direct ODT image frames so Writer displays every portrait reliably."""
+    frames: dict[int, list[str]] = {}
+    for index, teacher in enumerate(teachers):
+        page_number = (index // 2) * 2 + 1  # OUTSIDE pages are 1, 3, 5, ...
+        y = 39 if index % 2 == 0 else 185
+        image_name = Path(teacher["image_file"]).name
+        frame = f'''<draw:frame draw:style-name="PortraitImage" draw:name="Portrait {int(teacher['number']):03d}"
+                   text:anchor-type="page" draw:page-number="{page_number}" svg:x="118mm" svg:y="{y}mm"
+                   svg:width="72mm" svg:height="70mm" draw:z-index="1">
+                <draw:image xlink:href="Pictures/portraits/{image_name}" xlink:type="simple"
+                            xlink:show="embed" xlink:actuate="onLoad"/>
+              </draw:frame>'''
+        frames.setdefault(page_number, []).append(frame)
+    return frames
+
+
+def content_xml(page_count: int, portrait_frames: dict[int, list[str]]) -> str:
     # A page-anchored frame is placed *inside* its corresponding paragraph.  This is
     # the portable ODT representation: the paragraph creates each physical page and
     # the frame is absolutely positioned at that page's top-left corner.
@@ -355,6 +367,7 @@ def content_xml(page_count: int) -> str:
                 <draw:image xlink:href="Pictures/page_{n:02d}.svg" xlink:type="simple"
                             xlink:show="embed" xlink:actuate="onLoad"/>
               </draw:frame>
+              {''.join(portrait_frames.get(n, []))}
             </text:p>'''
         )
     return f'''<?xml version="1.0" encoding="UTF-8"?>
@@ -371,6 +384,7 @@ def content_xml(page_count: int) -> str:
    <style:style style:name="PFirst" style:family="paragraph" style:master-page-name="CardPages"><style:paragraph-properties fo:margin-top="0mm" fo:margin-bottom="0mm" fo:line-height="1%"/></style:style>
    <style:style style:name="PBreak" style:family="paragraph" style:master-page-name="CardPages"><style:paragraph-properties fo:break-before="page" fo:margin-top="0mm" fo:margin-bottom="0mm" fo:line-height="1%"/></style:style>
    <style:style style:name="PageImage" style:family="graphic"><style:graphic-properties draw:stroke="none" draw:fill="none" style:wrap="run-through" style:run-through="foreground"/></style:style>
+   <style:style style:name="PortraitImage" style:family="graphic"><style:graphic-properties draw:stroke="none" draw:fill="none" style:wrap="run-through" style:run-through="foreground"/></style:style>
  </office:automatic-styles>
  <office:body><office:text>
    {''.join(page_paragraphs)}
@@ -414,10 +428,14 @@ def meta_xml(page_count: int) -> str:
 </office:document-meta>'''
 
 
-def manifest_xml(page_count: int) -> str:
+def manifest_xml(page_count: int, portrait_files: list[str]) -> str:
     entries = "\n".join(
         f'  <manifest:file-entry manifest:full-path="Pictures/page_{n:02d}.svg" manifest:media-type="image/svg+xml"/>'
         for n in range(1, page_count + 1)
+    )
+    portrait_entries = "\n".join(
+        f'  <manifest:file-entry manifest:full-path="Pictures/portraits/{name}" manifest:media-type="image/jpeg"/>'
+        for name in portrait_files
     )
     return f'''<?xml version="1.0" encoding="UTF-8"?>
 <manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" manifest:version="1.3">
@@ -427,7 +445,9 @@ def manifest_xml(page_count: int) -> str:
   <manifest:file-entry manifest:full-path="meta.xml" manifest:media-type="text/xml"/>
   <manifest:file-entry manifest:full-path="settings.xml" manifest:media-type="text/xml"/>
   <manifest:file-entry manifest:full-path="Pictures/" manifest:media-type=""/>
+  <manifest:file-entry manifest:full-path="Pictures/portraits/" manifest:media-type=""/>
 {entries}
+{portrait_entries}
 </manifest:manifest>'''
 
 
@@ -459,17 +479,25 @@ def build(output: Path) -> tuple[int, list[tuple[str, str]]]:
         sheet_number = i // 2 + 1
         pages.append(page_svg(outside_cards[i], second_outside, sheet_number, "OUTSIDE"))
         pages.append(page_svg(inside_cards[i], second_inside, sheet_number, "INSIDE"))
+    portrait_frames = portrait_frames_for(teachers)
+    portrait_assets = [(Path(teacher["image_file"]).name, portrait_asset_path(teacher)) for teacher in teachers]
+    if len({name for name, _ in portrait_assets}) != len(teachers):
+        raise ValueError("Portrait filenames must be unique inside the ODT package.")
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as odt:
         # ODF requires this file to be first and uncompressed.
         odt.writestr("mimetype", "application/vnd.oasis.opendocument.text", compress_type=zipfile.ZIP_STORED)
-        odt.writestr("content.xml", content_xml(len(pages)))
+        odt.writestr("content.xml", content_xml(len(pages), portrait_frames))
         odt.writestr("styles.xml", styles_xml())
         odt.writestr("meta.xml", meta_xml(len(pages)))
         odt.writestr("settings.xml", '<?xml version="1.0" encoding="UTF-8"?><office:document-settings xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" office:version="1.3"><office:settings/></office:document-settings>')
         for page_number, image in enumerate(pages, 1):
             odt.writestr(f"Pictures/page_{page_number:02d}.svg", image)
-        odt.writestr("META-INF/manifest.xml", manifest_xml(len(pages)))
+        # These are normal ODT image assets and frames, not browser-only data URIs.
+        # LibreOffice/Writer can therefore display the portraits directly in the file.
+        for image_name, image_path in portrait_assets:
+            odt.write(image_path, f"Pictures/portraits/{image_name}")
+        odt.writestr("META-INF/manifest.xml", manifest_xml(len(pages), [name for name, _ in portrait_assets]))
 
     # A plain-text manifest makes it easy to spot-check every encoded destination.
     manifest_path = output.with_name("Teachers_Day_Card_QR_Links.txt")

@@ -10,7 +10,8 @@ What is included
      TEACHERS' DAY greeting.
   2. Back cover: a large QR code with a short, impactful thank-you line.
   3. Inside: a personal note for that teacher and a simple closing message.
-• All portraits and QR artwork are embedded inside the ODT itself. Nothing needs to be
+• Each portrait is a real JPEG asset packed in the ODT's Pictures folder and placed as
+  a normal Writer image frame (not a browser-only image layer). Nothing needs to be
   downloaded when you open or print the file.
 
 Document order
