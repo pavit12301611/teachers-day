@@ -156,13 +156,10 @@
     ],
     extra: [
       '{first}, thank you for the work you do at St. Mary\u2019s Academy. Our school is better because you are in it. \u2728',
-      'Happy Teachers\u2019 Day, {first}. Even if I am not in your class, I see how much you give this school. \uD83D\uDC9B',
       'From Class IX-B, with respect: you deserve a day that is as kind as you are to this place. \uD83D\uDC90',
       'Some people just work at a school. You help it feel like a family. Thank you. \uD83D\uDE4F',
       'If gratitude could be measured, St. Mary\u2019s Academy would overflow with it \u2014 and a large part of that would be for you. \uD83C\uDFC6',
-      'Thank you for making our school feel like a second home. You are a huge part of that feeling. \uD83C\uDFE0',
-      '{first}, I may not sit in your classroom, but I still want you to know you are appreciated today. \u2728',
-      'A school is only as warm as its people. Thank you for being one of ours. \uD83C\uDFE0'
+      '{first}, I may not sit in your classroom, but I still want you to know you are appreciated today. \u2728'
     ],
     notes: [
       'I may not be one of your students, but I still notice the care you bring to this school. Thank you.',
@@ -342,9 +339,8 @@
   }
 
   function personalAbout(t, p) {
+    // One line only — the letter below tells the full story, so this stays short.
     var out = honorName(t) + ', to me you were ' + p.who + '.';
-    if (p.gift) out += ' ' + p.gift;
-    if (p.extra) out += ' ' + p.extra;
     return out;
   }
 
@@ -358,22 +354,24 @@
   }
 
   function personalMessages(t, p) {
+    // Each message is a fresh line on purpose: the sealed letter already tells
+    // the full story once, so this library never repeats the same context.
     var name = honorName(t);
     var msgs = [];
-    msgs.push('To ' + name + ' \u2014 ' + p.who + '. ' + p.gift);
     if (p.taught && p.subj) {
       msgs.push('Your ' + p.subj + ' class is one of the reasons I found my footing. Thank you, ' + name + '. \u2728');
     }
-    if (p.extra) msgs.push(p.extra + ' Happy Teachers\u2019 Day, ' + name + '.');
     msgs.push('Some teachers you remember for the marks; you, ' + name + ', I remember for how you made class feel. \uD83D\uDC9B');
     msgs.push('Thank you for the patience, the second explanations and the encouragement, ' + name + '. It all counted.');
+    msgs.push('Happy Teachers\u2019 Day, ' + name + '. You are one of the reasons this school feels like home. \uD83C\uDF38');
+    msgs.push('A whole page still would not be enough for you, ' + name + ' \u2014 but it is a start. \uD83D\uDC90');
     return msgs;
   }
 
   function personalNotes(t, p) {
     var name = honorName(t);
     var notes = [];
-    notes.push(p.gift);
+    notes.push('Some of what you gave me cannot be written in a report card, ' + name + ' \u2014 thank you for it anyway.');
     if (p.taught && p.subj) {
       notes.push('For every ' + p.subj + ' lesson and every doubt you cleared \u2014 thank you, ' + name + '.');
     } else {
