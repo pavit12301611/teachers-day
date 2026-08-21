@@ -229,12 +229,14 @@ def folded_outer_card_svg(record: dict[str, str], qr_svg: str, palette: dict[str
     portrait_uri = photo_data_uri(portrait)
     name_lines = lines_for(name, 18, 2)
     name_size = "5.6" if len(name) <= 17 else "4.8"
-    name_y = 105.8 if len(name_lines) == 1 else 103.6
-    role_y = 114 if len(name_lines) == 1 else 115.4
+    # 72 × 70 mm is deliberately sized to be the visual centre of the cover: large
+    # enough to honour each portrait, while leaving clear breathing room for the name.
+    name_y = 107.5 if len(name_lines) == 1 else 105.0
+    role_y = 116.3 if len(name_lines) == 1 else 116.6
 
     return f'''<g>
       <defs>
-        <clipPath id="portrait-{teacher_id}"><rect x="114" y="30" width="68" height="67" rx="3.5"/></clipPath>
+        <clipPath id="portrait-{teacher_id}"><rect x="110" y="30" width="72" height="70" rx="3.5"/></clipPath>
       </defs>
       <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3.4" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width="1.05"/>
       <rect x="1.8" y="1.8" width="94.3" height="129.4" rx="2.6" fill="{palette['wash']}"/>
@@ -259,13 +261,13 @@ def folded_outer_card_svg(record: dict[str, str], qr_svg: str, palette: dict[str
       <text x="145" y="16" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.05" font-weight="700" letter-spacing="1.2" fill="{palette['accent']}">HAPPY</text>
       <text x="145" y="23.2" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="5.65" font-weight="800" fill="{palette['ink']}">TEACHERS' DAY</text>
       <path d="M 112 26.5 H 178" stroke="{palette['accent']}" stroke-width=".85"/>
-      <rect x="113.2" y="29.2" width="69.6" height="68.6" rx="4.2" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".8"/>
-      <image x="114" y="30" width="68" height="67" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait-{teacher_id})" xlink:href="{portrait_uri}"/>
+      <rect x="109.2" y="29.2" width="73.6" height="71.6" rx="4.2" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".8"/>
+      <image x="110" y="30" width="72" height="70" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait-{teacher_id})" xlink:href="{portrait_uri}"/>
       {svg_text_lines(name_lines, 145, name_y, 4.6, **{"text-anchor": "middle", "font-family": "DejaVu Sans, sans-serif", "font-size": name_size, "font-weight": "700", "fill": palette['ink']})}
       <text x="145" y="{role_y}" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.15" fill="{palette['accent']}">{esc(designation)}</text>
-      <path d="M 113 119 H 177" stroke="{palette['line']}" stroke-width=".6"/>
-      <text x="145" y="125" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.5" letter-spacing=".35" fill="{palette['ink']}">5 SEPTEMBER</text>
-      <text x="145" y="129" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.25" letter-spacing=".2" fill="{palette['accent']}">ST. MARY'S ACADEMY</text>
+      <path d="M 111 121 H 179" stroke="{palette['line']}" stroke-width=".6"/>
+      <text x="145" y="126.2" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.5" letter-spacing=".35" fill="{palette['ink']}">5 SEPTEMBER</text>
+      <text x="145" y="130" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.25" letter-spacing=".2" fill="{palette['accent']}">ST. MARY'S ACADEMY</text>
 
       <path d="M 97 7 V 126" stroke="{palette['ink']}" stroke-width=".55" stroke-dasharray="2 1.8" opacity=".8"/>
       <rect x="90.3" y="127.1" width="13.4" height="3.3" rx="1.5" fill="#FFFFFF"/>
