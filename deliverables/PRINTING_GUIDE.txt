@@ -1,28 +1,43 @@
-TEACHERS' DAY FOLD CARDS — PRINTING GUIDE
-==========================================
+TEACHERS' DAY CARDS — PRINTING GUIDE
+=====================================
 
 What is included
 ----------------
-• Teachers_Day_Fold_Cards_83_Teachers.odt
-• Exactly 83 individual, name-specific cards — one for every person in staff.csv
-• Every card has a clean personal note, hand-drawn watercolour portrait, and a QR code
-  that opens that teacher's own tribute page at teachers-day-rosy.vercel.app.
-• The layout is vertical A4 with two fold-and-give cards on each page. Since there are
-  83 teachers, the final (42nd) sheet has Gabrial's card only; no extra filler card
-  has been added.
+• Teachers_Day_Printable_Cards_83_Teachers.odt
+• Exactly 83 individual, name-specific cards — one for every person in staff.csv.
+• Each card has a clean front with the teacher's embedded hand-drawn watercolour
+  portrait, name, designation, and HAPPY TEACHERS' DAY greeting.
+• The reverse has that teacher's large QR code and a short, personal thank-you note.
+• All portraits and QR artwork are embedded inside the ODT itself. Nothing needs to be
+  downloaded when you open or print the file.
+
+Document order
+--------------
+The ODT contains 84 ordered sides (42 physical A4 sheets):
+  Sheet 1 FRONT: teachers 1 and 2
+  Sheet 1 BACK:  QR backs for teachers 1 and 2
+  Sheet 2 FRONT, Sheet 2 BACK, and so on.
+
+There are two landscape cards stacked vertically on every A4 side. The final sheet has
+Gabrial's front and back at the top only, because there are exactly 83 teachers.
 
 How to print
 ------------
-1. Open the ODT in LibreOffice Writer (recommended) or another ODT-compatible editor.
-2. Choose A4 paper, Portrait orientation, and Colour printing.
-3. Set scaling to 100% / Actual Size. Do not choose “Fit to page”.
-4. Print single-sided. The artwork, message, and QR code are all on that side.
-5. On the first 41 sheets, cut on the faint horizontal dashed line between the cards.
-6. Fold each cut-out card on its vertical dotted line with the portrait and
-   “HAPPY TEACHERS' DAY” cover on the outside. The personal message and QR are inside.
+1. Open the ODT in LibreOffice Writer (recommended).
+2. Select A4 paper, Portrait orientation, and Colour printing.
+3. Select two-sided / duplex printing and choose “Flip on long edge”.
+4. Set scaling to 100% / Actual Size. Do not choose “Fit to page”.
+5. Print sheet 1 first as a quick alignment test: front portrait on one side, large QR
+   back on the other. Then print the remaining sheets.
+6. Cut each sheet on the faint horizontal dashed line. No fold is needed: each piece is
+   a proper double-sided card ready to hand to its teacher.
+
+If your printer has no duplex mode, print each FRONT/BACK pair manually on the same
+sheet (keeping the paper orientation unchanged). The small lower-margin labels identify
+the sheet number and side.
 
 Quick QR check
 --------------
-The companion file Teachers_Day_Card_QR_Links.txt lists every encoded destination.
-You can scan a printed sample before printing the full set if you want to check your
-printer's contrast. The QR blocks are vector artwork, so they stay sharp at 100% size.
+The companion file Teachers_Day_Card_QR_Links.txt lists all 83 encoded destinations.
+The QR artwork is vector-based and intentionally large, so it stays sharp and easy to
+scan after printing.
