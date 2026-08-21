@@ -1,0 +1,31 @@
+TEACHERS' DAY FOLD CARDS — PRINTING GUIDE
+==========================================
+
+What is included
+----------------
+• Teachers_Day_Fold_Cards_83_Teachers.odt
+• 83 individual cards, one for every person in staff.csv
+• A final spare St. Mary's Family card so the 42nd sheet is also two-up
+• Every named card has that teacher's watercolour portrait and a QR code that opens
+  their own tribute page at teachers-day-rosy.vercel.app.
+
+How to print
+------------
+1. Open the ODT in LibreOffice Writer (recommended) or another ODT-compatible editor.
+2. Choose A4 paper, Portrait orientation, and Colour printing.
+3. Set scaling to 100% / Actual Size. Do not choose “Fit to page”.
+4. Print single-sided. The artwork, note, and QR code are all on that side.
+5. Use the faint horizontal dashed line between the two cards as the cut line.
+6. For each cut-out card, fold on its vertical dotted line with the portrait and
+   “HAPPY TEACHERS' DAY” cover on the outside. The personal note and QR sit inside.
+
+Card order
+----------
+Each page has the next two staff members in the same order as staff.csv. The last
+sheet pairs Gabrial with the spare St. Mary's Family card.
+
+Quick QR check
+--------------
+The companion file Teachers_Day_Card_QR_Links.txt lists every encoded destination.
+You can scan a printed sample before printing the full set if you want to check your
+printer's contrast. The QR blocks are vector artwork, so they stay sharp at 100% size.
