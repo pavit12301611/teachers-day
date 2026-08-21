@@ -30,7 +30,7 @@ import tempfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = ROOT / "deliverables" / "Teachers_Day_Printable_Cards_83_Teachers.odt"
+DEFAULT_OUTPUT = ROOT / "deliverables" / "Teachers_Day_Folded_Cards_83_Teachers.odt"
 SITE_BASE = "https://teachers-day-rosy.vercel.app"
 
 # A bright but print-friendly rotation.  Each pair is used for the cover and inside panel.
@@ -218,8 +218,8 @@ def personal_note(record: dict[str, str]) -> str:
     return options[number % len(options)]
 
 
-def front_card_svg(record: dict[str, str], palette: dict[str, str]) -> str:
-    """The portrait-and-greeting front of one individual Teachers' Day card."""
+def folded_outer_card_svg(record: dict[str, str], qr_svg: str, palette: dict[str, str]) -> str:
+    """Outside of a folded card: QR-focused back on the left, portrait cover on the right."""
     name = pretty_name(record["name"])
     designation = record["designation"].strip()
     teacher_id = f"p{int(record['number']):03d}"
@@ -227,64 +227,94 @@ def front_card_svg(record: dict[str, str], palette: dict[str, str]) -> str:
     if not portrait.exists():
         portrait = ROOT / record["image_file"]
     portrait_uri = photo_data_uri(portrait)
-
     name_lines = lines_for(name, 18, 2)
-    name_size = "6.2" if len(name) <= 17 else "5.2"
-    name_y = 75 if len(name_lines) == 1 else 72.5
-    role_y = 84 if len(name_lines) == 1 else 85
+    name_size = "5.6" if len(name) <= 17 else "4.8"
+    name_y = 105.8 if len(name_lines) == 1 else 103.6
+    role_y = 114 if len(name_lines) == 1 else 115.4
+
     return f'''<g>
       <defs>
-        <clipPath id="portrait-{teacher_id}"><rect x="15" y="17" width="74" height="99" rx="4"/></clipPath>
+        <clipPath id="portrait-{teacher_id}"><rect x="114" y="30" width="68" height="67" rx="3.5"/></clipPath>
       </defs>
-      <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width="1.05"/>
-      <rect x="1.4" y="1.4" width="191.2" height="6" rx="2.4" fill="{palette['accent']}"/>
-      <rect x="13.8" y="15.8" width="76.4" height="101.4" rx="4.8" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".85"/>
-      <image x="15" y="17" width="74" height="99" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait-{teacher_id})" xlink:href="{portrait_uri}"/>
-      <path d="M 101 30 H 181" stroke="{palette['line']}" stroke-width=".7"/>
-      <text x="141" y="22" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.1" font-weight="700" letter-spacing="1.25" fill="{palette['accent']}">HAPPY</text>
-      <text x="141" y="29" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="5.75" font-weight="800" fill="{palette['ink']}">TEACHERS' DAY</text>
-      <text x="141" y="42" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.3" fill="{palette['accent']}">with sincere gratitude for you</text>
-      <path d="M 110 49 H 172" stroke="{palette['accent']}" stroke-width=".85"/>
-      {svg_text_lines(name_lines, 141, name_y, 5.25, **{"text-anchor": "middle", "font-family": "DejaVu Sans, sans-serif", "font-size": name_size, "font-weight": "700", "fill": palette['ink']})}
-      <text x="141" y="{role_y}" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.25" fill="{palette['accent']}">{esc(designation)}</text>
-      <path d="M 108 95 H 174" stroke="{palette['line']}" stroke-width=".7"/>
-      <text x="141" y="104" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.1" fill="{palette['ink']}">THANK YOU FOR MAKING</text>
-      <text x="141" y="109.5" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.1" fill="{palette['ink']}">A DIFFERENCE.</text>
-      <text x="141" y="121" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.7" letter-spacing=".45" fill="{palette['accent']}">5 SEPTEMBER</text>
-      <text x="141" y="126" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.5" letter-spacing=".25" fill="{palette['ink']}">ST. MARY'S ACADEMY</text>
+      <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3.4" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width="1.05"/>
+      <rect x="1.8" y="1.8" width="94.3" height="129.4" rx="2.6" fill="{palette['wash']}"/>
+      <rect x="1.5" y="1.5" width="191" height="5.5" rx="2.5" fill="{palette['accent']}"/>
+
+      <!-- Outside back: deliberately short, impactful text and a large QR -->
+      <text x="48.5" y="17" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.05" font-weight="700" letter-spacing=".65" fill="{palette['accent']}">A PERSONAL TEACHERS' DAY PAGE</text>
+      <text x="48.5" y="26.5" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.95" font-weight="700" fill="{palette['ink']}">YOUR GUIDANCE STAYS</text>
+      <text x="48.5" y="31.5" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.95" font-weight="700" fill="{palette['ink']}">WITH ME BEYOND THE CLASSROOM.</text>
+      <g transform="translate(20 36)">
+        <rect x="0" y="0" width="57" height="57" rx="3.2" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".85"/>
+        {qr_fragment(qr_svg, 2, 2, 53)}
+      </g>
+      <text x="48.5" y="102" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.25" font-weight="700" letter-spacing=".45" fill="{palette['accent']}">SCAN TO OPEN YOUR PAGE</text>
+      <text x="48.5" y="107" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.2" fill="{palette['ink']}">teachers-day-rosy.vercel.app</text>
+      <text x="48.5" y="110.8" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.2" fill="{palette['ink']}">/teacher.html?t={teacher_id}</text>
+      <path d="M 10 117 H 87" stroke="{palette['line']}" stroke-width=".65"/>
+      <text x="48.5" y="123.3" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.65" fill="{palette['ink']}">With gratitude, Pavit Singh • IX-B</text>
+      <text x="48.5" y="128.1" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.25" letter-spacing=".25" fill="{palette['accent']}">ST. MARY'S ACADEMY</text>
+
+      <!-- Outside cover -->
+      <text x="145" y="16" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.05" font-weight="700" letter-spacing="1.2" fill="{palette['accent']}">HAPPY</text>
+      <text x="145" y="23.2" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="5.65" font-weight="800" fill="{palette['ink']}">TEACHERS' DAY</text>
+      <path d="M 112 26.5 H 178" stroke="{palette['accent']}" stroke-width=".85"/>
+      <rect x="113.2" y="29.2" width="69.6" height="68.6" rx="4.2" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".8"/>
+      <image x="114" y="30" width="68" height="67" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait-{teacher_id})" xlink:href="{portrait_uri}"/>
+      {svg_text_lines(name_lines, 145, name_y, 4.6, **{"text-anchor": "middle", "font-family": "DejaVu Sans, sans-serif", "font-size": name_size, "font-weight": "700", "fill": palette['ink']})}
+      <text x="145" y="{role_y}" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.15" fill="{palette['accent']}">{esc(designation)}</text>
+      <path d="M 113 119 H 177" stroke="{palette['line']}" stroke-width=".6"/>
+      <text x="145" y="125" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.5" letter-spacing=".35" fill="{palette['ink']}">5 SEPTEMBER</text>
+      <text x="145" y="129" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.25" letter-spacing=".2" fill="{palette['accent']}">ST. MARY'S ACADEMY</text>
+
+      <path d="M 97 7 V 126" stroke="{palette['ink']}" stroke-width=".55" stroke-dasharray="2 1.8" opacity=".8"/>
+      <rect x="90.3" y="127.1" width="13.4" height="3.3" rx="1.5" fill="#FFFFFF"/>
+      <text x="97" y="129.45" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="1.7" font-weight="700" letter-spacing=".25" fill="{palette['ink']}">FOLD</text>
     </g>'''
 
 
-def back_card_svg(record: dict[str, str], qr_svg: str, palette: dict[str, str]) -> str:
-    """The QR-focused back of one individual Teachers' Day card."""
+def folded_inside_card_svg(record: dict[str, str], palette: dict[str, str]) -> str:
+    """Inside of a folded card: a true personal note plus a restrained thank-you panel."""
     name = pretty_name(record["name"])
-    teacher_id = f"p{int(record['number']):03d}"
-    note_lines = lines_for(personal_note(record), 35, 5)
+    inside_name_lines = lines_for("DEAR " + name.upper() + ",", 19, 2)
+    inside_name_size = "4.9" if len(inside_name_lines) == 1 else "4.35"
+    inside_name_y = 27 if len(inside_name_lines) == 1 else 24.3
+    inside_name_line_height = 4.45
+    inside_divider_y = 31.4 if len(inside_name_lines) == 1 else 33.2
+    note_lines = lines_for(personal_note(record), 37, 4)
     return f'''<g>
-      <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width="1.05"/>
-      <rect x="1.4" y="1.4" width="191.2" height="6" rx="2.4" fill="{palette['accent']}"/>
-      <text x="14" y="18" font-family="DejaVu Sans, sans-serif" font-size="2.95" font-weight="700" letter-spacing=".8" fill="{palette['accent']}">A PERSONAL TEACHERS' DAY PAGE FOR</text>
-      <text x="14" y="25.2" font-family="DejaVu Sans, sans-serif" font-size="5.25" font-weight="700" fill="{palette['ink']}">{esc(name)}</text>
-      <path d="M 14 29.5 H 180" stroke="{palette['line']}" stroke-width=".7"/>
-      <g transform="translate(14 37)">
-        <rect x="0" y="0" width="69" height="69" rx="3.5" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".85"/>
-        {qr_fragment(qr_svg, 2, 2, 65)}
-      </g>
-      <text x="14" y="114" font-family="DejaVu Sans, sans-serif" font-size="2.7" font-weight="700" letter-spacing=".4" fill="{palette['accent']}">SCAN TO OPEN YOUR PAGE</text>
-      <text x="14" y="119" font-family="DejaVu Sans, sans-serif" font-size="2.25" fill="{palette['ink']}">teachers-day-rosy.vercel.app/teacher.html?t={teacher_id}</text>
-      <text x="98" y="47" font-family="DejaVu Sans, sans-serif" font-size="4.45" font-weight="700" fill="{palette['ink']}">YOUR GUIDANCE STAYS</text>
-      <text x="98" y="53.2" font-family="DejaVu Sans, sans-serif" font-size="4.45" font-weight="700" fill="{palette['ink']}">WITH ME BEYOND THE</text>
-      <text x="98" y="59.4" font-family="DejaVu Sans, sans-serif" font-size="4.45" font-weight="700" fill="{palette['ink']}">CLASSROOM.</text>
-      <path d="M 98 65 H 177" stroke="{palette['accent']}" stroke-width=".9"/>
-      {svg_text_lines(note_lines, 98, 75, 4.8, **{"font-family": "DejaVu Sans, sans-serif", "font-size": "3.65", "fill": palette['ink']})}
-      <text x="98" y="111" font-family="DejaVu Sans, sans-serif" font-size="3.3" font-weight="700" fill="{palette['accent']}">With respect and gratitude,</text>
-      <text x="98" y="117" font-family="DejaVu Sans, sans-serif" font-size="3.35" font-weight="700" fill="{palette['ink']}">Pavit Singh • Class IX-B</text>
-      <text x="98" y="126" font-family="DejaVu Sans, sans-serif" font-size="2.35" letter-spacing=".3" fill="{palette['accent']}">ST. MARY'S ACADEMY • 5 SEPTEMBER</text>
+      <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3.4" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width="1.05"/>
+      <rect x="1.8" y="1.8" width="94.3" height="129.4" rx="2.6" fill="{palette['wash']}"/>
+      <rect x="1.5" y="1.5" width="191" height="5.5" rx="2.5" fill="{palette['accent']}"/>
+      <path d="M 97 7 V 126" stroke="{palette['ink']}" stroke-width=".55" stroke-dasharray="2 1.8" opacity=".8"/>
+
+      <!-- Inside left: the genuinely personal note -->
+      <text x="10" y="17" font-family="DejaVu Sans, sans-serif" font-size="2.85" font-weight="700" letter-spacing=".7" fill="{palette['accent']}">A NOTE JUST FOR YOU</text>
+      {svg_text_lines(inside_name_lines, 10, inside_name_y, inside_name_line_height, **{"font-family": "DejaVu Sans, sans-serif", "font-size": inside_name_size, "font-weight": "700", "fill": palette['ink']})}
+      <path d="M 10 {inside_divider_y} H 87" stroke="{palette['accent']}" stroke-width=".8"/>
+      {svg_text_lines(note_lines, 10, 42, 5.05, **{"font-family": "DejaVu Sans, sans-serif", "font-size": "3.78", "fill": palette['ink']})}
+      <text x="10" y="72" font-family="DejaVu Sans, sans-serif" font-size="3.5" fill="{palette['ink']}">Thank you for the difference you make,</text>
+      <text x="10" y="77.2" font-family="DejaVu Sans, sans-serif" font-size="3.5" fill="{palette['ink']}">in class and far beyond it.</text>
+      <path d="M 10 113 H 87" stroke="{palette['line']}" stroke-width=".65"/>
+      <text x="10" y="120" font-family="DejaVu Sans, sans-serif" font-size="3.4" font-weight="700" fill="{palette['accent']}">With respect and gratitude,</text>
+      <text x="10" y="126" font-family="DejaVu Sans, sans-serif" font-size="3.45" font-weight="700" fill="{palette['ink']}">Pavit Singh • Class IX-B</text>
+
+      <!-- Inside right: uncluttered closing panel -->
+      <text x="145" y="36" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.2" font-weight="700" letter-spacing="1" fill="{palette['accent']}">THANK YOU</text>
+      <path d="M 116 42 H 174" stroke="{palette['line']}" stroke-width=".75"/>
+      <text x="145" y="57" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="4.2" font-weight="700" fill="{palette['ink']}">THE BEST TEACHERS</text>
+      <text x="145" y="63" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="4.2" font-weight="700" fill="{palette['ink']}">HELP US BELIEVE</text>
+      <text x="145" y="69" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="4.2" font-weight="700" fill="{palette['ink']}">IN OURSELVES.</text>
+      <path d="M 116 78 H 174" stroke="{palette['accent']}" stroke-width=".9"/>
+      <text x="145" y="94" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.4" fill="{palette['ink']}">Happy Teachers' Day</text>
+      <text x="145" y="100" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.4" fill="{palette['ink']}">with warm appreciation.</text>
+      <text x="145" y="119" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.6" letter-spacing=".45" fill="{palette['accent']}">ST. MARY'S ACADEMY</text>
+      <text x="145" y="124" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.5" letter-spacing=".25" fill="{palette['ink']}">5 SEPTEMBER</text>
     </g>'''
 
 
 def page_svg(top_card: str, bottom_card: str | None, sheet_number: int, side: str) -> str:
-    """Place the front or back of two landscape cards on a vertical A4 sheet."""
+    """Place the outside or inside of two folded cards on a vertical A4 sheet."""
     lower = f'<g transform="translate(8 155)">{bottom_card}</g>' if bottom_card else ""
     cut_guide = '''<g opacity=".9">
     <path d="M 8 148.5 H 202" stroke="#8491A0" stroke-width=".45" stroke-dasharray="2.1 1.4"/>
@@ -303,7 +333,7 @@ def page_svg(top_card: str, bottom_card: str | None, sheet_number: int, side: st
   <g transform="translate(8 9)">{top_card}</g>
   {lower}
   {cut_guide}
-  <text x="8" y="294" font-family="DejaVu Sans, sans-serif" font-size="1.8" fill="#92A0AB">Teachers' Day Cards • Sheet {sheet_number} • {side} • Print at 100% on A4</text>
+  <text x="8" y="294" font-family="DejaVu Sans, sans-serif" font-size="1.8" fill="#92A0AB">Teachers' Day Folded Cards • Sheet {sheet_number} • {side} • Print at 100% on A4</text>
   <text x="202" y="294" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="1.8" fill="#92A0AB">{suffix}</text>
 </svg>'''
 
@@ -373,8 +403,8 @@ def meta_xml(page_count: int) -> str:
  xmlns:dc="http://purl.org/dc/elements/1.1/"
  office:version="1.3">
  <office:meta>
-   <dc:title>Teachers' Day Printable Cards — St. Mary's Academy</dc:title>
-   <dc:description>Printable double-sided Teachers' Day cards: portrait-and-greeting fronts and QR-focused backs, two cards per vertical A4 sheet.</dc:description>
+   <dc:title>Teachers' Day Folded Cards — St. Mary's Academy</dc:title>
+   <dc:description>Printable folded Teachers' Day cards: portrait covers, large QR back covers, and personal inside notes, two cards per vertical A4 sheet.</dc:description>
    <dc:creator>Pavit Singh</dc:creator>
    <meta:generator>Teachers' Day card builder</meta:generator>
    <meta:document-statistic meta:page-count="{page_count}"/>
@@ -408,25 +438,25 @@ def build(output: Path) -> tuple[int, list[tuple[str, str]]]:
     urls = [f"{SITE_BASE}/teacher.html?t=p{int(t['number']):03d}" for t in teachers]
     qrs = qr_payloads(urls)
 
-    front_cards: list[str] = []
-    back_cards: list[str] = []
+    outside_cards: list[str] = []
+    inside_cards: list[str] = []
     manifest_rows: list[tuple[str, str]] = []
     for index, teacher in enumerate(teachers):
         url = f"{SITE_BASE}/teacher.html?t=p{int(teacher['number']):03d}"
         palette = PALETTES[index % len(PALETTES)]
-        front_cards.append(front_card_svg(teacher, palette))
-        back_cards.append(back_card_svg(teacher, qrs[url], palette))
+        outside_cards.append(folded_outer_card_svg(teacher, qrs[url], palette))
+        inside_cards.append(folded_inside_card_svg(teacher, palette))
         manifest_rows.append((pretty_name(teacher["name"]), url))
 
-    # Pages are deliberately ordered FRONT, BACK, FRONT, BACK so ordinary automatic
-    # duplex printing produces a complete two-sided card for every named teacher.
+    # Each physical sheet is represented by two consecutive ODT pages. Its outside
+    # has the QR back (left) and portrait cover (right); its inside holds the note.
     pages: list[str] = []
     for i in range(0, len(teachers), 2):
-        second_front = front_cards[i + 1] if i + 1 < len(front_cards) else None
-        second_back = back_cards[i + 1] if i + 1 < len(back_cards) else None
+        second_outside = outside_cards[i + 1] if i + 1 < len(outside_cards) else None
+        second_inside = inside_cards[i + 1] if i + 1 < len(inside_cards) else None
         sheet_number = i // 2 + 1
-        pages.append(page_svg(front_cards[i], second_front, sheet_number, "FRONT"))
-        pages.append(page_svg(back_cards[i], second_back, sheet_number, "BACK"))
+        pages.append(page_svg(outside_cards[i], second_outside, sheet_number, "OUTSIDE"))
+        pages.append(page_svg(inside_cards[i], second_inside, sheet_number, "INSIDE"))
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as odt:
         # ODF requires this file to be first and uncompressed.
@@ -442,7 +472,7 @@ def build(output: Path) -> tuple[int, list[tuple[str, str]]]:
     # A plain-text manifest makes it easy to spot-check every encoded destination.
     manifest_path = output.with_name("Teachers_Day_Card_QR_Links.txt")
     manifest_lines = [
-        "TEACHERS' DAY PRINTABLE CARDS — QR DESTINATIONS",
+        "TEACHERS' DAY FOLDED CARDS — QR DESTINATIONS",
         "=" * 47,
         "Every card points to that person's personal tribute page.",
         "",
@@ -453,7 +483,7 @@ def build(output: Path) -> tuple[int, list[tuple[str, str]]]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Create two-up, double-sided Teachers' Day cards as an ODT.")
+    parser = argparse.ArgumentParser(description="Create two-up, double-sided folded Teachers' Day cards as an ODT.")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="ODT path to write")
     args = parser.parse_args()
     pages, _ = build(args.output.resolve())
