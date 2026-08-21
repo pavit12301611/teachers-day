@@ -19,7 +19,6 @@ node_modules directory is added to the project.
 from __future__ import annotations
 
 import argparse
-import base64
 import csv
 import html
 import json
@@ -214,92 +213,80 @@ def personal_note(record: dict[str, str]) -> str:
 
 
 def folded_outer_card_svg(record: dict[str, str], qr_svg: str, palette: dict[str, str]) -> str:
-    """Outside of a folded card: QR-focused back on the left, portrait cover on the right."""
+    """Clean outside: quiet portrait cover and one large, easy-to-scan QR back panel."""
     name = pretty_name(record["name"])
     designation = record["designation"].strip()
     teacher_id = f"p{int(record['number']):03d}"
     name_lines = lines_for(name, 18, 2)
-    name_size = "5.6" if len(name) <= 17 else "4.8"
-    # 72 × 70 mm is deliberately sized to be the visual centre of the cover: large
-    # enough to honour each portrait, while leaving clear breathing room for the name.
-    name_y = 107.5 if len(name_lines) == 1 else 105.0
-    role_y = 116.3 if len(name_lines) == 1 else 116.6
+    name_size = "5.7" if len(name) <= 17 else "4.85"
+    name_y = 107.2 if len(name_lines) == 1 else 104.8
+    role_y = 116.0 if len(name_lines) == 1 else 116.5
 
     return f'''<g>
-      <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3.4" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width="1.05"/>
-      <rect x="1.8" y="1.8" width="94.3" height="129.4" rx="2.6" fill="{palette['wash']}"/>
-      <rect x="1.5" y="1.5" width="191" height="5.5" rx="2.5" fill="{palette['accent']}"/>
+      <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3.2" fill="#FFFEFA" stroke="{palette['ink']}" stroke-width=".9"/>
+      <rect x="1.5" y="1.5" width="94.8" height="130" rx="2.5" fill="{palette['wash']}"/>
+      <path d="M 97 8 V 125" stroke="{palette['line']}" stroke-width=".55"/>
 
-      <!-- Outside back: deliberately short, impactful text and a large QR -->
-      <text x="48.5" y="17" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.05" font-weight="700" letter-spacing=".65" fill="{palette['accent']}">A PERSONAL TEACHERS' DAY PAGE</text>
-      <text x="48.5" y="26.5" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.95" font-weight="700" fill="{palette['ink']}">YOUR GUIDANCE STAYS</text>
-      <text x="48.5" y="31.5" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.95" font-weight="700" fill="{palette['ink']}">WITH ME BEYOND THE CLASSROOM.</text>
-      <g transform="translate(20 36)">
-        <rect x="0" y="0" width="57" height="57" rx="3.2" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".85"/>
-        {qr_fragment(qr_svg, 2, 2, 53)}
+      <!-- Back panel: QR first, one concise line only -->
+      <text x="48.5" y="16" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.75" font-weight="700" letter-spacing=".9" fill="{palette['accent']}">A SMALL THANK-YOU</text>
+      <g transform="translate(21 24)">
+        <rect x="0" y="0" width="55" height="55" rx="2.5" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".72"/>
+        {qr_fragment(qr_svg, 2, 2, 51)}
       </g>
-      <text x="48.5" y="102" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.25" font-weight="700" letter-spacing=".45" fill="{palette['accent']}">SCAN TO OPEN YOUR PAGE</text>
-      <text x="48.5" y="107" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.2" fill="{palette['ink']}">teachers-day-rosy.vercel.app</text>
-      <text x="48.5" y="110.8" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.2" fill="{palette['ink']}">/teacher.html?t={teacher_id}</text>
-      <path d="M 10 117 H 87" stroke="{palette['line']}" stroke-width=".65"/>
-      <text x="48.5" y="123.3" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.65" fill="{palette['ink']}">With gratitude, Pavit Singh • IX-B</text>
-      <text x="48.5" y="128.1" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.25" letter-spacing=".25" fill="{palette['accent']}">ST. MARY'S ACADEMY</text>
+      <text x="48.5" y="87.5" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3" font-weight="700" letter-spacing=".45" fill="{palette['ink']}">SCAN TO OPEN YOUR PAGE</text>
+      <text x="48.5" y="92.2" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.1" fill="{palette['accent']}">teachers-day-rosy.vercel.app</text>
+      <text x="48.5" y="96" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.1" fill="{palette['accent']}">/teacher.html?t={teacher_id}</text>
+      <path d="M 18 104 H 79" stroke="{palette['line']}" stroke-width=".65"/>
+      <text x="48.5" y="112.5" text-anchor="middle" font-family="DejaVu Serif, serif" font-size="4.15" font-weight="700" fill="{palette['ink']}">Your guidance still</text>
+      <text x="48.5" y="118.2" text-anchor="middle" font-family="DejaVu Serif, serif" font-size="4.15" font-weight="700" fill="{palette['ink']}">lights my way.</text>
+      <text x="48.5" y="127" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.45" letter-spacing=".25" fill="{palette['accent']}">— PAVIT SINGH • IX-B</text>
 
-      <!-- Outside cover -->
-      <text x="145" y="16" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.05" font-weight="700" letter-spacing="1.2" fill="{palette['accent']}">HAPPY</text>
-      <text x="145" y="23.2" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="5.65" font-weight="800" fill="{palette['ink']}">TEACHERS' DAY</text>
-      <path d="M 112 26.5 H 178" stroke="{palette['accent']}" stroke-width=".85"/>
-      <rect x="109.2" y="29.2" width="73.6" height="71.6" rx="4.2" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".8"/>
-      <!-- The portrait is an actual ODT image frame, positioned above this card layer. -->
-      {svg_text_lines(name_lines, 145, name_y, 4.6, **{"text-anchor": "middle", "font-family": "DejaVu Sans, sans-serif", "font-size": name_size, "font-weight": "700", "fill": palette['ink']})}
-      <text x="145" y="{role_y}" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.15" fill="{palette['accent']}">{esc(designation)}</text>
-      <path d="M 111 121 H 179" stroke="{palette['line']}" stroke-width=".6"/>
-      <text x="145" y="126.2" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.5" letter-spacing=".35" fill="{palette['ink']}">5 SEPTEMBER</text>
-      <text x="145" y="130" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.25" letter-spacing=".2" fill="{palette['accent']}">ST. MARY'S ACADEMY</text>
-
-      <path d="M 97 7 V 126" stroke="{palette['ink']}" stroke-width=".55" stroke-dasharray="2 1.8" opacity=".8"/>
-      <rect x="90.3" y="127.1" width="13.4" height="3.3" rx="1.5" fill="#FFFFFF"/>
-      <text x="97" y="129.45" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="1.7" font-weight="700" letter-spacing=".25" fill="{palette['ink']}">FOLD</text>
+      <!-- Cover panel: image is a native ODT frame above this exact frame -->
+      <text x="145" y="15" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.85" font-weight="700" letter-spacing="1.15" fill="{palette['accent']}">HAPPY</text>
+      <text x="145" y="22.2" text-anchor="middle" font-family="DejaVu Serif, serif" font-size="5.7" font-weight="700" fill="{palette['ink']}">TEACHERS' DAY</text>
+      <path d="M 119 26 H 171" stroke="{palette['accent']}" stroke-width=".75"/>
+      <rect x="109.2" y="29.2" width="73.6" height="71.6" rx="4.2" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width=".75"/>
+      {svg_text_lines(name_lines, 145, name_y, 4.55, **{"text-anchor": "middle", "font-family": "DejaVu Sans, sans-serif", "font-size": name_size, "font-weight": "700", "fill": palette['ink']})}
+      <text x="145" y="{role_y}" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3" fill="{palette['accent']}">{esc(designation)}</text>
+      <text x="145" y="125.5" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.45" letter-spacing=".35" fill="{palette['ink']}">5 SEPTEMBER • ST. MARY'S ACADEMY</text>
+      <path d="M 97 8 V 125" stroke="{palette['ink']}" stroke-width=".5" stroke-dasharray="2 1.8" opacity=".7"/>
+      <text x="97" y="129" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="1.65" font-weight="700" letter-spacing=".25" fill="{palette['ink']}">FOLD</text>
     </g>'''
 
 
 def folded_inside_card_svg(record: dict[str, str], palette: dict[str, str]) -> str:
-    """Inside of a folded card: a true personal note plus a restrained thank-you panel."""
+    """Clean inside: one honest personal note and a quiet closing panel."""
     name = pretty_name(record["name"])
     inside_name_lines = lines_for("DEAR " + name.upper() + ",", 19, 2)
-    inside_name_size = "4.9" if len(inside_name_lines) == 1 else "4.35"
-    inside_name_y = 27 if len(inside_name_lines) == 1 else 24.3
-    inside_name_line_height = 4.45
-    inside_divider_y = 31.4 if len(inside_name_lines) == 1 else 33.2
+    inside_name_size = "4.8" if len(inside_name_lines) == 1 else "4.25"
+    inside_name_y = 26.5 if len(inside_name_lines) == 1 else 24.0
+    divider_y = 31 if len(inside_name_lines) == 1 else 32.8
     note_lines = lines_for(personal_note(record), 37, 4)
+
     return f'''<g>
-      <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3.4" fill="#FFFFFF" stroke="{palette['ink']}" stroke-width="1.05"/>
-      <rect x="1.8" y="1.8" width="94.3" height="129.4" rx="2.6" fill="{palette['wash']}"/>
-      <rect x="1.5" y="1.5" width="191" height="5.5" rx="2.5" fill="{palette['accent']}"/>
-      <path d="M 97 7 V 126" stroke="{palette['ink']}" stroke-width=".55" stroke-dasharray="2 1.8" opacity=".8"/>
+      <rect x="0.8" y="0.8" width="192.4" height="131.4" rx="3.2" fill="#FFFEFA" stroke="{palette['ink']}" stroke-width=".9"/>
+      <rect x="1.5" y="1.5" width="94.8" height="130" rx="2.5" fill="{palette['wash']}"/>
+      <path d="M 97 8 V 125" stroke="{palette['ink']}" stroke-width=".5" stroke-dasharray="2 1.8" opacity=".7"/>
 
-      <!-- Inside left: the genuinely personal note -->
-      <text x="10" y="17" font-family="DejaVu Sans, sans-serif" font-size="2.85" font-weight="700" letter-spacing=".7" fill="{palette['accent']}">A NOTE JUST FOR YOU</text>
-      {svg_text_lines(inside_name_lines, 10, inside_name_y, inside_name_line_height, **{"font-family": "DejaVu Sans, sans-serif", "font-size": inside_name_size, "font-weight": "700", "fill": palette['ink']})}
-      <path d="M 10 {inside_divider_y} H 87" stroke="{palette['accent']}" stroke-width=".8"/>
-      {svg_text_lines(note_lines, 10, 42, 5.05, **{"font-family": "DejaVu Sans, sans-serif", "font-size": "3.78", "fill": palette['ink']})}
-      <text x="10" y="72" font-family="DejaVu Sans, sans-serif" font-size="3.5" fill="{palette['ink']}">Thank you for the difference you make,</text>
-      <text x="10" y="77.2" font-family="DejaVu Sans, sans-serif" font-size="3.5" fill="{palette['ink']}">in class and far beyond it.</text>
-      <path d="M 10 113 H 87" stroke="{palette['line']}" stroke-width=".65"/>
-      <text x="10" y="120" font-family="DejaVu Sans, sans-serif" font-size="3.4" font-weight="700" fill="{palette['accent']}">With respect and gratitude,</text>
-      <text x="10" y="126" font-family="DejaVu Sans, sans-serif" font-size="3.45" font-weight="700" fill="{palette['ink']}">Pavit Singh • Class IX-B</text>
+      <!-- Personal note -->
+      <text x="11" y="16" font-family="DejaVu Sans, sans-serif" font-size="2.75" font-weight="700" letter-spacing=".8" fill="{palette['accent']}">A NOTE FOR YOU</text>
+      {svg_text_lines(inside_name_lines, 11, inside_name_y, 4.4, **{"font-family": "DejaVu Sans, sans-serif", "font-size": inside_name_size, "font-weight": "700", "fill": palette['ink']})}
+      <path d="M 11 {divider_y} H 84" stroke="{palette['accent']}" stroke-width=".75"/>
+      {svg_text_lines(note_lines, 11, 42, 5.05, **{"font-family": "DejaVu Sans, sans-serif", "font-size": "3.7", "fill": palette['ink']})}
+      <text x="11" y="78" font-family="DejaVu Sans, sans-serif" font-size="3.35" fill="{palette['ink']}">Thank you for helping me grow,</text>
+      <text x="11" y="83" font-family="DejaVu Sans, sans-serif" font-size="3.35" fill="{palette['ink']}">one lesson at a time.</text>
+      <path d="M 11 113 H 84" stroke="{palette['line']}" stroke-width=".6"/>
+      <text x="11" y="120" font-family="DejaVu Sans, sans-serif" font-size="3.25" font-weight="700" fill="{palette['accent']}">With respect and gratitude,</text>
+      <text x="11" y="126" font-family="DejaVu Sans, sans-serif" font-size="3.3" font-weight="700" fill="{palette['ink']}">Pavit Singh • Class IX-B</text>
 
-      <!-- Inside right: uncluttered closing panel -->
-      <text x="145" y="36" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.2" font-weight="700" letter-spacing="1" fill="{palette['accent']}">THANK YOU</text>
-      <path d="M 116 42 H 174" stroke="{palette['line']}" stroke-width=".75"/>
-      <text x="145" y="57" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="4.2" font-weight="700" fill="{palette['ink']}">THE BEST TEACHERS</text>
-      <text x="145" y="63" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="4.2" font-weight="700" fill="{palette['ink']}">HELP US BELIEVE</text>
-      <text x="145" y="69" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="4.2" font-weight="700" fill="{palette['ink']}">IN OURSELVES.</text>
-      <path d="M 116 78 H 174" stroke="{palette['accent']}" stroke-width=".9"/>
-      <text x="145" y="94" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.4" fill="{palette['ink']}">Happy Teachers' Day</text>
-      <text x="145" y="100" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.4" fill="{palette['ink']}">with warm appreciation.</text>
-      <text x="145" y="119" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.6" letter-spacing=".45" fill="{palette['accent']}">ST. MARY'S ACADEMY</text>
-      <text x="145" y="124" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.5" letter-spacing=".25" fill="{palette['ink']}">5 SEPTEMBER</text>
+      <!-- Quiet inside-right closing -->
+      <text x="145" y="39" text-anchor="middle" font-family="DejaVu Serif, serif" font-size="7.2" font-weight="700" fill="{palette['ink']}">Thank you.</text>
+      <path d="M 121 47 H 169" stroke="{palette['accent']}" stroke-width=".75"/>
+      <text x="145" y="62" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.7" fill="{palette['ink']}">For helping me believe</text>
+      <text x="145" y="67.5" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.7" fill="{palette['ink']}">in what I can become.</text>
+      <text x="145" y="91" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.3" fill="{palette['accent']}">Happy Teachers' Day</text>
+      <text x="145" y="97" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="3.3" fill="{palette['accent']}">with warm appreciation.</text>
+      <text x="145" y="122" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="2.4" letter-spacing=".3" fill="{palette['ink']}">ST. MARY'S ACADEMY • 5 SEPTEMBER</text>
     </g>'''
 
 
