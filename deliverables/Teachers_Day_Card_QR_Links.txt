@@ -1,7 +1,6 @@
 TEACHERS' DAY FOLD CARDS — QR DESTINATIONS
 ===============================================
-Each named card points to that person's personal tribute page.
-The final spare card points to the Teachers' Day home page.
+Every card points to that person's personal tribute page.
 
 Sr. Sheela Solanki: https://teachers-day-rosy.vercel.app/teacher.html?t=p001
 Rev. Fr. John Chiman: https://teachers-day-rosy.vercel.app/teacher.html?t=p002
@@ -86,4 +85,3 @@ Beena Charles: https://teachers-day-rosy.vercel.app/teacher.html?t=p080
 Naveen Kumar: https://teachers-day-rosy.vercel.app/teacher.html?t=p081
 Lily Sherring: https://teachers-day-rosy.vercel.app/teacher.html?t=p082
 Gabrial: https://teachers-day-rosy.vercel.app/teacher.html?t=p083
-Spare — St. Mary's Family: https://teachers-day-rosy.vercel.app/
