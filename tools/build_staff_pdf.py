@@ -425,22 +425,24 @@ def flower(c, cx, cy, r, petal=WC["rose"], center=WC["sun"], alpha=0.95, petals=
     c.restoreState()
 
 
-def garland(c, y, height=34, color=GOLD, n=None, seed=2):
+def garland(c, y, height=34, color=GOLD, n=None, seed=2, x1=None, x2=None):
     """A painted garland strip (leaves + blossoms) used to finish off pages."""
     rnd = random.Random(seed)
+    x1 = MARGIN if x1 is None else x1
+    x2 = PW - MARGIN if x2 is None else x2
     c.saveState()
     c.setStrokeColor(HexColor(color))
     c.setLineWidth(0.8)
     c.setStrokeAlpha(0.75)
     p = c.beginPath()
-    p.moveTo(MARGIN, y)
-    for x in range(int(MARGIN), int(PW - MARGIN), 8):
-        p.lineTo(x, y + math.sin((x - MARGIN) / 26.0) * height * 0.16)
+    p.moveTo(x1, y)
+    for x in range(int(x1), int(x2), 8):
+        p.lineTo(x, y + math.sin((x - x1) / 26.0) * height * 0.16)
     c.drawPath(p, stroke=1, fill=0)
-    step = (PW - 2 * MARGIN) / (n or 13)
+    step = (x2 - x1) / (n or 13)
     for i in range(n or 13):
-        x = MARGIN + step * (i + 0.5)
-        yy = y + math.sin((x - MARGIN) / 26.0) * height * 0.16
+        x = x1 + step * (i + 0.5)
+        yy = y + math.sin((x - x1) / 26.0) * height * 0.16
         col = RAINBOW_HEX[i % 8]
         if i % 3 == 0:
             flower(c, x, yy + 5, 4.6 + (i % 4) * 0.5, col, WC["sun"], 0.9)
@@ -1959,7 +1961,7 @@ def page_credits(doc: Doc, d, plan, notes):
 # ===================================================================== printable gift cards
 # One hand-out card per teacher, in his/her own colours, with his/her own message.
 CARD_W, CARD_H = 595.28, 420.96            # A5 landscape (210 x 148.5 mm) — two of these tile an A4
-LAYOUTS = ("cut", "a5", "a4")
+LAYOUTS = ("fold", "cut", "a5", "a4")
 
 
 # third-person -> second-person rewrites for Pavit's own notes (cards speak TO the teacher)
@@ -2373,6 +2375,437 @@ def page_cards(doc: Doc, teachers, notes, layout="cut"):
         doc.show()
 
 
+# ------------------------------------------------------------------- foldable gift cards
+# One A4 landscape sheet per teacher, printed on BOTH sides and folded once in half.
+#   outside page : [back cover | FRONT cover]   -> after folding, the greeting faces out
+#   inside  page : [the letter  |  the QR page] -> what they find when they open it
+# Each panel is A6 portrait (105 x 148.5 mm), the classic folded-card size.
+PANEL_W, PANEL_H = 420.94, 595.28
+FOLD_SHEET = (841.89, 595.28)
+QR_BASE_DEFAULT = "https://pavit12301611.github.io/teachers-day/"
+FOLD_SECRETS = [
+    "Tap your photo five times",
+    "The gift box, hiding in the footer",
+    "One line written in invisible ink",
+    "The secret key: up up down down left right left right B A",
+]
+
+
+def qr_matrix(data):
+    """A QR matrix (tuple of rows of 0/1) — segno if present, then qrcode, else None."""
+    cache = getattr(qr_matrix, "_cache", None)
+    if cache is None:
+        cache = {}
+        qr_matrix._cache = cache
+    if data in cache:
+        return cache[data]
+    m = None
+    try:
+        import segno
+        m = [[int(bool(v)) for v in row] for row in segno.make(data, error="l").matrix]
+    except Exception:
+        try:
+            import qrcode
+            qr = qrcode.QRCode(border=0, box_size=1,
+                               error=qrcode.constants.ERROR_CORRECT_L)
+            qr.add_data(data)
+            qr.make(fit=True)
+            m = [[int(bool(v)) for v in row] for row in qr.get_matrix()]
+        except Exception:
+            m = None
+    m = tuple(tuple(row) for row in m) if m else None
+    cache[data] = m
+    return m
+
+
+def draw_qr(c, cx, cy, size, matrix, ink=INK, paper="#ffffff", pad=4.0):
+    """Vector QR code: crisp at any print size and it costs nothing in file weight.
+    Runs of dark modules are merged into single rectangles, so 166 pages stay light."""
+    if not matrix:
+        return 0
+    n = len(matrix)
+    quiet = 4                                   # spec-recommended clear space, in modules
+    m = size / float(n)                         # `size` is the code itself; the card is bigger
+    c.saveState()
+    c.setFillColor(HexColor(paper))
+    c.setFillAlpha(1)
+    c.setStrokeColor(HexColor(paper))
+    c.setLineWidth(1)
+    # a solid white card under the code: phones need calm, bright clear space around it,
+    # and the theme washes on these cards are not bright enough to trust
+    card = size + (m * quiet + pad) * 2
+    c.roundRect(cx - card / 2, cy - card / 2, card, card, 4.0, stroke=1, fill=1)
+    c.setFillColor(HexColor(ink))
+    x0, y0 = cx - size / 2, cy - size / 2 + (n - 1) * m
+    for i, row in enumerate(matrix):
+        yy = y0 - i * m
+        j = 0
+        while j < n:
+            if row[j]:
+                k = j
+                while k + 1 < n and row[k + 1]:
+                    k += 1
+                c.rect(x0 + j * m, yy, (k - j + 1) * m + 0.06, m + 0.06, stroke=0, fill=1)
+                j = k + 1
+            else:
+                j += 1
+    c.restoreState()
+    return size + m * quiet * 2
+
+
+def logo_image():
+    """The school logo as one shared ImageReader, so 83 back covers embed it exactly once."""
+    got = getattr(logo_image, "_got", None)
+    if got is not None:
+        return got
+    logo_image._got = False
+    fp = ROOT / "assets" / "logo.png"
+    if fp.exists():
+        try:
+            im = Image.open(fp).convert("RGB")
+            if im.size[0] > 460:
+                im = im.resize((460, int(im.size[1] * 460 / im.size[0])), Image.LANCZOS)
+            logo_image._got = ImageReader(BytesIO(_jpeg_blob(im, 90)))
+        except Exception:
+            logo_image._got = False
+    return logo_image._got
+
+
+def qr_card_w(box, matrix):
+    """Side of the white card draw_qr paints for a `box`-wide code, so frames can hug it."""
+    if not matrix:
+        return box + 40
+    m = box / float(len(matrix))
+    return box + (m * 4 + 4.0) * 2
+
+
+def fold_url(t, base):
+    return base.rstrip("/") + "/teacher.html?t=" + (t.get("id") or ("p%03d" % t["num"]))
+
+
+def fold_skin(doc, t, w, h, gutter=0.0):
+    """The shared card skin: paper, theme tint, painted washes, gilded double frame, rainbow."""
+    c = doc.c
+    c1, c2, soft = t["theme"]["c1"], t["theme"]["c2"], t["theme"]["soft"]
+    c.setFillColor(HexColor(doc.splash_bg or PAPER))
+    c.rect(0, 0, w + gutter, h, stroke=0, fill=1)
+    c.setFillColor(tint(soft, 0.58, towards=PAPER))
+    c.rect(0, 0, w + gutter, h, stroke=0, fill=1)
+    wash(c, 12, h - 8, 170, [c1, c2], alpha=0.075, blobs=5, seed=t["num"], spread=0.3, squash=0.6)
+    wash(c, (w + gutter) - 12, 10, 160, [c2, WC["sun"]], alpha=0.07, blobs=4, seed=t["num"] + 2,
+         spread=0.3, squash=0.6)
+    wash(c, w * 0.5, h * 0.42, 190, [c1, WC["teal"]], alpha=0.04, blobs=3, seed=t["num"] + 5,
+         spread=0.35, squash=0.5)
+    speckle(c, 0, h - 40, w + gutter, 40, [c1, c2, WC["sun"]], 24, t["num"] + 7, 0.35, 1.1,
+            0.35)
+    c.saveState()
+    c.setStrokeColor(HexColor(c1))
+    c.setLineWidth(1.5)
+    fw = w + gutter
+    c.roundRect(10, 10, fw - 20, h - 20, 8, stroke=1, fill=0)
+    c.setStrokeColor(HexColor(GOLD))
+    c.setLineWidth(0.5)
+    c.setStrokeAlpha(0.85)
+    c.roundRect(15, 15, fw - 30, h - 30, 6, stroke=1, fill=0)
+    c.restoreState()
+    hband(c, 15, h - 14.5, fw - 30, 2.8, RAINBOW_HEX, 60, 0.9)
+    corner_flourish(c, 19, 19, 20, c2, 1, 1)
+    corner_flourish(c, fw - 19, 19, 20, c1, -1, 1)
+    corner_flourish(c, 19, h - 19, 20, c1, 1, -1)
+    corner_flourish(c, fw - 19, h - 19, 20, c2, -1, -1)
+
+
+def fold_ticks(c, x, h, label="fold", dashes=True):
+    """Marks on the panel edge that becomes the crease, so the card is folded in the right place."""
+    c.saveState()
+    c.setStrokeColor(HexColor(SLATE))
+    c.setLineWidth(0.5)
+    c.setStrokeAlpha(0.7)
+    for yy in (h - 22, 22):
+        c.setDash(2.6, 2.4)
+        c.line(x, yy - 7, x, yy + 7)
+    if dashes:
+        c.setDash(3.4, 3.0)
+        c.setStrokeAlpha(0.4)
+        c.line(x, 30, x, h - 30)
+    c.restoreState()
+    if label:
+        c.saveState()
+        c.translate(x, h / 2)
+        c.rotate(-90)
+        text(c, label.upper(), 0, -3.2, "sansb", 4.8, SLATE, 2.2, "c", 0.55)
+        c.restoreState()
+
+
+def fold_front(doc, t, notes, x, y, sc=1.0):
+    """The face that shows once the card is folded: greeting, photo, name — nothing else."""
+    c = doc.c
+    c.saveState()
+    c.translate(x, y)
+    c.scale(sc, sc)
+    W, H = PANEL_W, PANEL_H
+    c1, c2 = t["theme"]["c1"], t["theme"]["c2"]
+    fold_skin(doc, t, W, H)
+    seal(c, 40, H - 40, 13.0, f"{t['num']:02d}", "OF 83", c2, "#fffdf6", INK, rot=-7)
+    text(c, "FROM PAVIT SINGH", W - 30, H - 36, "sansb", 5.6, WC["bronze"], 1.7, "r", 0.85)
+    text(c, "ONE CARD, ONE TEACHER", W - 30, H - 45, "sansb", 5.0, SLATE, 1.3, "r", 0.7)
+
+    greet = "Happy Teachers\u2019 Day"
+    gs = 31.0
+    while sw(greet, F["script"], gs) > W - 64 and gs > 20:
+        gs -= 0.5
+    text(c, greet, W / 2, H - 92, "script", gs, HexColor(c1), 0, "c")
+    who = {"Ma'am": "FOR YOU, MA'AM", "Sir": "FOR YOU, SIR"}.get(clean(t.get("title") or ""),
+                                                                  "FOR YOU")
+    text(c, who, W / 2, H - 107, "sansb", 5.4, c2, 2.4, "c", 0.8)
+    ribbon(c, W / 2, H - 128, "5TH SEPTEMBER", c2, WC["grape"], 6.4, "sansb", "#ffffff", 1.3, 13)
+
+    dia = 188.0
+    doc.portrait_on(t, W / 2, H - 152 - dia / 2, dia, plate=True, halo=True, raster=dia * sc)
+    ny = H - 152 - dia - 26
+    name = clean(t["name"])
+    nsize, namew = 22.0, W - 48
+    lines = wrap(name, F["serifb"], nsize, namew)
+    if len(lines) > 2:
+        nsize = 18.5
+        lines = wrap(name, F["serifb"], nsize, namew)[:2]
+    for ln in lines:
+        text(c, ln, W / 2, ny, "serifb", nsize, INK, 0.25, "c")
+        ny -= nsize * 1.18
+    des = clean(t.get("designation", ""))
+    dsize = fit(des, "sansb", 7.6, namew - 40, 1.4)
+    pwid = min(namew, sw(des, F["sansb"], dsize, 1.4) + 22)
+    ny -= 2
+    c.setFillColor(HexColor(c1))
+    c.setFillAlpha(0.95)
+    c.roundRect(W / 2 - pwid / 2, ny - 4.6, pwid, 15, 7.5, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    text(c, des, W / 2, ny - 0.6, "sansb", dsize, "#ffffff", 1.4, "c")
+    ny -= 19
+    chips = subject_tokens(t)[:3]
+    if chips:
+        widths = [min(126, sw(ch, F["sansb"], 6.4, 0.8) + 14) for ch in chips]
+        cw = sum(widths) + 6 * (len(chips) - 1)
+        x0 = W / 2 - cw / 2
+        for ch, wid in zip(chips, widths):
+            c.setFillColor(tint(c2, 0.80, towards=PAPER))
+            c.roundRect(x0, ny - 4.6, wid, 13.4, 6.7, stroke=0, fill=1)
+            c.setStrokeColor(HexColor(c2))
+            c.setStrokeAlpha(0.5)
+            c.setLineWidth(0.5)
+            c.roundRect(x0, ny - 4.6, wid, 13.4, 6.7, stroke=1, fill=0)
+            c.setStrokeAlpha(1)
+            text(c, ch, x0 + wid / 2, ny, "sansb", 6.4, INK, 0.8, "c")
+            x0 += wid + 6
+        ny -= 16
+    qual = pretty_qual(t.get("qualification", ""))
+    if qual:
+        text(c, qual, W / 2, ny, "serif", 8.4, SLATE, 0.3, "c", 0.9)
+    dashed_rule(c, 26, W - 26, 92, "#dcccb0", (2.6, 3.2), 0.6)
+    ow = sw("OPEN ME", F["sansb"], 6.6, 3.0)
+    text(c, "OPEN ME", W / 2, 76, "sansb", 6.6, HexColor(c1), 3.0, "c", 0.9)
+    text(c, "your message and a page made for you are inside", W / 2, 64, "serifi", 8.6,
+         "#4b3c55", 0.1, "c")
+    heart(c, W / 2 - ow / 2 - 11, 78, 3.0, c2, 0.85)
+    heart(c, W / 2 + ow / 2 + 11, 78, 3.0, c1, 0.85)
+    confetti(c, 24, 36, W - 48, 20, 9, t["num"] + 3, 0.4)
+    garland(c, 26, 12, GOLD, 8, t["num"], x1=22, x2=W - 22)
+    fold_ticks(c, 0, H, "fold", dashes=False)
+    c.restoreState()
+
+
+def fold_back_cover(doc, t, x, y, url, qr_ok, sc=1.0):
+    """The outside back of the folded card: the school, who made it, and a small scan line."""
+    c = doc.c
+    c.saveState()
+    c.translate(x, y)
+    c.scale(sc, sc)
+    W, H = PANEL_W, PANEL_H
+    c1 = t["theme"]["c1"]
+    fold_skin(doc, t, W, H)
+    text(c, "ST. MARY\u2019S ACADEMY", W / 2, H - 60, "serifb", 12.5, INK, 2.6, "c")
+    text(c, "SAHARANPUR  \u00b7  TEACHERS\u2019 DAY 2019-20", W / 2, H - 74, "sansb", 5.6,
+         SLATE, 1.9, "c", 0.9)
+    lg = logo_image()
+    if lg:
+        lw_, lh_ = 76.0, 76.0 * 348 / 460
+        framed_panel(c, W / 2 - lw_ / 2 - 7, H - 150 - lh_ / 2 - 7, lw_ + 14, lh_ + 14,
+                     "#ffffff", GOLD, 7, 0.8, True, 0.10, True)
+        c.drawImage(lg, W / 2 - lw_ / 2, H - 150 - lh_ / 2, lw_, lh_, mask=None)
+    gem_rule(c, 60, W - 60, H - 202, GOLD, 2.2, 3)
+    text(c, "MADE FOR ONE TEACHER", W / 2, H - 220, "serif", 9.6, "#3f3450", 0.2, "c")
+    line = (f"This is card {t['num']:02d} of 83 \u2014 the other 82 each carry "
+            "somebody else\u2019s name")
+    text(c, line, W / 2, H - 235, "serifi", fit(line, "serifi", 8.0, W - 60, 0.1), SLATE, 0.1,
+         "c")
+    dashed_rule(c, 40, W - 40, H - 250, "#dcccb0", (2.6, 3.2), 0.6)
+    text(c, "MADE BY", W / 2, H - 270, "sansb", 5.6, WC["bronze"], 2.0, "c", 0.9)
+    text(c, "Pavit Singh", W / 2, H - 292, "script", 22, HexColor(WC["grape"]), 0, "c")
+    text(c, "CLASS IX-B  \u00b7  ROLL NO. 9231", W / 2, H - 310, "sansb", 5.4, SLATE, 1.6, "c",
+         0.85)
+    if qr_ok:
+        box = 104.0
+        cy = H - 408
+        cw = qr_card_w(box, qr_ok) + 12
+        draw_qr(c, W / 2, cy, box, qr_ok)
+        c.saveState()
+        c.setStrokeColor(HexColor(c1))
+        c.setLineWidth(0.6)
+        c.setStrokeAlpha(0.5)
+        c.roundRect(W / 2 - cw / 2, cy - cw / 2, cw, cw, 7, stroke=1, fill=0)
+        c.restoreState()
+        text(c, "SCAN: MY PAGE FOR YOU", W / 2, cy - cw / 2 - 14, "sansb", 5.4, WC["bronze"],
+             1.8, "c", 0.9)
+    else:
+        addr = url.split("//")[-1]
+        text(c, "MY PAGE FOR YOU", W / 2, H - 340, "sansb", 5.6, WC["bronze"], 1.9, "c", 0.9)
+        text(c, addr, W / 2, H - 356, "serifi", fit(addr, "serifi", 8.4, W - 70, 0.2),
+             "#3f3450", 0.1, "c")
+    text(c, "open the card for the message and a bigger code to scan", W / 2, 62, "serifi",
+         7.6, SLATE, 0.1, "c", 0.9)
+    garland(c, 26, 12, GOLD, 8, t["num"], x1=22, x2=W - 22)
+    fold_ticks(c, W, H, "fold", dashes=False)
+    c.restoreState()
+
+
+def fold_inside(doc, t, notes, url, qr_ok, sc=1.0):
+    """The inside spread: Pavit's letter on the left, the QR and the 4 secrets on the right.
+    Both halves are measured first, then set, so a three-line note and a six-line note both
+    sit in the middle of their page instead of leaving a hole at the foot."""
+    c = doc.c
+    c.saveState()
+    c.scale(sc, sc)
+    W, H = PANEL_W, PANEL_H
+    c1, c2 = t["theme"]["c1"], t["theme"]["c2"]
+    fold_skin(doc, t, W, H, gutter=W)
+    fold_ticks(c, W, H, "fold")
+
+    # ---- left half: the letter, measured once and then drawn, so it sits in the middle
+    # of the leaf whatever the length of Pavit's note. `desc` is the descent from the
+    # greeting's baseline to the last line, and every step below costs exactly what it says.
+    lx, lw = 34, W - 68
+    body = card_message(t, notes)
+    msz, lead = 11.4, 16.6
+    lines = wrap(body, F["serif"], msz, lw)
+    while len(lines) * lead > 250 and msz > 9.6:
+        msz -= 0.3
+        lead = msz * 1.46
+        lines = wrap(body, F["serif"], msz, lw)
+    wish = card_wish(t)
+    wsz = fit(wish, "serifi", 10.6, lw)
+    wl = wrap(wish, F["serifi"], wsz, lw)
+    pts = SUBJECT_POINTS[card_key(t)]
+    desc = (22 + len(lines) * lead + 26 + len(wl) * wsz * 1.4 + 14 + 40 + 20 + 16 + 14
+            + 12.4 * len(pts) + 10)
+    top = 52 + (H - 104 - desc - 18) / 2 + desc + 4
+    top = max(desc + 58, min(H - 58, top))
+    text(c, "THE MESSAGE", lx, H - 44, "sansb", 6.2, WC["bronze"], 2.2, "l", 0.9)
+    yy = top
+    greet_name = clean(t.get("title") or "")
+    text(c, f"Dear {greet_name}," if greet_name else "Dear Teacher,", lx, yy, "serifb", 15.5,
+         INK, 0.1, "l")
+    yy -= 22
+    for ln in lines:
+        text(c, ln, lx, yy, "serif", msz, "#3f3450", 0.0, "l")
+        yy -= lead
+    yy -= 8
+    gem_rule(c, lx, lx + lw, yy, GOLD, 2.2, 3)
+    yy -= 18
+    for ln in wl:
+        text(c, ln, lx, yy, "serifi", wsz, "#4b3c55", 0.1, "l")
+        yy -= wsz * 1.4
+    yy -= 14
+    text(c, "With love and gratitude,", lx, yy, "serif", 9.6, SLATE, 0.2, "l", 0.9)
+    text(c, "Pavit Singh", lx - 3, yy - 22, "script", 26, HexColor(WC["grape"]), 0, "l")
+    sig_w = sw("Pavit Singh", F["script"], 26) + 26 * word_pad("script") * 2
+    flower(c, lx + 12 + sig_w, yy - 16, 6.2, c2, WC["sun"], 0.9)
+    yy -= 40
+    text(c, "CLASS IX-B  \u00b7  ROLL NO. 9231  \u00b7  ST. MARY\u2019S ACADEMY", lx, yy,
+         "sansb", fit("CLASS IX-B  \u00b7  ROLL NO. 9231  \u00b7  ST. MARY\u2019S ACADEMY",
+                      "sansb", 5.8, lw, 1.5), SLATE, 1.5, "l", 0.8)
+    yy -= 20
+    dashed_rule(c, lx, lx + lw, yy, "#dcccb0", (2.6, 3.2), 0.6)
+    yy -= 16
+    text(c, "THREE THINGS I REMEMBER", lx, yy, "sansb", 5.8, HexColor(c1), 2.0, "l", 0.9)
+    yy -= 14
+    for i, pt in enumerate(pts):
+        heart(c, lx + 3, yy, 2.4, [c1, c2, WC["sun"]][i % 3], 0.85)
+        text(c, pt, lx + 12, yy, "serif", 9.0, "#4b3c55", 0.1, "l")
+        yy -= 12.4
+    garland(c, 26, 12, GOLD, 8, t["num"], x1=24, x2=W - 24)
+
+    # ---- right half: the page he made for them, also centred as one block
+    rx, rw = W + 34, W - 68
+    rblock = (132 + 28 + 46) if qr_ok else 40
+    rblock += 24 + 16 + 13.4 * len(FOLD_SECRETS) + 16
+    ry = 64 + ((H - 70 - 64) - rblock) / 2 + rblock
+    text(c, "AND A WHOLE PAGE, MADE FOR YOU", rx, H - 44, "sansb", 6.2, WC["bronze"], 2.0, "l",
+         0.9)
+    if qr_ok:
+        box = 132.0
+        cw = qr_card_w(box, qr_ok) + 14
+        cye = ry - cw / 2
+        c.saveState()
+        c.setStrokeColor(HexColor(c1))
+        c.setLineWidth(0.7)
+        c.setStrokeAlpha(0.5)
+        c.roundRect(rx + rw / 2 - cw / 2, cye - cw / 2, cw, cw, 10, stroke=1, fill=0)
+        c.restoreState()
+        draw_qr(c, rx + rw / 2, cye, box, qr_ok)
+        shown = url.split("//")[-1]
+        text(c, "point a camera at this", rx + rw / 2, cye - cw / 2 - 16, "serifi", 9.0,
+             "#4b3c55", 0.4, "c", 0.9)
+        text(c, shown, rx + rw / 2, cye - cw / 2 - 30, "sansb",
+             fit(shown, "sansb", 6.0, rw, 0.4), SLATE, 0.4, "c", 0.9)
+        ty = cye - cw / 2 - 54
+    else:
+        text(c, url, rx, ry - 20, "serif", 9.4, INK, 0.1, "l")
+        ty = ry - 40
+    dashed_rule(c, rx, rx + rw, ty, "#dcccb0", (2.6, 3.2), 0.6)
+    text(c, "FOUR THINGS ARE HIDING ON THAT PAGE", rx, ty - 16, "sansb", 5.8, HexColor(c1), 1.8,
+         "l", 0.9)
+    ty -= 32
+    for i, secret in enumerate(FOLD_SECRETS):
+        star(c, rx + 4, ty + 2.4, 2.8, RAINBOW_HEX[(t["num"] + i) % 8], 0.9, rot=i * 18)
+        text(c, secret, rx + 14, ty, "serif", 9.0, "#4b3c55", 0.1, "l")
+        ty -= 13.4
+    text(c, "find all four and the page turns gold", rx, ty - 4, "serifi", 8.4, SLATE, 0.1, "l",
+         0.9)
+    confetti(c, rx, 44, rw, 20, 9, t["num"] + 5, 0.4)
+    garland(c, 26, 12, GOLD, 8, t["num"], x1=W + 24, x2=2 * W - 24)
+    c.restoreState()
+
+
+def fold_geometry(edge_mm=3.5):
+    """Scale + offset so both panels sit inside a real printer's unprintable margin.
+    edge_mm=0 gives an exact half-of-A4 card, for a borderless-capable printer."""
+    sw_, sh_ = FOLD_SHEET
+    edge = max(0.0, float(edge_mm)) / 25.4 * 72
+    sc = min((sw_ - 2 * edge) / (2 * PANEL_W), (sh_ - 2 * edge) / PANEL_H)
+    return sc, (sw_ - 2 * PANEL_W * sc) / 2, (sh_ - PANEL_H * sc) / 2
+
+
+def page_fold(doc, teachers, notes, base, edge_mm=3.5, side="both", qr=True):
+    """Two pages per teacher (outside + inside) so one A4 sheet folds into one card."""
+    c = doc.c
+    sc, ox, oy = fold_geometry(edge_mm)
+    for t in teachers:
+        url = fold_url(t, base)
+        mat = qr_matrix(url) if qr else None
+        for kind in (("outside", "inside") if side == "both" else (side,)):
+            doc.page += 1
+            c.setPageSize(FOLD_SHEET)
+            if kind == "outside":
+                fold_back_cover(doc, t, ox, oy, url, mat, sc)
+                fold_front(doc, t, notes, ox + PANEL_W * sc, oy, sc)
+            else:
+                c.saveState()
+                c.translate(ox, oy)
+                fold_inside(doc, t, notes, url, mat, sc)
+                c.restoreState()
+            doc.show()
+
+
 # --------------------------------------------------------------------- page bookkeeping
 def build_plan(groups, order):
     """Page numbers are deterministic, so work them out first for the contents list.
@@ -2394,15 +2827,24 @@ def build_plan(groups, order):
             "per": per, "total": page}
 
 
-def render_cards(teachers, notes, out: Path, layout: str, dpi: float, quality: int):
+def render_cards(teachers, notes, out: Path, layout: str, dpi: float, quality: int,
+                 edge_mm: float = 3.5, base: str = QR_BASE_DEFAULT, side: str = "both",
+                 qr: bool = True):
     """One personalised card per teacher; returns the number of PDF pages."""
     prep_card_keys(teachers, notes)
+    if layout == "fold" and qr and qr_matrix(base) is None:
+        raise SystemExit("QR codes need a QR library:  pip install segno   (or --no-qr)")
     splash, bg = load_splash()
     doc = Doc(out, dpi, quality, (splash, bg), meta={
-        "title": "St. Mary's Academy — Teachers' Day Cards 2019-20",
-        "subject": "One printable thank-you card for every teacher, personalised one by one",
-        "keywords": "Teachers' Day, thank-you cards, printable, A5, personalised, St. Mary's Academy"})
-    page_cards(doc, teachers, notes, layout)
+        "title": "St. Mary's Academy — Teachers' Day Fold Cards 2019-20"
+        if layout == "fold" else "St. Mary's Academy — Teachers' Day Cards 2019-20",
+        "subject": "One printable, foldable thank-you card for every teacher, personalised one by one",
+        "keywords": "Teachers' Day, thank-you cards, foldable, QR code, printable, personalised, "
+                    "St. Mary's Academy"})
+    if layout == "fold":
+        page_fold(doc, teachers, notes, base, edge_mm, side, qr)
+    else:
+        page_cards(doc, teachers, notes, layout)
     doc.save()
     return doc.page
 
@@ -2438,9 +2880,19 @@ def main(argv=None):
                     "teacher (default), or the full decorated staff book.")
     ap.add_argument("--mode", choices=("cards", "book"), default="cards",
                     help="cards = a hand-out card for every teacher; book = the 29-page staff book")
-    ap.add_argument("--layout", choices=LAYOUTS, default="cut",
-                    help="cut = 2 cards per A4 sheet with a cut line (default) · "
+    ap.add_argument("--layout", choices=LAYOUTS, default="fold",
+                    help="fold = A4 sheet per teacher, printed front and back, folded into one "
+                         "card (default) · cut = 2 flat A5 cards per A4 with a cut line · "
                          "a5 = exact A5-landscape page per card · a4 = one big A4 card each")
+    ap.add_argument("--edge-mm", type=float, default=3.5,
+                    help="fold layout: blank margin kept clear on all four sides, so nothing is "
+                         "clipped by the printer (0 = full bleed, exact half-A4)")
+    ap.add_argument("--base-url", default=QR_BASE_DEFAULT,
+                    help="where the QR codes point (your hosted site, no trailing slash needed)")
+    ap.add_argument("--sides", choices=("both", "outside", "inside"), default="both",
+                    help="fold layout: print both sides in one duplex PDF (default), or only one "
+                         "side into its own file")
+    ap.add_argument("--no-qr", action="store_true", help="fold layout: leave the QR codes out")
     ap.add_argument("--out", default=None, help="output PDF (default depends on --mode/--layout)")
     ap.add_argument("--only", default="", help="just these staff numbers, e.g. --only 1,4,59")
     ap.add_argument("--dpi", type=float, default=200.0, help="raster density for the portraits")
@@ -2462,19 +2914,46 @@ def main(argv=None):
         wanted = [int(x) for x in re.split(r"[,\s]+", args.only.strip()) if x]
         d["teachers"] = [t for t in d["teachers"] if t["num"] in wanted]
 
-    size_name = {"cut": "A5-cards-2-per-A4", "a5": "A5", "a4": "A4"}[args.layout]
-    out = args.out or str(ROOT / (f"St_Marys_Teacher_Cards_{size_name}.pdf" if args.mode == "cards"
+    size_name = {"fold": "A4-fold", "cut": "A5-cards-2-per-A4", "a5": "A5",
+                 "a4": "A4"}[args.layout]
+    stem = (f"St_Marys_Teacher_Cards_{size_name}" + ("" if args.sides == "both" or args.mode != "cards"
+             else "_" + args.sides) + ".pdf")
+    out = args.out or str(ROOT / (stem if args.mode == "cards"
                                   else "St_Marys_Staff_Book_2019-20.pdf"))
 
     if args.mode == "cards":
-        pages = render_cards(d["teachers"], notes, Path(out), args.layout, args.dpi, args.quality)
-        sheets = pages
+        pages = render_cards(d["teachers"], notes, Path(out), args.layout, args.dpi, args.quality,
+                             args.edge_mm, args.base_url, args.sides, not args.no_qr)
         mb = Path(out).stat().st_size / 1e6
         mine = sum(1 for t in d["teachers"] if notes.get(t["num"]) and not RESTATE.match(notes[t["num"]]))
-        print(f"→ {out}\n   {len(d['teachers'])} personalised cards on {sheets} page(s) "
-              f"({size_name}) · {mb:.2f} MB · {mine} cards carry a note from memory")
-        if args.layout == "cut":
-            print("   print at 100% (no scaling, duplex off), then cut each sheet once along the dashed line")
+        if args.layout == "fold":
+            sheets = pages // (1 if args.sides != "both" else 2)
+            sc, _, _ = fold_geometry(args.edge_mm)
+            card_mm = (PANEL_W * sc) / 72 * 25.4, (PANEL_H * sc) / 72 * 25.4
+            n_cards = len(d["teachers"])
+            plural = "card" if n_cards == 1 else "cards"
+            sides_txt = ("printed front and back" if args.sides == "both"
+                         else f"the {args.sides} side only")
+            print(f"→ {out}\n   {n_cards} fold {plural} on {pages} page(s) = {sheets} "
+                  f"A4 sheet(s), {sides_txt} · {mb:.2f} MB")
+            print(f"   folded card size {card_mm[0]:.0f} × {card_mm[1]:.0f} mm · "
+                  f"{mine} cards carry a note from memory")
+            print(f"   QR codes point at: {args.base_url}")
+            if args.sides == "both":
+                print("   print: A4 LANDSCAPE · duplex = FLIP ON SHORT EDGE · 100% (actual size),"
+                      " no duplex border/no scaling")
+            else:
+                other = "inside" if args.sides == "outside" else "outside"
+                print(f"   single-sided: print this file, then re-feed the same sheets one at a "
+                      f"time and print the {other} file on the back — run --only 41 first to check "
+                      "which way your printer feeds")
+            print("   then fold: crease on the marked middle line, printed OUTSIDE facing out")
+        else:
+            print(f"→ {out}\n   {len(d['teachers'])} personalised cards on {pages} page(s) "
+                  f"({size_name}) · {mb:.2f} MB · {mine} cards carry a note from memory")
+            if args.layout == "cut":
+                print("   print at 100% (no scaling, duplex off), then cut each sheet once along "
+                      "the dashed line")
         return 0
 
     plan = build_plan(groups, order)
