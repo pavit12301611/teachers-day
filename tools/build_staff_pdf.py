@@ -2375,6 +2375,142 @@ def page_cards(doc: Doc, teachers, notes, layout="cut"):
         doc.show()
 
 
+# ------------------------------------------------------------------- new ornaments
+def pennants(c, x1, x2, y, colors=RAINBOW_HEX, n=9, dip=4.0, hgt=9.0, alpha=0.95, seed=0):
+    """A bunting string with triangular flags, sagging between the two ends."""
+    rnd = random.Random(seed)
+    c.saveState()
+    c.setStrokeColor(HexColor(GOLD))
+    c.setLineWidth(0.55)
+    c.setStrokeAlpha(0.8)
+    steps = 26
+    pth = c.beginPath()
+    pth.moveTo(x1, y)
+    for i in range(1, steps + 1):
+        tt = i / steps
+        pth.lineTo(x1 + (x2 - x1) * tt, y - math.sin(tt * math.pi) * dip)
+    c.drawPath(pth, stroke=1, fill=0)
+    span = (x2 - x1) / n
+    c.setFillAlpha(alpha)
+    for i in range(n):
+        tt = (i + 0.5) / n
+        x = x1 + (x2 - x1) * tt
+        yy = y - math.sin(tt * math.pi) * dip
+        w = span * 0.60
+        tri = c.beginPath()
+        tri.moveTo(x - w / 2, yy)
+        tri.lineTo(x + w / 2, yy)
+        tri.lineTo(x + rnd.uniform(-1.2, 1.2), yy - hgt)
+        tri.close()
+        c.setFillColor(HexColor(colors[i % len(colors)]))
+        c.drawPath(tri, stroke=0, fill=1)
+    c.restoreState()
+
+
+def bubble_band(c, x1, x2, y, r, colors=RAINBOW_HEX, alpha=0.5, up=True):
+    """A row of painted bubbles along an edge — used as a scalloped paper border."""
+    n = max(3, int((x2 - x1) / (2.15 * r)))
+    step = (x2 - x1) / n
+    c.saveState()
+    c.setFillAlpha(alpha)
+    for i in range(n):
+        c.setFillColor(HexColor(colors[i % len(colors)]))
+        c.circle(x1 + step * (i + 0.5), y + (0 if up else 0), r, stroke=0, fill=1)
+    c.restoreState()
+
+
+def medallion(c, cx, cy, r, color, dots=30, alpha=0.85):
+    """Concentric gold rings and a dotted ring: frames a portrait like a miniature."""
+    c.saveState()
+    c.setStrokeColor(HexColor(GOLD))
+    c.setLineWidth(0.6)
+    c.setStrokeAlpha(0.85)
+    c.circle(cx, cy, r, stroke=1, fill=0)
+    c.setLineWidth(0.35)
+    c.setStrokeAlpha(0.55)
+    c.circle(cx, cy, r + 4.8, stroke=1, fill=0)
+    c.setFillAlpha(alpha)
+    c.setFillColor(HexColor(color))
+    for i in range(dots):
+        a = 2 * math.pi * i / dots
+        c.circle(cx + math.cos(a) * (r + 2.4), cy + math.sin(a) * (r + 2.4), 0.62,
+                 stroke=0, fill=1)
+    c.restoreState()
+
+
+def burst(c, cx, cy, r, color, rays=14, alpha=0.45, rmin=0.46):
+    """Thin rays radiating out of a point."""
+    c.saveState()
+    c.setStrokeColor(HexColor(color))
+    c.setLineWidth(0.7)
+    c.setStrokeAlpha(alpha)
+    for i in range(rays):
+        a = 2 * math.pi * (i + 0.5) / rays
+        c.line(cx + math.cos(a) * r * rmin, cy + math.sin(a) * r * rmin,
+               cx + math.cos(a) * r, cy + math.sin(a) * r)
+    c.restoreState()
+
+
+def washi(c, x, y, w, h, color, angle=0, alpha=0.42):
+    """A strip of translucent tape, laid across a corner."""
+    c.saveState()
+    c.translate(x, y)
+    c.rotate(angle)
+    c.setFillColor(HexColor(color))
+    c.setFillAlpha(alpha)
+    c.rect(-w / 2, -h / 2, w, h, stroke=0, fill=1)
+    c.setFillColor(HexColor("#ffffff"))
+    c.setFillAlpha(alpha * 0.5)
+    for i in range(3):
+        c.rect(-w / 2 + 3 + i * (w - 6) / 3, -h / 2 + 1.4, (w - 6) / 6, h - 2.8,
+               stroke=0, fill=1)
+    c.restoreState()
+
+
+def ticket_frame(c, x, y, w, h, fill, stroke, radius=11, lw=0.7, perf=None):
+    """A ticket panel: rounded card, a punched perforation and two half-moon notches."""
+    c.saveState()
+    c.setFillColor(HexColor(fill))
+    c.setFillAlpha(0.92)
+    c.roundRect(x, y, w, h, radius, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    c.setStrokeColor(HexColor(stroke))
+    c.setLineWidth(lw)
+    c.setStrokeAlpha(0.6)
+    c.roundRect(x, y, w, h, radius, stroke=1, fill=0)
+    if perf is not None:
+        c.setFillColor(HexColor(PAPER))
+        c.setStrokeColor(HexColor(stroke))
+        c.setLineWidth(lw)
+        for sx in (x, x + w):
+            c.saveState()
+            c.setFillAlpha(1)
+            c.circle(sx, perf, 3.6, stroke=0, fill=1)
+            c.setStrokeAlpha(0.6)
+            c.circle(sx, perf, 3.6, stroke=1, fill=0)
+            c.restoreState()
+        dashed_rule(c, x + 7, x + w - 7, perf, stroke, (2.2, 2.4), 0.5)
+    c.restoreState()
+
+
+def corner_roses(c, w, h, color, soft):
+    """Two painted roses in opposite corners, tied with a ribbon curl."""
+    for (fx, fy, rot) in ((26, h - 26, 12), (w - 26, 26, -168)):
+        c.saveState()
+        c.translate(fx, fy)
+        c.rotate(rot)
+        flower(c, 0, 0, 6.4, color, WC["sun"], 0.95, 7)
+        flower(c, 8.4, -6.2, 4.2, soft, WC["rose"], 0.9, 6)
+        c.setStrokeColor(HexColor(GOLD))
+        c.setLineWidth(0.5)
+        c.setStrokeAlpha(0.6)
+        q = c.beginPath()
+        q.moveTo(-6, -3)
+        q.curveTo(-14, -7, -18, 1, -25, -3)
+        c.drawPath(q, stroke=1, fill=0)
+        c.restoreState()
+
+
 # ------------------------------------------------------------------- foldable gift cards
 # One A4 landscape sheet per teacher, printed on BOTH sides and folded once in half.
 #   outside page : [back cover | FRONT cover]   -> after folding, the greeting faces out
@@ -2546,7 +2682,9 @@ def fold_front(doc, t, notes, x, y, sc=1.0):
     W, H = PANEL_W, PANEL_H
     c1, c2 = t["theme"]["c1"], t["theme"]["c2"]
     fold_skin(doc, t, W, H)
-    seal(c, 40, H - 40, 13.0, f"{t['num']:02d}", "OF 83", c2, "#fffdf6", INK, rot=-7)
+    pennants(c, 74, W - 128, H - 33, RAINBOW_HEX, 7, 3.0, 8.0, 0.95, t["num"])
+    seal(c, 40, H - 40, 13.0, f"{t['num']:02d}", "OF 83", c2, "#fffdf6", INK, rot=-7,
+         star_ring=True)
     text(c, "FROM PAVIT SINGH", W - 30, H - 36, "sansb", 5.6, WC["bronze"], 1.7, "r", 0.85)
     text(c, "ONE CARD, ONE TEACHER", W - 30, H - 45, "sansb", 5.0, SLATE, 1.3, "r", 0.7)
 
@@ -2554,14 +2692,19 @@ def fold_front(doc, t, notes, x, y, sc=1.0):
     gs = 31.0
     while sw(greet, F["script"], gs) > W - 64 and gs > 20:
         gs -= 0.5
+    burst(c, W / 2, H - 84, 96, c2, 20, 0.16, 0.62)
     text(c, greet, W / 2, H - 92, "script", gs, HexColor(c1), 0, "c")
+    sparkle(c, W / 2 - sw(greet, F["script"], gs) / 2 - 13, H - 84, 3.4, WC["sun"], 0.9)
+    sparkle(c, W / 2 + sw(greet, F["script"], gs) / 2 + 13, H - 99, 3.0, c2, 0.85)
     who = {"Ma'am": "FOR YOU, MA'AM", "Sir": "FOR YOU, SIR"}.get(clean(t.get("title") or ""),
                                                                   "FOR YOU")
     text(c, who, W / 2, H - 107, "sansb", 5.4, c2, 2.4, "c", 0.8)
     ribbon(c, W / 2, H - 128, "5TH SEPTEMBER", c2, WC["grape"], 6.4, "sansb", "#ffffff", 1.3, 13)
 
     dia = 188.0
-    doc.portrait_on(t, W / 2, H - 152 - dia / 2, dia, plate=True, halo=True, raster=dia * sc)
+    pcy = H - 152 - dia / 2
+    doc.portrait_on(t, W / 2, pcy, dia, plate=True, halo=True, raster=dia * sc)
+    medallion(c, W / 2, pcy, dia / 2 + 9.5, c2, 34)
     ny = H - 152 - dia - 26
     name = clean(t["name"])
     nsize, namew = 22.0, W - 48
@@ -2601,7 +2744,8 @@ def fold_front(doc, t, notes, x, y, sc=1.0):
     qual = pretty_qual(t.get("qualification", ""))
     if qual:
         text(c, qual, W / 2, ny, "serif", 8.4, SLATE, 0.3, "c", 0.9)
-    dashed_rule(c, 26, W - 26, 92, "#dcccb0", (2.6, 3.2), 0.6)
+    bubble_band(c, 26, W - 26, 104, 5.4, RAINBOW_HEX, 0.30)
+    dashed_rule(c, 26, W - 26, 94, "#dcccb0", (2.6, 3.2), 0.6)
     ow = sw("OPEN ME", F["sansb"], 6.6, 3.0)
     text(c, "OPEN ME", W / 2, 76, "sansb", 6.6, HexColor(c1), 3.0, "c", 0.9)
     text(c, "your message and a page made for you are inside", W / 2, 64, "serifi", 8.6,
@@ -2623,15 +2767,18 @@ def fold_back_cover(doc, t, x, y, url, qr_ok, sc=1.0):
     W, H = PANEL_W, PANEL_H
     c1 = t["theme"]["c1"]
     fold_skin(doc, t, W, H)
-    text(c, "ST. MARY\u2019S ACADEMY", W / 2, H - 60, "serifb", 12.5, INK, 2.6, "c")
+    pennants(c, 30, W - 30, H - 27, RAINBOW_HEX, 9, 2.6, 7.6, 0.9, t["num"] + 1)
+    text(c, "ST. MARY\u2019S ACADEMY", W / 2, H - 62, "serifb", 12.5, INK, 2.6, "c")
     text(c, "SAHARANPUR  \u00b7  TEACHERS\u2019 DAY 2019-20", W / 2, H - 74, "sansb", 5.6,
          SLATE, 1.9, "c", 0.9)
+    burst(c, W / 2, H - 150, 74, t["theme"]["c2"], 22, 0.16, 0.52)
     lg = logo_image()
     if lg:
         lw_, lh_ = 76.0, 76.0 * 348 / 460
         framed_panel(c, W / 2 - lw_ / 2 - 7, H - 150 - lh_ / 2 - 7, lw_ + 14, lh_ + 14,
                      "#ffffff", GOLD, 7, 0.8, True, 0.10, True)
         c.drawImage(lg, W / 2 - lw_ / 2, H - 150 - lh_ / 2, lw_, lh_, mask=None)
+        medallion(c, W / 2, H - 150, lw_ / 2 + 15, t["theme"]["c1"], 30)
     gem_rule(c, 60, W - 60, H - 202, GOLD, 2.2, 3)
     text(c, "MADE FOR ONE TEACHER", W / 2, H - 220, "serif", 9.6, "#3f3450", 0.2, "c")
     line = (f"This is card {t['num']:02d} of 83 \u2014 the other 82 each carry "
@@ -2661,7 +2808,8 @@ def fold_back_cover(doc, t, x, y, url, qr_ok, sc=1.0):
         text(c, "MY PAGE FOR YOU", W / 2, H - 340, "sansb", 5.6, WC["bronze"], 1.9, "c", 0.9)
         text(c, addr, W / 2, H - 356, "serifi", fit(addr, "serifi", 8.4, W - 70, 0.2),
              "#3f3450", 0.1, "c")
-    text(c, "open the card for the message and a bigger code to scan", W / 2, 62, "serifi",
+    bubble_band(c, 26, W - 26, 46, 4.6, RAINBOW_HEX, 0.26)
+    text(c, "open the card for the message and a bigger code to scan", W / 2, 64, "serifi",
          7.6, SLATE, 0.1, "c", 0.9)
     garland(c, 26, 12, GOLD, 8, t["num"], x1=22, x2=W - 22)
     fold_ticks(c, W, H, "fold", dashes=False)
@@ -2676,9 +2824,20 @@ def fold_inside(doc, t, notes, url, qr_ok, sc=1.0):
     c.saveState()
     c.scale(sc, sc)
     W, H = PANEL_W, PANEL_H
-    c1, c2 = t["theme"]["c1"], t["theme"]["c2"]
+    c1, c2, soft = t["theme"]["c1"], t["theme"]["c2"], t["theme"]["soft"]
     fold_skin(doc, t, W, H, gutter=W)
     fold_ticks(c, W, H, "fold")
+    # a sheet of paper laid inside the card, with the letter on it
+    framed_panel(c, 24, 44, W - 48, H - 86, tint(c1, 0.90, towards="#fffdf7"), GOLD, 11, 0.65,
+                 False)
+    c.saveState()
+    c.setStrokeColor(HexColor(c1))
+    c.setLineWidth(0.4)
+    c.setStrokeAlpha(0.4)
+    c.roundRect(30, 50, W - 60, H - 98, 9, stroke=1, fill=0)
+    c.restoreState()
+    corner_roses(c, W, H, c2, soft)
+    seal(c, W - 62, H - 74, 15.0, "IX-B", "9231", c1, "#fffdf7", INK, rot=8, star_ring=True)
 
     # ---- left half: the letter, measured once and then drawn, so it sits in the middle
     # of the leaf whatever the length of Pavit's note. `desc` is the descent from the
@@ -2699,7 +2858,7 @@ def fold_inside(doc, t, notes, url, qr_ok, sc=1.0):
             + 12.4 * len(pts) + 10)
     top = 52 + (H - 104 - desc - 18) / 2 + desc + 4
     top = max(desc + 58, min(H - 58, top))
-    text(c, "THE MESSAGE", lx, H - 44, "sansb", 6.2, WC["bronze"], 2.2, "l", 0.9)
+    text(c, "THE MESSAGE", lx + 6, H - 62, "sansb", 6.2, WC["bronze"], 2.2, "l", 0.9)
     yy = top
     greet_name = clean(t.get("title") or "")
     text(c, f"Dear {greet_name}," if greet_name else "Dear Teacher,", lx, yy, "serifb", 15.5,
@@ -2732,35 +2891,35 @@ def fold_inside(doc, t, notes, url, qr_ok, sc=1.0):
         heart(c, lx + 3, yy, 2.4, [c1, c2, WC["sun"]][i % 3], 0.85)
         text(c, pt, lx + 12, yy, "serif", 9.0, "#4b3c55", 0.1, "l")
         yy -= 12.4
-    garland(c, 26, 12, GOLD, 8, t["num"], x1=24, x2=W - 24)
+    garland(c, 26, 12, GOLD, 8, t["num"], x1=34, x2=W - 34)
+    bubble_band(c, 40, W - 40, 40, 3.6, RAINBOW_HEX, 0.22)
 
     # ---- right half: the page he made for them, also centred as one block
     rx, rw = W + 34, W - 68
-    rblock = (132 + 28 + 46) if qr_ok else 40
+    rblock = (132 + 74) if qr_ok else 40
     rblock += 24 + 16 + 13.4 * len(FOLD_SECRETS) + 16
     ry = 64 + ((H - 70 - 64) - rblock) / 2 + rblock
-    text(c, "AND A WHOLE PAGE, MADE FOR YOU", rx, H - 44, "sansb", 6.2, WC["bronze"], 2.0, "l",
-         0.9)
+    framed_panel(c, W + 24, 44, W - 48, H - 86, tint(c2, 0.92, towards="#fffdf7"), GOLD, 11,
+                 0.65, False)
+    text(c, "AND A WHOLE PAGE, MADE FOR YOU", rx + 6, H - 62, "sansb", 6.2, WC["bronze"], 2.0,
+         "l", 0.9)
     if qr_ok:
         box = 132.0
         cw = qr_card_w(box, qr_ok) + 14
-        cye = ry - cw / 2
-        c.saveState()
-        c.setStrokeColor(HexColor(c1))
-        c.setLineWidth(0.7)
-        c.setStrokeAlpha(0.5)
-        c.roundRect(rx + rw / 2 - cw / 2, cye - cw / 2, cw, cw, 10, stroke=1, fill=0)
-        c.restoreState()
+        cye = ry - 24 - cw / 2
+        ticket_frame(c, rx + rw / 2 - cw / 2 - 13, cye - cw / 2 - 40, cw + 26, cw + 66,
+                     "#ffffff", c1, 12, 0.7, perf=cye - cw / 2 - 17)
         draw_qr(c, rx + rw / 2, cye, box, qr_ok)
+        text(c, "ADMIT ONE PAGE", rx + rw / 2, ry - 9, "sansb", 6.0, HexColor(c1), 2.4, "c", 0.9)
+        text(c, "point a camera at this", rx + rw / 2, cye + cw / 2 + 14, "serifi", 8.6,
+             "#4b3c55", 0.3, "c", 0.95)
         shown = url.split("//")[-1]
-        text(c, "point a camera at this", rx + rw / 2, cye - cw / 2 - 16, "serifi", 9.0,
-             "#4b3c55", 0.4, "c", 0.9)
-        text(c, shown, rx + rw / 2, cye - cw / 2 - 30, "sansb",
-             fit(shown, "sansb", 6.0, rw, 0.4), SLATE, 0.4, "c", 0.9)
-        ty = cye - cw / 2 - 54
+        text(c, shown, rx + rw / 2, cye - cw / 2 - 29, "sansb",
+             fit(shown, "sansb", 6.0, cw - 6, 0.4), SLATE, 0.4, "c", 0.9)
+        ty = cye - cw / 2 - 56
     else:
         text(c, url, rx, ry - 20, "serif", 9.4, INK, 0.1, "l")
-        ty = ry - 40
+        ty = ry - 44
     dashed_rule(c, rx, rx + rw, ty, "#dcccb0", (2.6, 3.2), 0.6)
     text(c, "FOUR THINGS ARE HIDING ON THAT PAGE", rx, ty - 16, "sansb", 5.8, HexColor(c1), 1.8,
          "l", 0.9)
@@ -2771,8 +2930,10 @@ def fold_inside(doc, t, notes, url, qr_ok, sc=1.0):
         ty -= 13.4
     text(c, "find all four and the page turns gold", rx, ty - 4, "serifi", 8.4, SLATE, 0.1, "l",
          0.9)
-    confetti(c, rx, 44, rw, 20, 9, t["num"] + 5, 0.4)
-    garland(c, 26, 12, GOLD, 8, t["num"], x1=W + 24, x2=2 * W - 24)
+    confetti(c, rx, 52, rw, 18, 8, t["num"] + 5, 0.35)
+    garland(c, 26, 12, GOLD, 8, t["num"], x1=W + 34, x2=2 * W - 34)
+    sparkle(c, W, H - 62, 4.0, WC["sun"], 0.8)
+    sparkle(c, W, 62, 3.2, c2, 0.7)
     c.restoreState()
 
 
@@ -2785,25 +2946,69 @@ def fold_geometry(edge_mm=3.5):
     return sc, (sw_ - 2 * PANEL_W * sc) / 2, (sh_ - PANEL_H * sc) / 2
 
 
-def page_fold(doc, teachers, notes, base, edge_mm=3.5, side="both", qr=True):
-    """Two pages per teacher (outside + inside) so one A4 sheet folds into one card."""
+def feed_mark(c, label):
+    """One line of small print in the unprinted bottom margin of every page: it names the side
+    and explains why the inside is turned round in the PDF, so nobody 'fixes' it in the print
+    dialog. It sits in the margin, so a printer that clips the last millimetre loses nothing.
+    """
+    c.saveState()
+    x = FOLD_SHEET[0] / 2
+    c.setFillColor(HexColor(SLATE))
+    c.setFillAlpha(0.7)
+    c.setFont(F["sansb"], 4.4)
+    tri = c.beginPath()
+    tw = c.stringWidth(label, F["sansb"], 4.4)
+    tri.moveTo(x - tw / 2 - 6.4, 2.1)
+    tri.lineTo(x - tw / 2 - 1.6, 2.1)
+    tri.lineTo(x - tw / 2 - 4.0, 5.6)
+    tri.close()
+    c.drawPath(tri, stroke=0, fill=1)
+    c.drawString(x - tw / 2, 2.0, label)
+    c.restoreState()
+
+
+def page_fold(doc, teachers, notes, base, edge_mm=3.5, side="both", qr=True, inside_rot=180,
+              marks=True, rev_inside=False):
+    """Pages for the fold deck.
+
+    side="both"    -> outside + inside, alternating, for a printer with automatic duplex
+    side="manual"  -> every outside page first, then every inside page, for a printer without
+                      duplex: print the file, flip the whole stack over, print it again
+    side="outside" / "inside" -> one side only, as its own file
+    `inside_rot=180` pre-rotates the inside so that the usual "flip on long edge" duplex (and
+    the flip-the-stack re-feed above) lands it the right way up; use 0 for "flip on short edge".
+    """
     c = doc.c
     sc, ox, oy = fold_geometry(edge_mm)
-    for t in teachers:
+    if side == "manual":
+        ins = list(reversed(teachers)) if rev_inside else teachers
+        plan = [("outside", t) for t in teachers] + [("inside", t) for t in ins]
+    else:
+        plan = [(k, t) for t in teachers for k in
+                (("outside", "inside") if side == "both" else (side,))]
+    for kind, t in plan:
         url = fold_url(t, base)
         mat = qr_matrix(url) if qr else None
-        for kind in (("outside", "inside") if side == "both" else (side,)):
-            doc.page += 1
-            c.setPageSize(FOLD_SHEET)
-            if kind == "outside":
-                fold_back_cover(doc, t, ox, oy, url, mat, sc)
-                fold_front(doc, t, notes, ox + PANEL_W * sc, oy, sc)
+        doc.page += 1
+        c.setPageSize(FOLD_SHEET)
+        if kind == "outside":
+            fold_back_cover(doc, t, ox, oy, url, mat, sc)
+            fold_front(doc, t, notes, ox + PANEL_W * sc, oy, sc)
+            if marks:
+                feed_mark(c, "OUTSIDE SIDE \u00b7 THIS IS THE COVER, AND IT IS RIGHT WAY UP")
+        else:
+            c.saveState()
+            if inside_rot % 360:
+                c.translate(ox + 2 * PANEL_W * sc, oy + PANEL_H * sc)
+                c.rotate(180)
             else:
-                c.saveState()
                 c.translate(ox, oy)
-                fold_inside(doc, t, notes, url, mat, sc)
-                c.restoreState()
-            doc.show()
+            fold_inside(doc, t, notes, url, mat, sc)
+            c.restoreState()
+            if marks:
+                feed_mark(c, "INSIDE SIDE \u00b7 TURNED ROUND ON PURPOSE: AFTER THE FLIP IT "
+                             "READS NORMALLY \u00b7 PRINT WITH NO ROTATION")
+        doc.show()
 
 
 # --------------------------------------------------------------------- page bookkeeping
@@ -2829,7 +3034,8 @@ def build_plan(groups, order):
 
 def render_cards(teachers, notes, out: Path, layout: str, dpi: float, quality: int,
                  edge_mm: float = 3.5, base: str = QR_BASE_DEFAULT, side: str = "both",
-                 qr: bool = True):
+                 qr: bool = True, inside_rot: int = 180, marks: bool = True,
+                 rev_inside: bool = False):
     """One personalised card per teacher; returns the number of PDF pages."""
     prep_card_keys(teachers, notes)
     if layout == "fold" and qr and qr_matrix(base) is None:
@@ -2842,7 +3048,7 @@ def render_cards(teachers, notes, out: Path, layout: str, dpi: float, quality: i
         "keywords": "Teachers' Day, thank-you cards, foldable, QR code, printable, personalised, "
                     "St. Mary's Academy"})
     if layout == "fold":
-        page_fold(doc, teachers, notes, base, edge_mm, side, qr)
+        page_fold(doc, teachers, notes, base, edge_mm, side, qr, inside_rot, marks, rev_inside)
     else:
         page_cards(doc, teachers, notes, layout)
     doc.save()
@@ -2889,9 +3095,19 @@ def main(argv=None):
                          "clipped by the printer (0 = full bleed, exact half-A4)")
     ap.add_argument("--base-url", default=QR_BASE_DEFAULT,
                     help="where the QR codes point (your hosted site, no trailing slash needed)")
-    ap.add_argument("--sides", choices=("both", "outside", "inside"), default="both",
-                    help="fold layout: print both sides in one duplex PDF (default), or only one "
-                         "side into its own file")
+    ap.add_argument("--sides", choices=("both", "manual", "outside", "inside"), default="both",
+                    help="fold layout: both = duplex PDF (default) · manual = all outside pages "
+                         "first, then all inside pages, for printers without duplex · "
+                         "outside / inside = that side alone, in its own file")
+    ap.add_argument("--inside-rot", type=int, choices=(0, 180), default=180,
+                    help="fold layout: rotate the inside page 180 deg so it prints right side up "
+                         "with 'flip on long edge' / re-feeding the flipped stack (default); "
+                         "use 0 for 'flip on short edge'")
+    ap.add_argument("--reverse-inside", action="store_true",
+                    help="fold layout with --sides manual: print the inside pages back to front, "
+                         "for printers that stack printed pages face down")
+    ap.add_argument("--no-marks", action="store_true",
+                    help="fold layout: drop the small OUTSIDE / INSIDE edge marks in the margin")
     ap.add_argument("--no-qr", action="store_true", help="fold layout: leave the QR codes out")
     ap.add_argument("--out", default=None, help="output PDF (default depends on --mode/--layout)")
     ap.add_argument("--only", default="", help="just these staff numbers, e.g. --only 1,4,59")
@@ -2916,14 +3132,16 @@ def main(argv=None):
 
     size_name = {"fold": "A4-fold", "cut": "A5-cards-2-per-A4", "a5": "A5",
                  "a4": "A4"}[args.layout]
-    stem = (f"St_Marys_Teacher_Cards_{size_name}" + ("" if args.sides == "both" or args.mode != "cards"
-             else "_" + args.sides) + ".pdf")
+    stem = (f"St_Marys_Teacher_Cards_{size_name}"
+             + ("" if args.sides in ("both",) or args.mode != "cards" else "_" + args.sides)
+             + ".pdf")
     out = args.out or str(ROOT / (stem if args.mode == "cards"
                                   else "St_Marys_Staff_Book_2019-20.pdf"))
 
     if args.mode == "cards":
         pages = render_cards(d["teachers"], notes, Path(out), args.layout, args.dpi, args.quality,
-                             args.edge_mm, args.base_url, args.sides, not args.no_qr)
+                             args.edge_mm, args.base_url, args.sides, not args.no_qr,
+                             args.inside_rot, not args.no_marks, args.reverse_inside)
         mb = Path(out).stat().st_size / 1e6
         mine = sum(1 for t in d["teachers"] if notes.get(t["num"]) and not RESTATE.match(notes[t["num"]]))
         if args.layout == "fold":
@@ -2932,21 +3150,29 @@ def main(argv=None):
             card_mm = (PANEL_W * sc) / 72 * 25.4, (PANEL_H * sc) / 72 * 25.4
             n_cards = len(d["teachers"])
             plural = "card" if n_cards == 1 else "cards"
-            sides_txt = ("printed front and back" if args.sides == "both"
-                         else f"the {args.sides} side only")
+            sides_txt = {"both": "printed front and back", "manual": "all outsides, then all "
+                       "insides \u2014 for one flip and a second pass"}.get(
+                           args.sides, f"the {args.sides} side only")
             print(f"→ {out}\n   {n_cards} fold {plural} on {pages} page(s) = {sheets} "
                   f"A4 sheet(s), {sides_txt} · {mb:.2f} MB")
             print(f"   folded card size {card_mm[0]:.0f} × {card_mm[1]:.0f} mm · "
                   f"{mine} cards carry a note from memory")
             print(f"   QR codes point at: {args.base_url}")
+            flip = "LONG" if args.inside_rot == 180 else "SHORT"
             if args.sides == "both":
-                print("   print: A4 LANDSCAPE · duplex = FLIP ON SHORT EDGE · 100% (actual size),"
-                      " no duplex border/no scaling")
+                print(f"   print: A4 LANDSCAPE · duplex ON · flip on {flip} EDGE · 100 % "
+                      "(actual size), no duplex borders / no scaling")
+            elif args.sides == "manual":
+                print("   print the outside pages, flip the whole stack over (top edge leading, "
+                      "same face down) and print again; if your printer stacks face down, add "
+                      "--reverse-inside")
             else:
                 other = "inside" if args.sides == "outside" else "outside"
-                print(f"   single-sided: print this file, then re-feed the same sheets one at a "
-                      f"time and print the {other} file on the back — run --only 41 first to check "
-                      "which way your printer feeds")
+                print(f"   one side only: print this file, then the {other} file on the back of "
+                      "the same sheets (run --only 41 first to check the feed)")
+            if args.sides in ("both", "manual"):
+                print("   if the inside comes out upside down, re-run with "
+                      + ("--inside-rot 0" if args.inside_rot == 180 else "--inside-rot 180"))
             print("   then fold: crease on the marked middle line, printed OUTSIDE facing out")
         else:
             print(f"→ {out}\n   {len(d['teachers'])} personalised cards on {pages} page(s) "

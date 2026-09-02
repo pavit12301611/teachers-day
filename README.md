@@ -65,37 +65,53 @@ teacher**, printed on both sides, folded once into a **144 × 203 mm** card.
 
 | | what it says |
 | --- | --- |
-| **Front** (outside, what shows after folding) | their watercolour portrait, their name, their designation pill and subject chips, "Happy Teachers' Day", the 5th September ribbon, their serial seal — *07 of 83* — and an "open me" line |
-| **Back cover** (outside, other half) | school logo, "made for one teacher", this card's number, your name, class and roll, and a **small QR** |
-| **Inside left** | the letter: "Dear Ma'am / Sir / Sister / Father,", Pavit's own note about that teacher, the closing wish matched to what they teach, the signature, and the three things remembered |
-| **Inside right** | a **big QR** that opens their own page on this site, the address printed under it, and the four secrets hiding on that page |
+| **Front** (outside, what shows after folding) | a string of pennants, their watercolour portrait in a dotted gold medallion, their name, their designation pill and subject chips, "Happy Teachers' Day" under a sunburst, the 5th September ribbon, their serial seal — *07 of 83* — a scalloped band and an "open me" line |
+| **Back cover** (outside, other half) | school logo rayed behind a medallion, "made for one teacher", this card's number, your name, class and roll, and a **small QR** |
+| **Inside left** | the letter, laid on a sheet of its own: "Dear Ma'am / Sir / Sister / Father,", Pavit's note about that teacher, the closing wish matched to what they teach, the signature, the three things remembered, and a wax seal |
+| **Inside right** | a **big QR**, punched like a ticket ("admit one page"), that opens that teacher's own page on the site, the address printed in its foot, and the four secrets hiding on that page |
 
 ```bash
 python3 tools/build_staff_pdf.py                      # 83 fold cards = 166 pages = 83 sheets
-python3 tools/build_staff_pdf.py --only 41            # print one card first and test the feed
-python3 tools/build_staff_pdf.py --sides outside      # only the outside half, as its own PDF
+python3 tools/build_staff_pdf.py --only 41            # ONE teacher — test-print this sheet first
+python3 tools/build_staff_pdf.py --sides manual       # no duplex: all outsides, then all insides
+python3 tools/build_staff_pdf.py --inside-rot 0       # if your printer flips on the short edge
+python3 tools/build_staff_pdf.py --no-marks           # drop the small notes in the margin
 python3 tools/build_staff_pdf.py --edge-mm 0          # full-bleed: exact half-A4 (borderless printer)
 python3 tools/build_staff_pdf.py --base-url http://192.168.1.5:8000/   # QR codes to a LAN copy
 python3 tools/build_staff_pdf.py --layout cut         # flat A5 cards instead, 2 per sheet, no fold
 python3 tools/build_staff_pdf.py --mode book          # the 29-page staff book
 ```
 
-**How to print the fold deck**
+**How to print the fold deck — and why the inside looks upside down in the PDF**
 
-1. A4 paper, **landscape**, **duplex = flip on short edge**, scale **100 % / actual size**
-   (no "fit to page", no duplex borders). `--edge-mm 3.5` keeps a 3.5 mm strip clear so nothing is
-   clipped by the printer; the panels still print at a constant size on every sheet.
-2. Fold along the marked middle line with the **printed side facing out**: the greeting panel is the
-   front cover. The tick marks and the small `FOLD` label sit exactly on the crease.
-3. Printers without duplex: build `--sides outside` and `--sides inside` as two files and re-feed one
-   sheet at a time (test the feed direction with `--only 41` first).
+1. A4, **landscape**, duplex **flip on long edge** (the usual default), scale **100 % / actual size**,
+   no "fit to page", no duplex borders. `--edge-mm 3.5` keeps a 3.5 mm strip clear so nothing is
+   clipped; every card still prints at exactly the same size on every sheet.
+2. **Do not rotate anything in the print dialog.** The inside pages are deliberately drawn turned
+   180° in the PDF, so on screen the inside of card 2 looks upside down. A long-edge flip mirrors the
+   sheet top-to-bottom, and pre-rotating by 180° cancels exactly that — so the letter is right way up
+   when the card is opened. If the inside still comes out upside down, the printer flipped on the
+   *other* axis: rebuild with `--inside-rot 0` (that variant is the one that wants flip-on-short-edge)
+   instead of touching the driver.
+3. Fold on the marked middle line, printed side facing out: the greeting panel is the cover. The tick
+   marks and the small `FOLD` label sit exactly on the crease.
+4. No duplex: `--sides manual` puts all 83 outside pages first and all 83 inside pages after, in one
+   file — print it, flip the whole stack over, print it again. The little `▲ OUTSIDE SIDE` /
+   `INSIDE SIDE` lines in the bottom margin say which face is which while you sort the stack
+   (`--no-marks` drops them). A printer that stacks **face down** also wants `--reverse-inside`, so
+   each inside lands on the back of its own card. `--sides outside` / `--sides inside` are there when
+   you would rather have one file per side.
+5. Test before the whole stack: `--only 41`, print, fold, open. If the letter reads upright there,
+   the deck will.
 
 ```bash
 pip install segno             # build-time only, for the QR codes (qrcode also works; --no-qr skips it)
 ```
 
-**The QR codes** point at `https://pavit12301611.github.io/teachers-day/teacher.html?t=p041` —
-that teacher's own page. Enable GitHub Pages for this repository (Settings → Pages → deploy from a
+**The QR codes** hold a deep link to *that teacher's own page* — `<the site's address>/teacher.html?t=p041`
+— never the repository page and never the home page, so the scan lands straight on their photo and
+their page. The address in the committed deck is whatever `--base-url` says, and that is the one line
+to change if the site moves. Enable GitHub Pages for this repository (Settings → Pages → deploy from a
 branch) and every card on the deck starts working, or pass `--base-url` with wherever the site lives:
 a phone on the school Wi-Fi can scan a LAN copy while it is offline too. Codes are drawn as **vector
 squares** with the spec's 4-module clear space on a solid white card (ECC level L), so they stay
