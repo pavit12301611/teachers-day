@@ -55,6 +55,39 @@ shadows, a painted halo behind profile photos and a colourful footer. It all liv
 **section 25 of `css/style.css`** (`--wc-*` tokens), so the whole scheme can be retuned from
 one block of variables.
 
+## The printable cards — `St_Marys_Teacher_Cards_A4-fold.pdf` 🖨️
+
+83 **foldable A4 cards**, one per staff member — a printed companion to the
+site. Each card is a single **A4 landscape** sheet printed on **both sides**:
+
+| Sheet side | Left half | Right half |
+| --- | --- | --- |
+| **Side 1 (outer)** | back of card (PS logo, *made by Pavit*) | front cover (photo, name, badges) |
+| **Side 2 (inner)** | the handwritten-style message | big QR + the four secret hints |
+
+**Print settings (important — taaki page ulte na aayein):**
+
+1. Paper **A4**, orientation **Landscape**
+2. **Double-sided / two-sided printing** → **Flip on SHORT edge**
+   (the card folds along a *vertical* line, so the page must flip about the
+   short edge; flipping on the long edge makes the inside upside down)
+3. **Scale: 100% / Actual size** (do *not* use "fit to page")
+4. Cut/fold along the dashed centre line marked **✂ FOLD**
+
+After printing, fold the sheet in half with the **front cover (photo) on the
+outside** and the message facing you inside — it stands like a greeting card.
+
+Every QR code opens that teacher's **own live page** on the deployed site,
+e.g. `https://teachers-day-rosy.vercel.app/teacher.html?t=p001` (…`p002`,
+… up to `p083`) — and the QR areas are clickable links in the PDF too.
+
+Regenerate the PDF any time with:
+
+```bash
+pip install reportlab pillow qrcode pymupdf
+python3 make_cards.py          # rebuilds the PDF from js/data.js + staff photos
+```
+
 ## Regenerating data from staff.csv
 
 ```bash
