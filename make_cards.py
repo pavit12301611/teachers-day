@@ -107,7 +107,8 @@ def load_teachers():
             "designation": t["designation"], "group": t["group"],
             "qual": (t.get("qualification") or "").strip(),
             "subject": SUBJECT_LABEL.get(t.get("subject", "default")),
-            "photo": os.path.join(ROOT, t["photo"]),
+            # hand-drawn watercolour portrait (the site's avatar art)
+            "photo": os.path.join(ROOT, t.get("avatar") or t["photo"]),
             "c1": HexColor(theme["c1"]), "c2": HexColor(theme["c2"]),
             "soft": HexColor(theme["soft"]),
         })
