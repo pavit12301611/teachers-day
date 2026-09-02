@@ -1018,15 +1018,17 @@ GROUP_SHORT = {"Principal": "Principal", "Manager": "Manager", "P.G.T. (Senior T
 class Doc:
     """Canvas wrapper: page furniture, portrait cache, running section label."""
 
-    def __init__(self, out: Path, dpi: float, quality: int, splash):
+    def __init__(self, out: Path, dpi: float, quality: int, splash, meta=None):
         self.out = out
         self.dpi, self.quality = dpi, quality
         self.splash, self.splash_bg = splash
+        m = meta or {}
         c = rl_canvas.Canvas(str(out), pagesize=(PW, PH), pageCompression=1)
-        c.setTitle("St. Mary's Academy — Teachers' Day Staff Book 2019-20")
+        c.setTitle(m.get("title", "St. Mary's Academy — Teachers' Day Staff Book 2019-20"))
         c.setAuthor("Pavit Singh (Class IX-B, Roll 9231)")
-        c.setSubject("A decorated thank-you book for all 83 teachers and staff")
-        c.setKeywords("Teachers' Day, St. Mary's Academy, staff directory, thank-you book, 2019-20")
+        c.setSubject(m.get("subject", "A decorated thank-you book for all 83 teachers and staff"))
+        c.setKeywords(m.get("keywords", "Teachers' Day, St. Mary's Academy, staff directory, "
+                                        "thank-you book, 2019-20"))
         c.setCreator("tools/build_staff_pdf.py")
         self.c = c
         self.page = 0
@@ -1093,20 +1095,20 @@ class Doc:
         self.c.save()
 
     # ---- portraits ----------------------------------------------------------------
-    def portrait(self, t, dia_pt):
-        key = (t["num"], round(dia_pt))
+    def portrait(self, t, dia_pt, raster=None):
+        key = (t["num"], round(dia_pt), round(raster or dia_pt))
         if key not in self._pcache:
             p = photo_for(t)
             self._pcache[key] = None
             if p is not None and p.suffix.lower() in (".jpg", ".jpeg", ".png", ".webp"):
                 base = self.portrait_bg
-                self._pcache[key] = circle_portrait(p, dia_pt, self.dpi, base,
+                self._pcache[key] = circle_portrait(p, raster or dia_pt, self.dpi, base,
                                                      t["theme"]["c1"], t["theme"]["c2"], self.quality)
         return self._pcache[key]
 
     portrait_bg = "#fffdf9"        # must match CARD_FILL
 
-    def portrait_on(self, t, cx, cy, dia, plate=True, halo=True):
+    def portrait_on(self, t, cx, cy, dia, plate=True, halo=True, raster=None):
         """A photo inside a pale painted plate; degrades to an initial medallion if missing."""
         c = self.c
         c1, c2 = t["theme"]["c1"], t["theme"]["c2"]
@@ -1117,7 +1119,7 @@ class Doc:
             pad = 6.5
             framed_panel(c, cx - dia / 2 - pad, cy - dia / 2 - pad, dia + pad * 2, dia + pad * 2,
                          self.portrait_bg, tint(c1, 0.45), 11, 0.7, False)
-        blob = self.portrait(t, dia)
+        blob = self.portrait(t, dia, raster)
         if blob:
             c.drawImage(ImageReader(BytesIO(blob)), cx - dia / 2, cy - dia / 2, dia, dia)
         else:
@@ -1954,6 +1956,423 @@ def page_credits(doc: Doc, d, plan, notes):
     doc.show()
 
 
+# ===================================================================== printable gift cards
+# One hand-out card per teacher, in his/her own colours, with his/her own message.
+CARD_W, CARD_H = 595.28, 420.96            # A5 landscape (210 x 148.5 mm) — two of these tile an A4
+LAYOUTS = ("cut", "a5", "a4")
+
+
+# third-person -> second-person rewrites for Pavit's own notes (cards speak TO the teacher)
+YOU_VERBS = {"teaches": "teach", "helps": "help", "gives": "give", "makes": "make",
+             "does": "do", "says": "say", "takes": "take", "explains": "explain",
+             "writes": "write", "reads": "read", "knows": "know", "thinks": "think",
+             "brings": "bring", "sends": "send", "tells": "tell", "asks": "ask",
+             "wants": "want", "keeps": "keep", "shows": "show", "treats": "treat",
+             "guides": "guide", "encourages": "encourage", "prepares": "prepare",
+             "shares": "share", "solves": "solve", "praises": "praise", "checks": "check",
+             "fixes": "fix", "loves": "love", "hopes": "hope", "smiles": "smile"}
+TYPOS = {"formulaes": "formulae", "grammer": "grammar", "becuase": "because",
+         "recieved": "received", "alot": "a lot", "teached": "taught",
+         "maam": "Ma'am", "smily": "smile", "thier": "their", "wi": "will"}
+
+
+def _cap(self_word, out, i):
+    """"You" at the start of a sentence, "you" in the middle of one."""
+    j = i - 1
+    while j >= 0 and out[j] == " ":
+        j -= 1
+    return self_word if (j < 0 or out[j] in ".!?:") else self_word.lower()
+
+
+def to_direct(s: str) -> str:
+    """Rewrite Pavit's third-person notes into the second person, so a card addressed to
+    "Dear Ma'am" can quote them back at the teacher without sounding like a report."""
+    if not s:
+        return ""
+    out = s
+    # his notes are written as one long line: put the missing full stops in first, while the
+    # capitals that mark a new sentence are still where he left them
+    out = re.sub(SENT_SPLIT, lambda m: m.group(1) + ". " + m.group(2), out)
+    for a, b_ in TYPOS.items():
+        out = re.sub(r"\b" + a + r"\b", b_, out, flags=re.I)
+    # name a school subject the way the timetable does — but only when it reads as one
+    SUBJ = r"(hindi|english|maths|science|computer|sanskrit|urdu|gk|sst)"
+    out = re.sub(r"\b(my )?(" + SUBJ + r")\b",
+                 lambda m: (m.group(1) or "") + (m.group(2).upper() if m.group(2) in ("gk", "sst")
+                                                 else m.group(2).capitalize()), out)
+    out = re.sub(r"\b(She|she|They|they|He|he|Him|him)\b",
+                 lambda m: _cap("You", out, m.start()), out)
+    out = re.sub(r"\b(Her|her|His|his|Their|their)\b",
+                 lambda m: _cap("Your", out, m.start()), out)
+    for a, b in (("You was", "You were"), ("You is", "You are"), ("You has", "You have"),
+                 ("You are being", "You are"), ("You had been", "You were"),
+                 ("you was", "you were"), ("you is", "you are"), ("you has", "you have")):
+        out = re.sub(r"\b" + a + r"\b", b, out)
+    out = re.sub(r"\bYou (%s)\b" % "|".join(YOU_VERBS),
+                 lambda m: "You " + YOU_VERBS[m.group(1)], out)
+    out = re.sub(r"\byou (%s)\b" % "|".join(YOU_VERBS),
+                 lambda m: "you " + YOU_VERBS[m.group(1)], out)
+    out = re.sub(r"(?<=\. )([a-z])(?=\w)", lambda m: m.group(1).upper(), out)
+    out = re.sub(r"(?<=[.!?]\s)([a-z])", lambda m: m.group(1).upper(), out)
+    out = out[0].upper() + out[1:] if out else ""
+    return re.sub(r"\s+", " ", out).strip()
+
+
+CARD_WISHES = {
+    "english": "May your day be full of good books and easier grading.",
+    "maths": "May your day be as satisfying as a proof that finally works.",
+    "science": "May your day have all the right reactions and none of the fumes.",
+    "computer": "May your day run bug-free, with everything saved on the first try.",
+    "social": "May your day be remembered for years, the way you make history.",
+    "hindi": "May your day be as sweet as the stories you tell us.",
+    "pe": "May your day be a good run with no extra laps for anybody.",
+    "art": "May your day be bright, and may nobody smudge what you made.",
+    "music": "May your day land on the high note you always aim for.",
+    "primary": "May your day be loud in the nicest possible way.",
+    "preprimary": "May your day be full of the little hands holding flowers.",
+    "office": "May your day have an in-box that is actually empty.",
+    "library": "May your day be quiet, kind and overdue-free.",
+    "support": "May your day be as dependable as you always are for us.",
+    "default": "May your day be as wonderful as you make ours.",
+    "principal": "May your day be as steady and generous as the school you run.",
+    "manager": "May your day be as kind to you as you are to this whole school family.",
+}
+
+CARD_OPENERS = {
+    "english": "You made paragraphs feel like stories and mistakes feel fixable.",
+    "maths": "You never let a student leave the board without understanding it once.",
+    "science": "You made this school curious — even the lab tables felt like discoveries.",
+    "computer": "You taught us to think in steps, and to be careful before we press Enter.",
+    "social": "You gave dates and maps a heartbeat, and made us care about both.",
+    "hindi": "You kept our languages proud, and made grammar feel gentle.",
+    "pe": "You gave this school its posture — literally — and its sports-day courage.",
+    "art": "You treated everything we made as if it mattered, so we started to believe it did.",
+    "music": "You gave every voice a part, and every assembly a soul.",
+    "primary": "You built the foundation everyone else is standing on, and rarely get thanked for.",
+    "preprimary": "You made the very first day of school feel safe, and that is everything.",
+    "office": "This school runs on you — the files, the counters, the patience.",
+    "library": "You kept the quiet, the shelves and every one of us in good order.",
+    "support": "You are the reason this place is clean, running and welcoming before we arrive.",
+    "default": "Your work reaches further than the room you do it in.",
+    "principal": "You lead a whole school family, and still find time for one student at a time.",
+    "manager": "You steer this school so that teaching feels easy and learning feels safe.",
+}
+
+
+NOTE_SUBJECTS = (
+    ("english", ("english", "grammar", "literature", "poem", "essay")),
+    ("hindi", ("hindi", "sanskrit", "urdu")),
+    ("computer", ("computer", "coding", "programming", "it lab")),
+    ("maths", ("maths", "math ", "algebra", "geometry", "commerce", "accounts", "economics")),
+    ("science", ("science", "physics", "chemistry", "biology")),
+    ("social", ("social", "history", "geography", "civics", "sst", "gk")),
+    ("pe", ("pti", "sports", "physical education", "yoga", "march past")),
+    ("art", ("drawing", "painting", "art work")),
+    ("music", ("music", "choir", "singing")),
+)
+WEAK_KEYS = ("primary", "default")
+
+# Pavit's notes are mostly one long sentence; a capital that follows a lower-case word in the
+# middle of a line is a sentence break he simply forgot to type. Only trusted sentence-starters
+# are split, so a name in the middle of a clause is never cut in two.
+SENT_START = ("You", "Your", "He", "She", "They", "It", "And", "But", "So", "This", "That",
+              "There", "Then", "Also", "Even", "Because", "When", "With", "For", "In", "On",
+              "At", "Now", "Today", "Sometimes", "We", "My", "Our", "I", "Ma'am", "Sir")
+SENT_SPLIT = re.compile(r"([a-z,]) (" + "|".join(SENT_START) + r")(?=[ ,A-Za-z])")
+
+
+def prep_card_keys(teachers, notes):
+    """data.js leaves subjectRaw blank for a lot of primary teachers, so when a card would
+    otherwise say only 'primary', read what Pavit wrote about them and pick that subject."""
+    for t in teachers:
+        key = subject_key(t)
+        real = notes.get(t["num"], "")
+        if key in WEAK_KEYS and real:
+            low = " " + to_direct(real).lower() + " "
+            for k, words in NOTE_SUBJECTS:
+                if any(w in low for w in words):
+                    key = k
+                    break
+        t["_ckey"] = key
+
+
+def card_key(t):
+    return t.get("_ckey") or subject_key(t)
+
+
+def card_message(t, notes):
+    """The card's letter: an opener for the subject, then Pavit's own words about this teacher.
+    The closing wish is set separately (in a band), so it is deliberately not here."""
+    key = subject_key(t)
+    real = notes.get(t["num"])
+    if real and not RESTATE.match(real):
+        return CARD_OPENERS[key] + " " + to_direct(real)
+    return CARD_OPENERS[key]
+
+
+def card_wish(t):
+    return CARD_WISHES[card_key(t)]
+
+
+SUBJECT_POINTS = {
+    "english": ["the stories", "the red pen", "the new words"],
+    "maths": ["the extra sums", "the patience at the board", "the 'show your steps'"],
+    "science": ["the lab mornings", "the diagrams", "the answered 'why?'s"],
+    "computer": ["the shortcuts", "the saved files", "the calm during crashes"],
+    "social": ["the maps", "the dates that stuck", "the debates"],
+    "hindi": ["the shlokas", "the dictations", "the love of language"],
+    "pe": ["the whistles", "the march past", "the sports-day courage"],
+    "art": ["the colours", "the chart paper", "the bold ideas"],
+    "music": ["the choir notes", "the assemblies", "the confidence"],
+    "primary": ["the tied laces", "the first letters", "the wiped tears"],
+    "preprimary": ["the storytime voices", "the name tags", "the brave first day"],
+    "office": ["the files in order", "the smile at the counter", "the found registers"],
+    "library": ["the quiet", "the right book", "the stamped cards"],
+    "support": ["the clean corridors", "the early mornings", "the fixed things"],
+    "default": ["the small kindnesses", "the firm rules", "the extra minutes"],
+    "principal": ["the morning assembly", "the firm decisions", "the kind word"],
+    "manager": ["the steady hand", "the open door", "the school family"],
+}
+
+
+def fit(text_str, font, size, maxw, tracking=0.0, min_size=None):
+    """Shrink a single line until it fits the space it has."""
+    size = float(size)
+    floor = min_size or size * 0.62
+    while sw(text_str, F.get(font, font), size, tracking) > maxw and size > floor:
+        size -= 0.25
+    return size
+
+
+def card_face(doc: Doc, t, notes, sc=1.0, x=0.0, y=0.0):
+    """One complete hand-out card, designed at A5 landscape and scaled by `sc`."""
+    c = doc.c
+    c1, c2, soft = t["theme"]["c1"], t["theme"]["c2"], t["theme"]["soft"]
+    c.saveState()
+    c.translate(x, y)
+    c.scale(sc, sc)
+    W, H = CARD_W, CARD_H
+    LX, RX = 262.0, 288.0                 # the two columns, split by the gold rule at 275
+    RULE = 275.0
+
+    # ---- paper, tint and painted washes
+    c.setFillColor(HexColor(doc.splash_bg or PAPER))
+    c.rect(0, 0, W, H, stroke=0, fill=1)
+    c.setFillColor(tint(soft, 0.58, towards=PAPER))
+    c.rect(0, 0, W, H, stroke=0, fill=1)
+    wash(c, 10, H - 8, 220, [c1, c2], alpha=0.075, blobs=5, seed=t["num"], spread=0.3, squash=0.6)
+    wash(c, W - 12, 10, 210, [c2, WC["sun"]], alpha=0.07, blobs=4, seed=t["num"] + 2, spread=0.3, squash=0.6)
+    wash(c, RX + 120, H - 150, 190, [c1, WC["teal"]], alpha=0.045, blobs=3, seed=t["num"] + 5,
+         spread=0.35, squash=0.5)
+    speckle(c, 0, H - 44, W, 44, [c1, c2, WC["sun"]], 24, t["num"] + 7, 0.35, 1.1, 0.35)
+
+    # ---- double frame + corner sprigs + rainbow strip
+    c.setStrokeColor(HexColor(c1))
+    c.setLineWidth(1.6)
+    c.roundRect(11, 11, W - 22, H - 22, 8, stroke=1, fill=0)
+    c.saveState()
+    c.setStrokeColor(HexColor(GOLD))
+    c.setLineWidth(0.5)
+    c.setStrokeAlpha(0.85)
+    c.roundRect(16, 16, W - 32, H - 32, 6, stroke=1, fill=0)
+    c.restoreState()
+    corner_flourish(c, 20, 20, 22, c2, 1, 1)
+    corner_flourish(c, W - 20, 20, 22, c1, -1, 1)
+    corner_flourish(c, 20, H - 20, 22, c1, 1, -1)
+    corner_flourish(c, W - 20, H - 20, 22, c2, -1, -1)
+    hband(c, 16, H - 15.5, W - 32, 3.0, RAINBOW_HEX, 60, 0.9)
+
+    # ================================================ LEFT: who this card belongs to
+    cx = 132.0
+    dia = 118.0
+    FOOT = 56.0                                      # room kept for the garland along the foot
+    seal(c, 44, H - 42, 13.5, f"{t['num']:02d}", "OF 83", c2, "#fffdf6", INK, rot=-7)
+    text(c, "FROM PAVIT SINGH", LX - 10, H - 40, "sansb", 5.6, WC["bronze"], 1.7, "r", 0.85)
+    text(c, "ONE CARD, ONE TEACHER", LX - 10, H - 49, "sansb", 5.0, SLATE, 1.3, "r", 0.7)
+
+    doc.portrait_on(t, cx, H - 100 - dia / 2, dia, plate=True, halo=True, raster=dia * sc)
+    ny = H - 100 - dia - 24
+    nsize = 17.5
+    namew = LX - 46
+    lines = wrap(t["name"], F["serifb"], nsize, namew)
+    if len(lines) > 2:
+        nsize = fit(t["name"].split()[0], "serifb", 15.4, namew)
+        lines = wrap(t["name"], F["serifb"], nsize, namew)[:2]
+    for ln in lines:
+        text(c, ln, cx, ny, "serifb", nsize, INK, 0.3, "c")
+        ny -= nsize * 1.16
+    des = clean(t.get("designation", ""))
+    dsize = fit(des, "sansb", 7.4, LX - 60, 1.4)
+    pw = min(LX - 40, sw(des, F["sansb"], dsize, 1.4) + 22)
+    ny -= 3
+    c.setFillColor(HexColor(c1))
+    c.setFillAlpha(0.95)
+    c.roundRect(cx - pw / 2, ny - 4.4, pw, 14.5, 7.2, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    text(c, des, cx, ny - 0.6, "sansb", dsize, "#ffffff", 1.4, "c")
+    ny -= 18
+    chips = subject_tokens(t)[:3]
+    if chips:
+        widths = [min(120, sw(ch, F["sansb"], 6.2, 0.8) + 14) for ch in chips]
+        chips_w = sum(widths) + 6 * (len(chips) - 1)
+        x0 = cx - chips_w / 2
+        for ch, wid in zip(chips, widths):
+            c.setFillColor(tint(c2, 0.80, towards=PAPER))
+            c.roundRect(x0, ny - 4.5, wid, 13, 6.5, stroke=0, fill=1)
+            c.setStrokeColor(HexColor(c2))
+            c.setStrokeAlpha(0.5)
+            c.setLineWidth(0.5)
+            c.roundRect(x0, ny - 4.5, wid, 13, 6.5, stroke=1, fill=0)
+            c.setStrokeAlpha(1)
+            text(c, ch, x0 + wid / 2, ny, "sansb", 6.2, INK, 0.8, "c")
+            x0 += wid + 6
+        ny -= 16
+    qual = pretty_qual(t.get("qualification", ""))
+    if qual:
+        if len(qual) > 42:
+            qual = qual[:42].rsplit(" ", 1)[0] + "…"
+        text(c, qual, cx, ny, "serif", 7.4, SLATE, 0.3, "c", 0.9)
+        ny -= 15
+
+    # the three small things this card remembers — set on one line so the column never spills
+    pts = SUBJECT_POINTS[card_key(t)]
+    ny -= 5
+    dashed_rule(c, 30, LX - 6, ny, "#dcccb0", (2.6, 3.2), 0.6)
+    ny -= 13.5
+    text(c, "THREE THINGS I REMEMBER", cx, ny, "sansb", 5.6, HexColor(c1), 1.9, "c", 0.9)
+    ny -= 14
+    line = "   ·   ".join(pts)
+    psz = fit(line, "serif", 8.6, LX - 44)
+    used = 0
+    for pt_ in wrap(line, F["serif"], psz, LX - 44)[:2]:
+        heart(c, 40, ny + 2.4, 2.2, [c1, c2, WC["sun"]][used % 3], 0.8)
+        text(c, pt_, 50, ny, "serif", psz, "#4b3c55", 0.1, "l")
+        ny -= 12.4
+        used += 1
+    confetti(c, 26, FOOT - 12, LX - 40, 22, 10, t["num"] + 3, 0.45)
+    if ny > FOOT:            # only draw the garland if there is clean paper left for it
+        garland(c, 30, 12, GOLD, 7, t["num"])
+
+    # ================================================ the spine
+    c.saveState()
+    c.setStrokeColor(HexColor(GOLD))
+    c.setLineWidth(0.6)
+    c.setDash(3.4, 3.4)
+    c.setStrokeAlpha(0.7)
+    c.line(RULE, 28, RULE, H - 28)
+    c.restoreState()
+    spine = "ST. MARY'S ACADEMY · SAHARANPUR · TEACHERS' DAY 2019-20"
+    spine_len = sw(spine, F["sansb"], 5.4, 2.4)
+    span = (H - 28) - 28
+    if spine_len > span - 10:                       # keep it inside the card, never past the frame
+        spine = "ST. MARY'S ACADEMY · SAHARANPUR"
+    c.saveState()
+    c.translate(RULE, H / 2)
+    c.rotate(90)
+    text(c, spine, 0, -2.2, "sansb", 5.4, WC["bronze"], 2.4, "c", 0.8)
+    c.restoreState()
+
+    # ================================================ RIGHT: the letter, bottom-anchored
+    rx = RX + 4
+    rw_ = W - rx - 26
+    sig_y = 78
+    text(c, "Happy Teachers' Day", rx, H - 52, "script", 22, HexColor(c1), 0, "l")
+    rtxt, rpad = "5TH SEPTEMBER", 13
+    rwide = sw(rtxt, F["sansb"], 6.2, 1.3) + rpad * 2
+    ribbon(c, W - 24 - rwide / 2, H - 44, rtxt, c2, WC["grape"], 6.2, "sansb", "#ffffff", 1.3, rpad)
+    greet_name = clean(t.get("title") or "")
+    greet = f"Dear {greet_name}," if greet_name else f"Dear {clean(t.get('designation','')) or 'Teacher'},"
+    text(c, greet, rx, H - 84, "serifb", 12.8, INK, 0.2, "l")
+    msg_top = H - 104
+    room = msg_top - (sig_y + 52)
+    msz, lead = 9.9, 14.2
+    body = card_message(t, notes)
+    lines = wrap(body, F["serif"], msz, rw_)
+    while len(lines) * lead > room and msz > 8.2:
+        msz -= 0.4
+        lead = msz * 1.44
+        lines = wrap(body, F["serif"], msz, rw_)
+    y_end = msg_top
+    for ln in lines[:max(2, int(room // lead))]:
+        text(c, ln, rx, y_end, "serif", msz, "#3f3450", 0.0, "l")
+        y_end -= lead
+    y_end -= 8
+    gem_rule(c, rx, rx + rw_, y_end, "#d9c9ae", 2.2, 3)
+
+    # the signature block is pinned to the foot of the card; the space in between is ornamented
+    wish = card_wish(t)
+    if y_end - sig_y > 84:
+        wsz = fit(wish, "serifi", 9.2, rw_ - 34)
+        band_y = max(sig_y + 42, min((y_end + sig_y) / 2 - 14, y_end - 24))
+        bw = min(rw_, sw(wish, F["serifi"], wsz) + 34)
+        c.setFillColor(tint(c1, 0.88, towards=PAPER))
+        c.roundRect(rx + (rw_ - bw) / 2, band_y - 4, bw, 24, 8, stroke=0, fill=1)
+        c.setStrokeColor(HexColor(c1))
+        c.setStrokeAlpha(0.35)
+        c.setLineWidth(0.6)
+        c.roundRect(rx + (rw_ - bw) / 2, band_y - 4, bw, 24, 8, stroke=1, fill=0)
+        c.setStrokeAlpha(1)
+        text(c, wish, rx + rw_ / 2, band_y + 3.6, "serifi", wsz, "#4b3c55", 0.1, "c")
+        sparkle(c, rx + rw_ / 2 - bw / 2 - 12, band_y + 8, 3.0, WC["sun"], 0.85)
+        sparkle(c, rx + rw_ / 2 + bw / 2 + 12, band_y + 8, 3.0, c2, 0.85)
+    elif y_end - sig_y > 26:
+        text(c, wish, rx, y_end - 12, "serifi", fit(wish, "serifi", 9.0, rw_), "#4b3c55", 0.1, "l")
+    text(c, "With love and gratitude,", rx, sig_y + 26, "serif", 8.6, SLATE, 0.2, "l", 0.9)
+    text(c, "Pavit Singh", rx - 3, sig_y, "script", 25, HexColor(WC["grape"]), 0, "l")
+    sig_w = sw("Pavit Singh", F["script"], 25) + 25 * word_pad("script") * 2
+    flower(c, rx + 12 + sig_w, sig_y + 6, 6.0, c2, WC["sun"], 0.9)
+    cap = "CLASS IX-B · ROLL NO. 9231 · ST. MARY'S ACADEMY"
+    csize = fit(cap, "sansb", 5.8, rw_ - 60, 1.5)
+    text(c, cap, rx, sig_y - 22, "sansb", csize, SLATE, 1.5, "l", 0.8)
+    for i in range(4):
+        star(c, W - 34 - i * 11, sig_y + 22, 2.7, RAINBOW_HEX[(t["num"] + i) % 8], 0.9, rot=i * 20)
+    c.restoreState()
+
+
+def page_cards(doc: Doc, teachers, notes, layout="cut"):
+    """One card per teacher. `cut` = two A5-landscape cards per A4 sheet with a cut line;
+    `a5` = exact-size A5 page per card; `a4` = one big A4-landscape card per teacher."""
+    c = doc.c
+    if layout == "a5":
+        c.setPageSize((CARD_W, CARD_H))
+        for t in teachers:
+            doc.page += 1
+            card_face(doc, t, notes, sc=1.0)
+            doc.show()
+        return
+    scale = 1.0 if layout == "cut" else (PW - 2 * 12) / CARD_W
+    gap = PH - 2 * CARD_H * scale
+    per = 1 if layout != "cut" else 2
+    for i in range(0, len(teachers), per):
+        batch = teachers[i:i + per]
+        doc.page += 1
+        c.setFillColor(HexColor(doc.splash_bg or PAPER))
+        c.rect(0, 0, PW, PH, stroke=0, fill=1)
+        x = (PW - CARD_W * scale) / 2
+        if per == 1:
+            ys = [(PH - CARD_H * scale) / 2]
+        else:
+            # top card and bottom card share the middle of the sheet, so one straight cut
+            # along that line yields two exact A5-landscape cards
+            ys = [PH - gap / 2 - CARD_H * scale, gap / 2]
+        cut_y = ys[0]
+        for k, t in enumerate(batch):
+            y = ys[k]
+            card_face(doc, t, notes, sc=scale, x=x, y=y)
+        if per == 2 and len(batch) == 2:      # the two cards share an edge: score it for cutting
+            dashed_rule(c, 0, PW, cut_y, "#a99a80", (5, 4), 0.9)
+            for tx in (7, PW - 7):
+                c.saveState()
+                c.setStrokeColor(HexColor(SLATE))
+                c.setLineWidth(0.5)
+                c.setStrokeAlpha(0.8)
+                c.circle(tx, cut_y, 3.0, stroke=1, fill=0)
+                c.line(tx - 1.1, cut_y - 1.1, tx + 1.1, cut_y + 1.1)
+                c.restoreState()
+            text(c, "cut here", PW - 52, cut_y + 4.5, "sansb", 5.2, SLATE, 1.4, "l", 0.65)
+        doc.show()
+
+
 # --------------------------------------------------------------------- page bookkeeping
 def build_plan(groups, order):
     """Page numbers are deterministic, so work them out first for the contents list.
@@ -1973,6 +2392,19 @@ def build_plan(groups, order):
     page += 3                             # letter, wall, credits
     return {"pages": pages, "counts": counts, "order": order, "lead": lead, "rest": rest,
             "per": per, "total": page}
+
+
+def render_cards(teachers, notes, out: Path, layout: str, dpi: float, quality: int):
+    """One personalised card per teacher; returns the number of PDF pages."""
+    prep_card_keys(teachers, notes)
+    splash, bg = load_splash()
+    doc = Doc(out, dpi, quality, (splash, bg), meta={
+        "title": "St. Mary's Academy — Teachers' Day Cards 2019-20",
+        "subject": "One printable thank-you card for every teacher, personalised one by one",
+        "keywords": "Teachers' Day, thank-you cards, printable, A5, personalised, St. Mary's Academy"})
+    page_cards(doc, teachers, notes, layout)
+    doc.save()
+    return doc.page
 
 
 def render(groups, order, plan, d, notes, out: Path, dpi: float, quality: int):
@@ -2001,8 +2433,16 @@ def render(groups, order, plan, d, notes, out: Path, dpi: float, quality: int):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Build the decorated St. Mary's staff book as a PDF.")
-    ap.add_argument("--out", default=str(ROOT / "St_Marys_Staff_Book_2019-20.pdf"))
+    ap = argparse.ArgumentParser(
+        description="Print-ready PDFs for the Teachers' Day project: one personalised card per "
+                    "teacher (default), or the full decorated staff book.")
+    ap.add_argument("--mode", choices=("cards", "book"), default="cards",
+                    help="cards = a hand-out card for every teacher; book = the 29-page staff book")
+    ap.add_argument("--layout", choices=LAYOUTS, default="cut",
+                    help="cut = 2 cards per A4 sheet with a cut line (default) · "
+                         "a5 = exact A5-landscape page per card · a4 = one big A4 card each")
+    ap.add_argument("--out", default=None, help="output PDF (default depends on --mode/--layout)")
+    ap.add_argument("--only", default="", help="just these staff numbers, e.g. --only 1,4,59")
     ap.add_argument("--dpi", type=float, default=200.0, help="raster density for the portraits")
     ap.add_argument("--quality", type=int, default=80, help="JPEG quality for the portraits")
     args = ap.parse_args(argv)
@@ -2015,14 +2455,33 @@ def main(argv=None):
         grouped.setdefault(t.get("group") or t.get("designation") or "Other", []).append(t)
     order = [g for g in GROUP_ORDER if g in grouped] + [g for g in grouped if g not in GROUP_ORDER]
     groups = {g: grouped[g] for g in order}
-    plan = build_plan(groups, order)
     if args.dpi < 140:
         print("warning: --dpi below 140 will look soft in print", file=sys.stderr)
 
-    pages = render(groups, order, plan, d, notes, Path(args.out), args.dpi, args.quality)
+    if args.only.strip():
+        wanted = [int(x) for x in re.split(r"[,\s]+", args.only.strip()) if x]
+        d["teachers"] = [t for t in d["teachers"] if t["num"] in wanted]
+
+    size_name = {"cut": "A5-cards-2-per-A4", "a5": "A5", "a4": "A4"}[args.layout]
+    out = args.out or str(ROOT / (f"St_Marys_Teacher_Cards_{size_name}.pdf" if args.mode == "cards"
+                                  else "St_Marys_Staff_Book_2019-20.pdf"))
+
+    if args.mode == "cards":
+        pages = render_cards(d["teachers"], notes, Path(out), args.layout, args.dpi, args.quality)
+        sheets = pages
+        mb = Path(out).stat().st_size / 1e6
+        mine = sum(1 for t in d["teachers"] if notes.get(t["num"]) and not RESTATE.match(notes[t["num"]]))
+        print(f"→ {out}\n   {len(d['teachers'])} personalised cards on {sheets} page(s) "
+              f"({size_name}) · {mb:.2f} MB · {mine} cards carry a note from memory")
+        if args.layout == "cut":
+            print("   print at 100% (no scaling, duplex off), then cut each sheet once along the dashed line")
+        return 0
+
+    plan = build_plan(groups, order)
+    pages = render(groups, order, plan, d, notes, Path(out), args.dpi, args.quality)
     ok = "page plan OK" if pages == plan["total"] else f"page plan MISMATCH (planned {plan['total']})"
-    size = Path(args.out).stat().st_size / 1e6
-    print(f"→ {args.out}\n   {pages} pages · {ok} · {size:.2f} MB · {len(d['teachers'])} staff in "
+    size = Path(out).stat().st_size / 1e6
+    print(f"→ {out}\n   {pages} pages · {ok} · {size:.2f} MB · {len(d['teachers'])} staff in "
           f"{len(order)} sections · {len(notes)} personal notes")
     return 0
 

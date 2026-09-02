@@ -5,3 +5,7 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# python build scratch
+__pycache__/
+*.pyc
