@@ -3,12 +3,14 @@
 make_cards.py — generate St_Marys_Teacher_Cards_A4-fold.pdf
 
 One A4 LANDSCAPE sheet per teacher, printed DOUBLE-SIDED —
-A4 LANDSCAPE, FLIP ON SHORT EDGE (the vertical fold needs the page
-to flip about the short edge; flipping on the long edge prints the
-inside upside down):
+A4 LANDSCAPE, FLIP ON LONG EDGE (the common Windows default). The
+inside (even) page is pre-rotated 180°, so after the long-edge tumble
+and folding it reads upright; nothing comes out upside down:
 
   Sheet side 1 (OUTER)   :  [ BACK / logo ]  |  [ FRONT / photo + name ]
   Sheet side 2 (INSIDE)  :  [ THE MESSAGE ]  |  [ BIG QR + secrets ]
+                           (drawn 180° rotated — looks upside down in a
+                            PDF viewer, but prints correctly long-edge)
 
 Fold the sheet in half along the dashed centre line (inside facing you,
 right half folded over the left) and you get a standing card:
@@ -813,8 +815,8 @@ def main():
     c.setTitle("St. Mary's Academy \u2014 Teachers' Day Cards (A4 fold)")
     c.setAuthor("Pavit Singh, Class IX-B")
     c.setSubject("83 foldable Teachers' Day cards \u2014 print A4 LANDSCAPE, "
-                 "double-sided, FLIP ON SHORT EDGE, then fold on the dashed "
-                 "centre line")
+                 "double-sided, FLIP ON LONG EDGE, then fold on the dashed "
+                 "centre line (even pages are pre-rotated for long-edge)")
 
     for t in teachers:
         msg = messages[t["id"]]
@@ -829,8 +831,16 @@ def main():
         fold_line(c, W, H)
         c.showPage()
 
-        # ---- sheet side 2: INSIDE (message | QR) ---------------------
-        # (same panel order — long-edge duplex flip keeps alignment)
+        # ---- sheet side 2: INSIDE ------------------------------------
+        # IMPORTANT for "Flip on LONG edge" duplex (the common Windows
+        # default): the long-edge tumble lands this side 180° rotated, so we
+        # pre-rotate the whole inside page 180° — after printing + folding it
+        # reads upright (verified by physical fold simulation). With
+        # "Flip on short edge" this would instead be upside down, so print
+        # long-edge as documented.
+        c.saveState()
+        c.translate(W, H)
+        c.rotate(180)
         c.setFillColor(PAPER)
         c.rect(0, 0, W, H, stroke=0, fill=1)
         ytop = panel_base(c, LX, PY, PW, PH, t, t["num"] * 2 + 100)
@@ -838,12 +848,13 @@ def main():
         message_panel(c, LX, ytop, PW, PH, t, msg)
         qr_panel(c, RX, ytop, PW, PH, t)
         fold_line(c, W, H)
+        c.restoreState()
         c.showPage()
 
     c.save()
     print(f"wrote {OUT_PDF} ({os.path.getsize(OUT_PDF)/1e6:.1f} MB, "
           f"{len(teachers) * 2} pages)")
-    print("Print: A4 LANDSCAPE, double-sided, FLIP ON SHORT EDGE, "
+    print("Print: A4 LANDSCAPE, double-sided, FLIP ON LONG EDGE, "
           "then fold on the dashed line (front cover on the outside).")
 
 

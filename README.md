@@ -68,14 +68,20 @@ site. Each card is a single **A4 landscape** sheet printed on **both sides**:
 **Print settings (important — taaki page ulte na aayein):**
 
 1. Paper **A4**, orientation **Landscape**
-2. **Double-sided / two-sided printing** → **Flip on SHORT edge**
-   (the card folds along a *vertical* line, so the page must flip about the
-   short edge; flipping on the long edge makes the inside upside down)
+2. **Double-sided / two-sided printing** → **Flip on LONG edge**
+   (the common Windows default). The inside pages are drawn **pre-rotated
+   180°** in the PDF on purpose — they look upside down if you view page 2
+   on screen, but after the long-edge duplex tumble and folding they read
+   perfectly upright.
 3. **Scale: 100% / Actual size** (do *not* use "fit to page")
-4. Cut/fold along the dashed centre line marked **✂ FOLD**
+4. Fold along the dashed centre line marked **✂ FOLD**
 
 After printing, fold the sheet in half with the **front cover (photo) on the
 outside** and the message facing you inside — it stands like a greeting card.
+
+> The generator (`make_cards.py`) pre-rotates even pages for long-edge
+> duplexing. If your printer uses *flip on short edge* instead, remove the
+> `c.translate(W, H); c.rotate(180)` block around the inside-page draw.
 
 Every QR code opens that teacher's **own live page** on the deployed site,
 e.g. `https://teachers-day-rosy.vercel.app/teacher.html?t=p001` (…`p002`,
