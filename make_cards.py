@@ -410,7 +410,7 @@ def vine(c, x0, x1, y, t, rng):
 # --------------------------------------------------------------------------
 # shared widgets
 # --------------------------------------------------------------------------
-def badge(c, cx, cy, num, c2, c1):
+def badge(c, cx, cy, num, c2, c1, total=83):
     # serrated rosette
     pts = []
     teeth = 26
@@ -433,7 +433,7 @@ def badge(c, cx, cy, num, c2, c1):
     c.setFont("Sans-B", 12.5)
     c.drawCentredString(cx, cy - 4.4, f"{num:02d}")
     c.setFont("Sans-B", 5.6)
-    c.drawCentredString(cx, cy - 11.5, "OF 83")
+    c.drawCentredString(cx, cy - 11.5, f"OF {total}")
 
 
 def ribbon(c, cx, cy, text, c2):
@@ -502,6 +502,43 @@ def circle_photo(c, cx, cy, r, img, t):
     c.circle(cx, cy, r + 3.2, stroke=1, fill=0)
 
 
+def circle_placeholder(c, cx, cy, r, t):
+    """Photo placeholder: soft halo + dashed circle with big initials."""
+    # soft halo
+    c.setFillColor(t["soft"])
+    c.setFillAlpha(0.9)
+    c.circle(cx, cy, r + 15, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    c.setFillColor(t["c1"])
+    c.setFillAlpha(0.12)
+    c.circle(cx + 8, cy - 8, r + 9, stroke=0, fill=1)
+    c.setFillAlpha(1)
+    # dashed ring + white-ish disc
+    c.setFillColor(HexColor("#ffffff"))
+    c.setStrokeColor(t["c1"])
+    c.setLineWidth(2.2)
+    c.circle(cx, cy, r, stroke=1, fill=1)
+    c.setStrokeColor(t["c2"])
+    c.setLineWidth(1.1)
+    c.setDash(3, 3)
+    c.circle(cx, cy, r - 7, stroke=1, fill=0)
+    c.setDash()
+    c.setStrokeColor(t["c2"])
+    c.setLineWidth(0.8)
+    c.circle(cx, cy, r + 3.2, stroke=1, fill=0)
+    # big initials
+    initials = t.get("initial") or "?"
+    isz = fit_size(c, initials, "Serif-B", 52, 120, floor=26)
+    c.setFont("Serif-B", isz)
+    c.setFillColor(t["c1"])
+    c.drawCentredString(cx, cy + 2, initials)
+    # small subject / photo label
+    c.setFont("Sans-B", 8)
+    c.setFillColor(t["c2"])
+    label = t.get("placeholder_label", "PHOTO")
+    c.drawCentredString(cx, cy - r + 22, label)
+
+
 def qr_card(c, cx, cy, size, qr_path, t, url):
     """White rounded card with a QR inside + soft shadow."""
     s = size
@@ -548,10 +585,10 @@ def fold_line(c, W, H):
 # --------------------------------------------------------------------------
 # panels
 # --------------------------------------------------------------------------
-def back_panel(c, x, ytop, w, h, t):
+def back_panel(c, x, ytop, w, h, t, total=83):
     """OUTER-LEFT: school identity + maker + small QR."""
     cx = x + w / 2
-    url = f"{SITE}/teacher.html?t={t['id']}"
+    url = t.get("url") or f"{SITE}/teacher.html?t={t['id']}"
     qr = make_qr(url, f"qr_small_{t['num']:03d}.png")
 
     y = ytop - 46
@@ -576,8 +613,8 @@ def back_panel(c, x, ytop, w, h, t):
     tracked(c, cx, y, "MADE FOR ONE TEACHER", "Sans-B", 9.5, INK,
             track=1.4, char=2.1)
     y -= 17
-    for ln in wrap(c, f"This is card {t['num']} of 83 \u2014 the other 82 "
-                      f"each carry somebody else\u2019s name.",
+    for ln in wrap(c, f"This is card {t['num']} of {total} \u2014 the other "
+                      f"{total - 1} each carry somebody else\u2019s name.",
                    ITALIC, 9.5, w - 90):
         c.setFont(ITALIC, 9.5)
         c.setFillColor(MUTED)
@@ -612,7 +649,8 @@ def front_panel(c, x, ytop, w, h, t):
     cx = x + w / 2
 
     # number rosette (top-left) + maker credits (top-right)
-    badge(c, x + 37, ytop - 30, t["num"], t["c2"], t["c1"])
+    badge(c, x + 37, ytop - 30, t["num"], t["c2"], t["c1"],
+          total=t.get("total", 83))
     tracked_right(c, x + w - 24, ytop - 27, "FROM PAVIT SINGH",
                   "Sans-B", 7.5, GOLD, track=1.2, char=1.7)
     tracked_right(c, x + w - 24, ytop - 40, "ONE CARD, ONE TEACHER",
@@ -628,11 +666,14 @@ def front_panel(c, x, ytop, w, h, t):
     y -= 27
     ribbon(c, cx, y, "5TH SEPTEMBER", t["c2"])
 
-    # photo
+    # photo (or a neat placeholder when no photo is supplied)
     pr = 90
     pcy = y - pr - 22
-    photo = prep_photo(t["photo"], t["num"])
-    circle_photo(c, cx, pcy, pr, photo, t)
+    if t.get("photo") and os.path.exists(t["photo"]):
+        photo = prep_photo(t["photo"], t["num"])
+        circle_photo(c, cx, pcy, pr, photo, t)
+    else:
+        circle_placeholder(c, cx, pcy, pr, t)
 
     # name
     ny = pcy - pr - 30
@@ -736,7 +777,7 @@ def message_panel(c, x, ytop, w, h, t, msg):
 def qr_panel(c, x, ytop, w, h, t):
     """INSIDE-RIGHT: big QR + the four secrets."""
     cx = x + w / 2
-    url = f"{SITE}/teacher.html?t={t['id']}"
+    url = t.get("url") or f"{SITE}/teacher.html?t={t['id']}"
     y = ytop - 32
     tracked(c, cx, y, "AND A WHOLE PAGE, MADE FOR YOU", "Sans-B", 9,
             GOLD, track=1.0, char=1.6)
@@ -750,11 +791,10 @@ def qr_panel(c, x, ytop, w, h, t):
     c.setFillColor(MUTED)
     c.drawCentredString(cx, y, "point a camera at this")
     y -= 16
-    dom = "teachers-day-rosy.vercel.app"
-    rest = f"/teacher.html?t={t['id']}"
-    c.setFont("Sans-B", 8.6)
+    full = url.replace("https://", "").replace("http://", "")
+    dom = full.split("/")[0]
+    rest = full[len(dom):]
     wd = c.stringWidth(dom, "Sans-B", 8.6)
-    c.setFont("Sans", 8.6)
     wr = c.stringWidth(rest, "Sans", 8.6)
     ux = cx - (wd + wr) / 2
     c.setFont("Sans-B", 8.6)
